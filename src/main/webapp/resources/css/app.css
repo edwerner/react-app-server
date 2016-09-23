@@ -1,0 +1,556 @@
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.overlay {
+  position: absolute;
+  background: #000000;
+  opacity: 0.50;
+  top: 0px;
+  left: 0px; }
+
+.overlay__content {
+  height: 250px;
+  background: white;
+  opacity: 1;
+  z-index: 1; }
+
+#overlay__container {
+  position: absolute;
+  top: 0px;
+  left: 0px; }
+
+.overlay__header {
+  height: 60px;
+  padding: 10px;
+  background: #1d75bc; }
+
+.overlay__title {
+  height: 62px;
+  margin-right: 10px;
+  color: white; }
+
+.overlay__close {
+  width: 30px;
+  height: 30px; }
+
+.overlay__close-button {
+  margin-left: 10px; }
+
+.overlay__close-button-image {
+  width: 30px;
+  height: 30px; }
+
+.overlay__start {
+  height: 75%; }
+
+.overlay__start-button-wrapper {
+  margin-top: 10px; }
+
+.overlay__message {
+  font-size: 1.3em; }
+
+.close-button-fill:hover {
+  fill: #483D8B; }
+
+.overlay__start-button {
+  min-width: 125px; }
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.product__tile {
+  width: 200px;
+  height: 370px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75); }
+
+.product__tile:hover {
+  -webkit-box-shadow: 0px 1px 1px 0px #1d75bc;
+  -moz-box-shadow: 0px 1px 1px 0px #1d75bc;
+  box-shadow: 0px 1px 1px 0px #1d75bc;
+  cursor: pointer; }
+
+.product__title {
+  font-size: 1em;
+  font-weight: bold;
+  -moz-border-radius: 2px 2px 2px 2px;
+  -webkit-border-radius: 2px 2px 2px 2px; }
+
+.product__tile:hover {
+  border-color: #1d75bc; }
+
+.product__image {
+  width: 185px;
+  height: 185px; }
+
+.product__description {
+  font-size: 1em; }
+
+.product__price {
+  font-weight: bold; }
+
+.cart__add-widget {
+  height: 50px;
+  color: white;
+  font-size: 2.7em;
+  background: #1d75bc;
+  -moz-border-radius: 2px 2px 2px 2px;
+  -webkit-border-radius: 2px 2px 2px 2px; }
+
+.cart__add-widget__button {
+  background: #1d75bc;
+  width: 50px;
+  height: 50px; }
+
+.cart__add-widget__button:hover {
+  background: #1d75fa;
+  cursor: pointer; }
+
+.cart__add-widget__quantity {
+  width: 50px; }
+
+.cart__add-widget__plus {
+  width: 50px;
+  height: 50px;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.cart__add-widget__minus {
+  width: 50px;
+  height: 50px;
+  width: 50px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+#loader__container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  background: #FFFFFF;
+  opacity: 0.75; }
+
+.loader__image {
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  transform: translateY(30%); }
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.cart__wrapper {
+  min-width: 300px; }
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+.hidden {
+  display: none; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
