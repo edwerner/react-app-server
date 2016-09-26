@@ -75,13 +75,13 @@ var RegisterUserForm = React.createClass({
     if (this.isFormComplete()) {
       Backbone.emulateHTTP = true;
       var user = new User();
-      user.set('username', this.state.username);
+      user.set('email', this.state.email);
       user.set('password', this.state.password);
       // user.set('first_name', this.state.first_name);
       // user.set('last_name', this.state.last_name);
       // user.set('email', this.state.email);
       user.serialize();
-      user.set('url', '/signup');
+      // user.set('url', '/signup');
       var promise = user.save();
       var _this = this;
       renderLoader();
@@ -93,7 +93,8 @@ var RegisterUserForm = React.createClass({
       });
       $.when(promise).fail(function(error) {
         hideLoader();
-        renderOverlayModal('Error', error.responseJSON.message, false);
+        renderOverlayModal('Error', 'error.responseJSON.message', false);
+        console.log(error);
       });
     } else {
       hideLoader();
@@ -108,7 +109,7 @@ var RegisterUserForm = React.createClass({
     this.setState({email: ''});
   },
   isFormComplete: function() {
-    if (this.state.username != "" &&
+    if (this.state.email != "" &&
       this.state.password != '') {
       return true;
     } else {

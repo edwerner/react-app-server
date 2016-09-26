@@ -58,7 +58,7 @@
 
 	var _menu = __webpack_require__(415);
 
-	var _shop = __webpack_require__(193);
+	var _orders = __webpack_require__(193);
 
 	var _overlay = __webpack_require__(191);
 
@@ -71,38 +71,38 @@
 	App.Router = _backbone2.default.Router.extend({
 		routes: {
 			'': 'index',
-			'login': 'login',
-			'register': 'register',
-			'shop': 'shop'
+			'signin': 'signin',
+			'signup': 'signup',
+			'orders': 'orders'
 		},
 		index: function index() {
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _shop.hideShopPage)();
+			(0, _orders.hideShopPage)();
 			(0, _index.renderIndex)();
 			(0, _menu.renderMenu)(null, 'active', null, null);
 		},
-		login: function login() {
+		signin: function signin() {
 			(0, _index.hideIndex)();
 			(0, _register.hideCreateUserForm)();
-			(0, _shop.hideShopPage)();
+			(0, _orders.hideShopPage)();
 			(0, _login.renderLoginForm)();
 			(0, _menu.renderMenu)('active', null, null, null);
 		},
-		register: function register() {
+		signup: function signup() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
-			(0, _shop.hideShopPage)();
+			(0, _orders.hideShopPage)();
 			(0, _register.renderUserForm)();
 			(0, _menu.renderMenu)(null, null, 'active', null);
 		},
-		shop: function shop() {
+		orders: function orders() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _overlay.routeToShopPage)();d;
+			(0, _overlay.routeToShopPage)();
 			(0, _menu.renderMenu)(null, null, null, 'active');
 		}
 	});
@@ -13735,7 +13735,7 @@
 	        { className: 'form-group' },
 	        _react2.default.createElement(
 	          'label',
-	          { 'for': 'inputEmail', className: 'col-lg-2 control-label' },
+	          { className: 'col-lg-2 control-label' },
 	          'Email'
 	        ),
 	        _react2.default.createElement(
@@ -13749,7 +13749,7 @@
 	        { className: 'form-group' },
 	        _react2.default.createElement(
 	          'label',
-	          { 'for': 'inputPassword', className: 'col-lg-2 control-label' },
+	          { className: 'col-lg-2 control-label' },
 	          'Password'
 	        ),
 	        _react2.default.createElement(
@@ -37632,16 +37632,10 @@
 
 	module.exports = Backbone.Model.extend({
 		defaults: {
-			username: '',
 			password: '',
-			first_name: '',
-			last_name: '',
-			email: '',
-			url: ''
+			email: ''
 		},
-		url: function url() {
-			return this.get('url');
-		}
+		url: '/signup'
 	});
 
 /***/ },
@@ -37669,7 +37663,7 @@
 
 	var _overlay2 = _interopRequireDefault(_overlay);
 
-	var _shop = __webpack_require__(193);
+	var _orders = __webpack_require__(193);
 
 	var _loader = __webpack_require__(197);
 
@@ -37706,7 +37700,7 @@
 							'div',
 							{ className: this.state.closeButtonHover ? 'overlay__close-button flex-end button-mouseenter' : 'overlay__close-button flex-end button-mouseleave',
 								onClick: this.onCloseModalClick, onMouseEnter: this.onCloseButtonMouseEnter, onMouseLeave: this.onCloseButtonMouseLeave },
-							_react2.default.createElement('img', { className: 'overlay__close-button-image', src: '../images/close-button.svg' })
+							_react2.default.createElement('img', { className: 'overlay__close-button-image', src: '../../../resources/images/close-button.svg' })
 						)
 					),
 					_react2.default.createElement(
@@ -37798,7 +37792,7 @@
 		$.when(promise).done(function () {
 			hideOverlayModal();
 			Backbone.history.navigate('shop', { trigger: true });
-			(0, _shop.fetchProducts)();
+			(0, _orders.fetchProducts)();
 		});
 		$.when(promise).fail(function (error) {
 			renderOverlayModal('Error', error.responseJSON.message, null);
@@ -37848,28 +37842,17 @@
 	var ProductTile = __webpack_require__(199);
 	var Cart = __webpack_require__(203);
 
-	var ShopPage = _react2.default.createClass({
-		displayName: 'ShopPage',
+	var Orders = _react2.default.createClass({
+		displayName: 'Orders',
 
 		render: function render() {
 			if (!this.props.products) {
 				return null;
 			}
 			return _react2.default.createElement(
-				'div',
-				{ className: 'shop__wrapper flex' },
-				_react2.default.createElement(
-					'div',
-					{ className: this.props.showLink ? 'hidden' : 'products__wrapper' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'product__tiles flex flex-row-wrap flex-row flex-center' },
-						this.props.products.models.map(function (product, key) {
-							return _react2.default.createElement(ProductTile, { product: product, key: key });
-						})
-					)
-				),
-				_react2.default.createElement(Cart, { showLink: '' })
+				'h1',
+				null,
+				'Orders'
 			);
 		}
 	});
@@ -37889,11 +37872,11 @@
 	}
 
 	function renderShopPage(products) {
-		_reactDom2.default.render(_react2.default.createElement(ShopPage, { showLink: '', products: products }), document.getElementById('shop__container'));
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: '', products: products }), document.getElementById('orders__container'));
 	}
 
 	function hideShopPage() {
-		_reactDom2.default.render(_react2.default.createElement(ShopPage, { showLink: 'hidden' }), document.getElementById('shop__container'));
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: 'hidden' }), document.getElementById('orders__container'));
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -37977,7 +37960,7 @@
 			return _react2.default.createElement(
 				'div',
 				{ className: this.props.showLink ? 'hidden' : 'loader__image' },
-				_react2.default.createElement('img', { src: './images/loader.gif' })
+				_react2.default.createElement('img', { src: '../../../resources/images/loader.gif' })
 			);
 		}
 	});
@@ -62033,7 +62016,7 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'Please Sign Up'
+	          'Please Register'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -62138,13 +62121,13 @@
 	    if (this.isFormComplete()) {
 	      Backbone.emulateHTTP = true;
 	      var user = new _user2.default();
-	      user.set('username', this.state.username);
+	      user.set('email', this.state.email);
 	      user.set('password', this.state.password);
 	      // user.set('first_name', this.state.first_name);
 	      // user.set('last_name', this.state.last_name);
 	      // user.set('email', this.state.email);
 	      user.serialize();
-	      user.set('url', '/signup');
+	      // user.set('url', '/signup');
 	      var promise = user.save();
 	      var _this = this;
 	      (0, _loader.renderLoader)();
@@ -62156,7 +62139,8 @@
 	      });
 	      _jquery2.default.when(promise).fail(function (error) {
 	        (0, _loader.hideLoader)();
-	        (0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+	        (0, _overlay.renderOverlayModal)('Error', 'error.responseJSON.message', false);
+	        console.log(error);
 	      });
 	    } else {
 	      (0, _loader.hideLoader)();
@@ -62171,7 +62155,7 @@
 	    this.setState({ email: '' });
 	  },
 	  isFormComplete: function isFormComplete() {
-	    if (this.state.username != "" && this.state.password != '') {
+	    if (this.state.email != "" && this.state.password != '') {
 	      return true;
 	    } else {
 	      return false;
@@ -62225,7 +62209,7 @@
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: this.props.showLink ? 'hidden' : 'flex-vertical-center flex-column' },
+				{ className: this.props.showLink ? 'hidden' : 'flex flex-vertical-center flex-column' },
 				_react2.default.createElement(
 					'h1',
 					null,
@@ -62286,16 +62270,17 @@
 		displayName: 'Menu',
 
 		renderLoginTab: function renderLoginTab() {
-			Backbone.history.navigate('login', { trigger: true });
+			Backbone.history.navigate('signin', { trigger: true });
 		},
 		renderIndexTab: function renderIndexTab() {
 			Backbone.history.navigate('', { trigger: true });
 		},
 		renderRegisterTab: function renderRegisterTab() {
-			Backbone.history.navigate('register', { trigger: true });
+			Backbone.history.navigate('signup', { trigger: true });
 		},
-		renderShopTab: function renderShopTab() {
-			(0, _overlay.routeToShopPage)();
+		renderOrdersTab: function renderOrdersTab() {
+			// routeToShopPage();
+			Backbone.history.navigate('orders', { trigger: true });
 		},
 		renderLogoutTab: function renderLogoutTab() {
 			window.localStorage.removeItem('shop-token');
@@ -62332,7 +62317,7 @@
 									_react2.default.createElement(
 										'a',
 										{ href: 'javascript:void(0)', onClick: this.renderLoginTab },
-										'Log In'
+										'Sign In'
 									)
 								),
 								_react2.default.createElement(
@@ -62341,7 +62326,7 @@
 									_react2.default.createElement(
 										'a',
 										{ href: 'javascript:void(0)', onClick: this.renderLogoutTab },
-										'Log Out'
+										'Sign Out'
 									)
 								),
 								_react2.default.createElement(
@@ -62350,16 +62335,16 @@
 									_react2.default.createElement(
 										'a',
 										{ href: 'javascript:void(0)', onClick: this.renderRegisterTab },
-										'Register'
+										'Sign Up'
 									)
 								),
 								_react2.default.createElement(
 									'li',
-									{ className: this.props.activeShop },
+									{ className: this.props.activeOrders },
 									_react2.default.createElement(
 										'a',
-										{ href: 'javascript:void(0)', onClick: this.renderShopTab },
-										'Shop'
+										{ href: 'javascript:void(0)', onClick: this.renderOrdersTab },
+										'Orders'
 									)
 								)
 							)

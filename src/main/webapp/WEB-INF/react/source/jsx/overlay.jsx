@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import sass from '../scss/overlay.scss';
-import {fetchProducts} from './shop.jsx';
+import {fetchProducts} from './orders.jsx';
 import {hideLoader} from './loader.jsx';
 
 var Overlay = React.createClass({
@@ -20,7 +20,7 @@ var Overlay = React.createClass({
 						</div>
 						<div className={this.state.closeButtonHover ? 'overlay__close-button flex-end button-mouseenter' : 'overlay__close-button flex-end button-mouseleave'}
 						onClick={this.onCloseModalClick} onMouseEnter={this.onCloseButtonMouseEnter} onMouseLeave={this.onCloseButtonMouseLeave}>
-							<img className='overlay__close-button-image' src='../images/close-button.svg'/>
+							<img className='overlay__close-button-image' src='../../../resources/images/close-button.svg'/>
 						</div>
 					</div>
 					<div className={this.props.success ? 'overlay__start flex flex-column flex-center flex-vertical-center' : 'hidden'}>

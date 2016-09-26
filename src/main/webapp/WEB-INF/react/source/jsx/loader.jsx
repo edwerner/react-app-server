@@ -6,7 +6,7 @@ var Loader = React.createClass({
 	render: function() {
 		return (
 			<div className={this.props.showLink ? 'hidden' : 'loader__image'}>
-				<img src='./images/loader.gif'/>
+				<img src='../../../resources/images/loader.gif'/>
 			</div>
 		);
 	}

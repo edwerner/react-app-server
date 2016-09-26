@@ -8,9 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.MediaType;
 
 import react.app.server.account.*;
 import react.app.server.support.web.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 
 @Controller
 public class SignupController {
@@ -20,21 +25,18 @@ public class SignupController {
 	@Autowired
 	private AccountService accountService;
 	
-	@RequestMapping(value = "signup")
+	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute(new SignupForm());
         return SIGNUP_VIEW_NAME;
 	}
 	
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra) {
-		if (errors.hasErrors()) {
-			return SIGNUP_VIEW_NAME;
-		}
-		Account account = accountService.save(signupForm.createAccount());
-		accountService.signin(account);
-        // see /WEB-INF/i18n/messages.properties and /WEB-INF/views/homeSignedIn.html
-        MessageHelper.addSuccessAttribute(ra, "signup.success");
-		return "redirect:/";
+	public @ResponseBody ASDF signup() throws JsonProcessingException {
+		ASDF asdf = new ASDF();
+		asdf.setId("asdf__id");
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(asdf);
+		return asdf;
 	}
 }

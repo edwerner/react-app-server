@@ -16,13 +16,13 @@ var LoginForm = React.createClass({
       <div className={this.props.showLink ? 'hidden' : 'form-narrow form-horizontal'}>
         <h3>Please Sign In</h3>
         <div className="form-group">
-          <label for="inputEmail" className="col-lg-2 control-label">Email</label>
+          <label className="col-lg-2 control-label">Email</label>
           <div className="col-lg-10">
             <input type="text" className="form-control" id="inputEmail" placeholder="Email" name="username" />
           </div>
         </div>
         <div className="form-group">
-          <label for="inputPassword" className="col-lg-2 control-label">Password</label>
+          <label className="col-lg-2 control-label">Password</label>
           <div className="col-lg-10">
             <input type="password" className="form-control" id="inputPassword" placeholder="Password" name="password" />
           </div>
@@ -31,7 +31,7 @@ var LoginForm = React.createClass({
           <div className="col-lg-offset-2 col-lg-10">
             <div className="checkbox">
               <label>
-              <input type="checkbox" name="_spring_security_remember_me" /> Remember me
+                <input type="checkbox" name="_spring_security_remember_me" /> Remember me
               </label>
             </div>
           </div>

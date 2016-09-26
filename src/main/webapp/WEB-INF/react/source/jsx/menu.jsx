@@ -5,16 +5,17 @@ import {routeToShopPage, renderOverlayModal} from './overlay.jsx';
 
 var Menu = React.createClass({
 	renderLoginTab: function() {
-		Backbone.history.navigate('login', {trigger:true});
+		Backbone.history.navigate('signin', {trigger:true});
 	},
 	renderIndexTab: function() {
 		Backbone.history.navigate('', {trigger:true});
 	},
 	renderRegisterTab: function() {
-		Backbone.history.navigate('register', {trigger:true});
+		Backbone.history.navigate('signup', {trigger:true});
 	},
-	renderShopTab: function() {
-		routeToShopPage();
+	renderOrdersTab: function() {
+		// routeToShopPage();
+		Backbone.history.navigate('orders', {trigger:true});
 	},
 	renderLogoutTab: function() {
 		window.localStorage.removeItem('shop-token');
@@ -28,10 +29,10 @@ var Menu = React.createClass({
 		          <div id="navbar" className="navbar-collapse">
 		            <ul className="nav navbar-nav">
 		              <li className={this.props.activeIndex}><a href="javascript:void(0)" onClick={this.renderIndexTab}>Home</a></li>
-		              <li className={this.props.activeLogin}><a href="javascript:void(0)" onClick={this.renderLoginTab}>Log In</a></li>
-		              <li className={this.props.activeLogout}><a href="javascript:void(0)" onClick={this.renderLogoutTab}>Log Out</a></li>
-		              <li className={this.props.activeCreate}><a href="javascript:void(0)" onClick={this.renderRegisterTab}>Register</a></li>
-		              <li className={this.props.activeShop}><a href="javascript:void(0)" onClick={this.renderShopTab}>Shop</a></li>
+		              <li className={this.props.activeLogin}><a href="javascript:void(0)" onClick={this.renderLoginTab}>Sign In</a></li>
+		              <li className={this.props.activeCreate}><a href="javascript:void(0)" onClick={this.renderRegisterTab}>Sign Up</a></li>
+		              <li className={this.props.activeLogout}><a href="javascript:void(0)" onClick={this.renderLogoutTab}>Sign Out</a></li>
+		              <li className={this.props.activeOrders}><a href="javascript:void(0)" onClick={this.renderOrdersTab}>Orders</a></li>
 		            </ul>
 		          </div>
 		        </div>

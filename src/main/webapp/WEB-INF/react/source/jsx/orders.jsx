@@ -6,22 +6,13 @@ import {renderLoader, hideLoader} from './loader.jsx';
 var ProductTile = require('./product-tile.jsx');
 var Cart = require('./cart.jsx');
 
-var ShopPage = React.createClass({
+var Orders = React.createClass({
 	render: function() {
     if (!this.props.products) {
         return null;
     }
 		return (
-			<div className='shop__wrapper flex'>
-				<div className={this.props.showLink ? 'hidden' : 'products__wrapper'}>
-					<div className='product__tiles flex flex-row-wrap flex-row flex-center'>
-	    			{this.props.products.models.map(function(product, key) {
-	            return <ProductTile product={product} key={key}/>
-	          })}
-	        </div>
-		    </div>
-		    <Cart showLink='' />
-	    </div>
+			<h1>Orders</h1>
 		);
 	}
 });
@@ -41,9 +32,9 @@ export function fetchProducts() {
 }
 
 export function renderShopPage(products) {
-	ReactDOM.render(<ShopPage showLink='' products={products}/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Orders showLink='' products={products}/>, document.getElementById('orders__container'));
 }
 
 export function hideShopPage() {
-	ReactDOM.render(<ShopPage showLink='hidden'/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Orders showLink='hidden'/>, document.getElementById('orders__container'));
 }	
