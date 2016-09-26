@@ -62322,20 +62322,20 @@
 								),
 								_react2.default.createElement(
 									'li',
-									{ className: this.props.activeLogout },
-									_react2.default.createElement(
-										'a',
-										{ href: 'javascript:void(0)', onClick: this.renderLogoutTab },
-										'Sign Out'
-									)
-								),
-								_react2.default.createElement(
-									'li',
 									{ className: this.props.activeCreate },
 									_react2.default.createElement(
 										'a',
 										{ href: 'javascript:void(0)', onClick: this.renderRegisterTab },
 										'Sign Up'
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									{ className: this.props.activeLogout },
+									_react2.default.createElement(
+										'a',
+										{ href: 'javascript:void(0)', onClick: this.renderLogoutTab },
+										'Sign Out'
 									)
 								),
 								_react2.default.createElement(

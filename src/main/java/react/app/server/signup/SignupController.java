@@ -16,6 +16,10 @@ import react.app.server.support.web.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import react.app.server.response.Response;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 
 @Controller
 public class SignupController {
@@ -32,11 +36,19 @@ public class SignupController {
 	}
 	
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public @ResponseBody ASDF signup() throws JsonProcessingException {
-		ASDF asdf = new ASDF();
-		asdf.setId("asdf__id");
+	@ResponseBody
+	public String signup(@RequestBody SignupForm signupForm, Errors errors) throws JsonProcessingException {
+		if (errors.hasErrors()) {
+			return SIGNUP_VIEW_NAME;
+		}
+		Account account = accountService.save(signupForm.createAccount());
+		accountService.signin(account);
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(asdf);
-		return asdf;
+		Response response = new Response();
+		response.setTitle("Success");
+		response.setMessage("Successfully created new account");
+		response.setSuccess(true);
+		String responseString = mapper.writeValueAsString(response);
+		return responseString;
 	}
 }
