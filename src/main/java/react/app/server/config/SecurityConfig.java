@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.http.HttpMethod.*;
+
 
 import react.app.server.account.AccountService;
 
@@ -42,22 +44,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .passwordEncoder(passwordEncoder());
     }
 
+
+    // .antMatchers(HttpMethod.POST, "/signup")
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
             .authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
                 .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/signin")
-                .permitAll()
-                .loginProcessingUrl("/authenticate")
-                .and()
-            .logout()
-                .logoutUrl("/logout")
-                .permitAll()
-                .logoutSuccessUrl("/signin?logout")
                 .and()
             .rememberMe()
                 .rememberMeServices(rememberMeServices())

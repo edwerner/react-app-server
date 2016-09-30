@@ -1,0 +1,69 @@
+@import 'globals';
+@import 'flex';
+
+.overlay {
+	position: absolute;
+	background: #000000;
+	opacity: 0.50;
+	top: 0px;
+	left: 0px;
+}
+
+.overlay__content {
+	height: 250px;
+	background: $white;
+	opacity: 1;
+	z-index: 1;
+}
+
+#overlay__container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.overlay__header {
+	height: 60px;
+	padding: 10px;
+	background: $light-blue;
+}
+
+.overlay__title {
+	height: 62px;
+	margin-right: 10px;
+	color: $white;
+}
+
+.overlay__close {
+	width: 30px;
+	height: 30px;
+}
+
+.overlay__close-button {
+	margin-left: 10px;
+}
+
+.overlay__close-button-image {
+	width: 30px;
+	height: 30px;
+}
+
+.overlay__start {
+	height: 75%;
+}
+
+.overlay__start-button-wrapper {
+	margin-top: 10px;
+}
+
+.overlay__message {
+	font-size: $message-text-size;
+}
+
+.close-button-fill:hover {
+	fill: #483D8B;
+}
+
+.overlay__start-button {
+	min-width: 125px;
+}

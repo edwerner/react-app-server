@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.base.Throwables;
 
+import react.app.server.response.Response;
+
 @Controller
 class CustomErrorController {
 	
@@ -35,8 +37,14 @@ class CustomErrorController {
 			statusCode, requestUri, exceptionMessage
 		); 
 		
-		model.addAttribute("errorMessage", message);
-        return "error/general";
+		// model.addAttribute("errorMessage", message);
+		// Response res = new Response();
+		// res.setTitle("Error");
+		// res.setMessage(message);
+		// res.setSuccess(false);
+  //       return res;
+
+        return "home/index";
 	}
 
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {

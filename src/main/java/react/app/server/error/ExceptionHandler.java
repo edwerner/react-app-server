@@ -6,6 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.base.Throwables;
 
+import react.app.server.response.Response;
+
 /**
  * General error handler for the application.
  */
@@ -17,7 +19,7 @@ class ExceptionHandler {
 	 */
 	@org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)	
 	public ModelAndView exception(Exception exception, WebRequest request) {
-		ModelAndView modelAndView = new ModelAndView("error/general");
+		ModelAndView modelAndView = new ModelAndView("home/index");
 		modelAndView.addObject("errorMessage", Throwables.getRootCause(exception));
 		return modelAndView;
 	}

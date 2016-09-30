@@ -1,10 +1,13 @@
-// data.title, data.message, data.success
 package react.app.server.response;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
 public class Response {
-	private String title;
-	private String message;
-	Boolean success;
+	public String title;
+	public String message;
+	public Boolean success;
+	public String errors;
+
 	private String getTitle() {
 		return this.title;
 	}
@@ -12,7 +15,7 @@ public class Response {
 		this.title = title;
 	}
 	public String getMessage() {
-		return this.title;
+		return this.message;
 	}
 	public void setMessage(String message) {
 		this.message = message;
@@ -23,5 +26,11 @@ public class Response {
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
-
+	public String getErrors() {
+		return this.errors;
+	}
+	@JsonRawValue
+	public void setErrors(String errors) {
+		this.errors = errors;
+	}
 }
