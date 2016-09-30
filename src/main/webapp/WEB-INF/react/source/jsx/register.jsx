@@ -11,6 +11,17 @@ import {renderOverlayModal} from './overlay.jsx';
 import {renderLoader, hideLoader} from './loader.jsx';
 
 var RegisterUserForm = React.createClass({
+  getInitialState: function() {
+    return {
+      username: '',
+      password: '',
+      first_name: '',
+      last_name: '',
+      email: '',
+      emailError: '',
+      passwordError: ''
+    }
+  },
   render: function() {
     return (
       <div className={this.props.showLink ? 'hidden' : 'form-narrow form-horizontal'}>
@@ -20,14 +31,14 @@ var RegisterUserForm = React.createClass({
                 <label className="col-lg-2 control-label">Email</label>
                 <div className="col-lg-10">
                     <input onChange={this.onEmailChange} type="text" className="span2 form-control" name="email" placeholder="Email address"/>
-                    <span className="error help-block" id="email.errors">Incorrect email</span>
+                    <span className={this.state.emailError ? 'error help-block' : 'hidden'}>{this.state.emailError}</span>
                 </div>
             </div>
             <div className="form-group">
                 <label className="col-lg-2 control-label">Password</label>
                 <div className="col-lg-10">
                     <input onChange={this.onPasswordChange} type="password" className="span2 form-control" name="password" placeholder="Password"/>
-                    <span className="error help-block" id="password.errors">Incorrect password</span>
+                    <span className={this.state.emailError ? 'error help-block' : 'hidden'}>{this.state.passwordError}</span>
                 </div>
             </div>
             <div className="form-group">
@@ -44,14 +55,11 @@ var RegisterUserForm = React.createClass({
       </div>
     );
   },
-  getInitialState: function() {
-    return {
-      username: '',
-      password: '',
-      first_name: '',
-      last_name: '',
-      email: ''
-    }
+  onEmailError: function(e) {
+    this.setState({emailError: e});
+  },
+  onPasswordError: function(e) {
+    this.setState({passwordError: e});
   },
   onEmailChange: function(e) {
    this.setState({email: e.target.value});
@@ -72,34 +80,32 @@ var RegisterUserForm = React.createClass({
     Backbone.history.navigate('signin', {trigger:true});
   },
   submitForm: function() {
-    if (this.isFormComplete()) {
-      Backbone.emulateHTTP = true;
-      var user = new User();
-      user.set('email', this.state.email);
-      user.set('password', this.state.password);
-      // user.set('first_name', this.state.first_name);
-      // user.set('last_name', this.state.last_name);
-      // user.set('email', this.state.email);
-      user.serialize();
-      // user.set('url', '/signup');
-      var promise = user.save();
-      var _this = this;
-      renderLoader();
-      $.when(promise).done(function(data) {
-        window.localStorage.setItem('shop-token', data.token);
-        hideLoader();
-        _this.resetForm();
-        renderOverlayModal(data.title, data.message, data.success);
-      });
-      $.when(promise).fail(function(error) {
-        hideLoader();
-        renderOverlayModal('Error', error.responseText, false);
-        console.log(error);
-      });
-    } else {
+    Backbone.emulateHTTP = true;
+    var user = new User();
+    user.set('email', this.state.email);
+    user.set('password', this.state.password);
+    // user.set('first_name', this.state.first_name);
+    // user.set('last_name', this.state.last_name);
+    // user.set('email', this.state.email);
+    user.serialize();
+    // user.set('url', '/signup');
+    var promise = user.save();
+    var _this = this;
+    renderLoader();
+    $.when(promise).done(function(data) {
+      // window.localStorage.setItem('shop-token', data.token);
+      // console.log(data.errors);
+      _this.onEmailError(data.errors.email);
+      _this.onPasswordError(data.errors.password);
       hideLoader();
-      renderOverlayModal('Error', 'Form incomplete', false);
-    }
+      _this.resetForm();
+      renderOverlayModal(data.title, data.message, data.success);
+    });
+    $.when(promise).fail(function(error) {
+      hideLoader();
+      renderOverlayModal('Error', 'ERROR', false);
+      console.log(error);
+    });
   },
   resetForm: function() {
     this.setState({username: ''});
@@ -107,14 +113,6 @@ var RegisterUserForm = React.createClass({
     this.setState({first_name: ''});
     this.setState({last_name: ''});
     this.setState({email: ''});
-  },
-  isFormComplete: function() {
-    if (this.state.email != "" &&
-      this.state.password != '') {
-      return true;
-    } else {
-      return false;
-    }
   }
 });
 

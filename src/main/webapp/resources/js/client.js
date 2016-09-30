@@ -114,10 +114,6 @@
 	new App.Router();
 	_backbone2.default.history.start({ pushState: true });
 
-	// $.ajaxSetup({
-	// 	headers: {'X-CSRFToken': 'f3bef9ee-f1b3-425e-a61e-70ca78584e9f'}
-	// });
-
 	var token = (0, _jquery2.default)("meta[name='_csrf']").attr("content");
 	var header = (0, _jquery2.default)("meta[name='_csrf_header']").attr("content");
 	(0, _jquery2.default)(document).ajaxSend(function (e, xhr, options) {
@@ -62020,6 +62016,17 @@
 	var RegisterUserForm = _react2.default.createClass({
 	  displayName: 'RegisterUserForm',
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      username: '',
+	      password: '',
+	      first_name: '',
+	      last_name: '',
+	      email: '',
+	      emailError: '',
+	      passwordError: ''
+	    };
+	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -62043,11 +62050,11 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'col-lg-10' },
-	            _react2.default.createElement('input', { onChange: this.onEmailChange, type: 'text', className: 'span2 form-control', id: 'email', placeholder: 'Email address' }),
+	            _react2.default.createElement('input', { onChange: this.onEmailChange, type: 'text', className: 'span2 form-control', name: 'email', placeholder: 'Email address' }),
 	            _react2.default.createElement(
 	              'span',
-	              { className: 'help-block' },
-	              'Incorrect email'
+	              { className: this.state.emailError ? 'error help-block' : 'hidden' },
+	              this.state.emailError
 	            )
 	          )
 	        ),
@@ -62062,11 +62069,11 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'col-lg-10' },
-	            _react2.default.createElement('input', { onChange: this.onPasswordChange, type: 'password', className: 'span2 form-control', id: 'password', placeholder: 'Password' }),
+	            _react2.default.createElement('input', { onChange: this.onPasswordChange, type: 'password', className: 'span2 form-control', name: 'password', placeholder: 'Password' }),
 	            _react2.default.createElement(
 	              'span',
-	              { className: 'help-block' },
-	              'Incorrect password'
+	              { className: this.state.emailError ? 'error help-block' : 'hidden' },
+	              this.state.passwordError
 	            )
 	          )
 	        ),
@@ -62104,14 +62111,11 @@
 	      )
 	    );
 	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      username: '',
-	      password: '',
-	      first_name: '',
-	      last_name: '',
-	      email: ''
-	    };
+	  onEmailError: function onEmailError(e) {
+	    this.setState({ emailError: e });
+	  },
+	  onPasswordError: function onPasswordError(e) {
+	    this.setState({ passwordError: e });
 	  },
 	  onEmailChange: function onEmailChange(e) {
 	    this.setState({ email: e.target.value });
@@ -62132,34 +62136,32 @@
 	    Backbone.history.navigate('signin', { trigger: true });
 	  },
 	  submitForm: function submitForm() {
-	    if (this.isFormComplete()) {
-	      Backbone.emulateHTTP = true;
-	      var user = new _user2.default();
-	      user.set('email', this.state.email);
-	      user.set('password', this.state.password);
-	      // user.set('first_name', this.state.first_name);
-	      // user.set('last_name', this.state.last_name);
-	      // user.set('email', this.state.email);
-	      user.serialize();
-	      // user.set('url', '/signup');
-	      var promise = user.save();
-	      var _this = this;
-	      (0, _loader.renderLoader)();
-	      _jquery2.default.when(promise).done(function (data) {
-	        window.localStorage.setItem('shop-token', data.token);
-	        (0, _loader.hideLoader)();
-	        _this.resetForm();
-	        (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
-	      });
-	      _jquery2.default.when(promise).fail(function (error) {
-	        (0, _loader.hideLoader)();
-	        (0, _overlay.renderOverlayModal)('Error', error.responseText, false);
-	        console.log(error);
-	      });
-	    } else {
+	    Backbone.emulateHTTP = true;
+	    var user = new _user2.default();
+	    user.set('email', this.state.email);
+	    user.set('password', this.state.password);
+	    // user.set('first_name', this.state.first_name);
+	    // user.set('last_name', this.state.last_name);
+	    // user.set('email', this.state.email);
+	    user.serialize();
+	    // user.set('url', '/signup');
+	    var promise = user.save();
+	    var _this = this;
+	    (0, _loader.renderLoader)();
+	    _jquery2.default.when(promise).done(function (data) {
+	      // window.localStorage.setItem('shop-token', data.token);
+	      // console.log(data.errors);
+	      _this.onEmailError(data.errors.email);
+	      _this.onPasswordError(data.errors.password);
 	      (0, _loader.hideLoader)();
-	      (0, _overlay.renderOverlayModal)('Error', 'Form incomplete', false);
-	    }
+	      _this.resetForm();
+	      (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
+	    });
+	    _jquery2.default.when(promise).fail(function (error) {
+	      (0, _loader.hideLoader)();
+	      (0, _overlay.renderOverlayModal)('Error', 'ERROR', false);
+	      console.log(error);
+	    });
 	  },
 	  resetForm: function resetForm() {
 	    this.setState({ username: '' });
@@ -62167,13 +62169,6 @@
 	    this.setState({ first_name: '' });
 	    this.setState({ last_name: '' });
 	    this.setState({ email: '' });
-	  },
-	  isFormComplete: function isFormComplete() {
-	    if (this.state.email != "" && this.state.password != '') {
-	      return true;
-	    } else {
-	      return false;
-	    }
 	  }
 	});
 

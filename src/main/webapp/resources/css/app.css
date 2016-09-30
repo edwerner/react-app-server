@@ -1,6 +1,9 @@
 .hidden {
   display: none; }
 
+.error {
+  color: #cc0000; }
+
 .button-mouseenter {
   opacity: 0.5;
   cursor: pointer; }
@@ -68,6 +71,9 @@ input {
   justify-content: space-around; }
 .hidden {
   display: none; }
+
+.error {
+  color: #cc0000; }
 
 .button-mouseenter {
   opacity: 0.5;
@@ -190,6 +196,9 @@ input {
   min-width: 125px; }
 .hidden {
   display: none; }
+
+.error {
+  color: #cc0000; }
 
 .button-mouseenter {
   opacity: 0.5;
@@ -350,6 +359,9 @@ input {
 .hidden {
   display: none; }
 
+.error {
+  color: #cc0000; }
+
 .button-mouseenter {
   opacity: 0.5;
   cursor: pointer; }
@@ -421,6 +433,9 @@ input {
 .hidden {
   display: none; }
 
+.error {
+  color: #cc0000; }
+
 .button-mouseenter {
   opacity: 0.5;
   cursor: pointer; }
@@ -488,6 +503,9 @@ input {
   justify-content: space-around; }
 .hidden {
   display: none; }
+
+.error {
+  color: #cc0000; }
 
 .button-mouseenter {
   opacity: 0.5;

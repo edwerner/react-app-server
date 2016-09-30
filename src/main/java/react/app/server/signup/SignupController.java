@@ -33,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SignupController {
 
-    private static final String SIGNUP_VIEW_NAME = "index/home";
+    private static final String SIGNUP_VIEW_NAME = "home/index";
 
 	@Autowired
 	private AccountService accountService;
@@ -55,23 +55,18 @@ public class SignupController {
 			FieldError emailError = errors.getFieldError("email");
 			FieldError passwordError = errors.getFieldError("password");
 			Map validationErrors = new HashMap();
-
 			if (emailError != null) {
 				validationErrors.put("email", emailError.getDefaultMessage());
 			}
 			if (passwordError != null) {
 				validationErrors.put("password", passwordError.getDefaultMessage());
 			}
-
 			ObjectMapper mapper = new ObjectMapper();
-
-			String jsonString = mapper.writeValueAsString(validationErrors);
-
-			System.out.println(jsonString);
+			String errorString = mapper.writeValueAsString(validationErrors);
 			response.setTitle("Error");
 			response.setMessage("Form has validation errors");
 			response.setSuccess(false);
-			response.setErrors(jsonString);
+			response.setErrors(errorString);
 		} else {
 			response.setTitle("Success");
 			response.setMessage("Account registered successfully");

@@ -4,6 +4,7 @@ $info-text-size: 1em;
 $light-blue: rgb(29,117,188);
 $light-blue-hover: rgb(29,117,250);
 $white: rgb(255,255,255);
+$error: rgb(204,0,0);
 $small-box-width: 50px;
 $small-box-height: 50px;
 $hover-opacity: 0.5;
@@ -11,6 +12,10 @@ $border-radius: 2px;
 
 .hidden {
 	display: none;
+}
+
+.error {
+	color: $error;
 }
 
 .button-mouseenter {
