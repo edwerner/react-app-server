@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.base.Throwables;
 
 import react.app.server.response.Response;
@@ -20,6 +20,7 @@ class CustomErrorController {
 	/**
 	 * Display an error page, as defined in web.xml <code>custom-error</code> element.
 	 */
+	@ResponseBody
 	@RequestMapping("generalError")	
 	public String generalError(HttpServletRequest request, HttpServletResponse response, Model model) {
 		// retrieve some useful information from the request
@@ -44,7 +45,8 @@ class CustomErrorController {
 		// res.setSuccess(false);
   //       return res;
 
-        return "home/index";
+//		model.addAttribute("errorMessage", message);
+        return message;
 	}
 
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {

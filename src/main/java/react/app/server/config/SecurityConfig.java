@@ -45,8 +45,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    // .antMatchers(HttpMethod.POST, "/signup")
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @Lazy
-// @EnableMongoRepositories(basePackageClasses = Application.class)
+@EnableMongoRepositories
 class MongoConfig {
 
     @Bean

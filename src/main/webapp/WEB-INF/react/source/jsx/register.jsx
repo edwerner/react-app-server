@@ -98,7 +98,7 @@ var RegisterUserForm = React.createClass({
       _this.onEmailError(data.errors.email);
       _this.onPasswordError(data.errors.password);
       hideLoader();
-      _this.resetForm();
+      // _this.resetForm();
       renderOverlayModal(data.title, data.message, data.success);
     });
     $.when(promise).fail(function(error) {

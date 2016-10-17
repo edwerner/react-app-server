@@ -1,0 +1,305 @@
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:56: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:57: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:58: warning: CausedFocusEvent is internal proprietary API and may be removed in a future release
+import sun.awt.CausedFocusEvent;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:59: warning: PeerEvent is internal proprietary API and may be removed in a future release
+import sun.awt.PeerEvent;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:60: warning: SunToolkit is internal proprietary API and may be removed in a future release
+import sun.awt.SunToolkit;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:62: warning: SunDropTargetEvent is internal proprietary API and may be removed in a future release
+import sun.awt.dnd.SunDropTargetEvent;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:64: warning: Region is internal proprietary API and may be removed in a future release
+import sun.java2d.pipe.Region;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Container.java:66: warning: GetBooleanAction is internal proprietary API and may be removed in a future release
+import sun.security.action.GetBooleanAction;
+                          ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:64: warning: GetPropertyAction is internal proprietary API and may be removed in a future release
+import sun.security.action.GetPropertyAction;
+                          ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:65: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:66: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:67: warning: ConstrainableGraphics is internal proprietary API and may be removed in a future release
+import sun.awt.ConstrainableGraphics;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:68: warning: SubRegionShowable is internal proprietary API and may be removed in a future release
+import sun.awt.SubRegionShowable;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:69: warning: SunToolkit is internal proprietary API and may be removed in a future release
+import sun.awt.SunToolkit;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:70: warning: WindowClosingListener is internal proprietary API and may be removed in a future release
+import sun.awt.WindowClosingListener;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:71: warning: CausedFocusEvent is internal proprietary API and may be removed in a future release
+import sun.awt.CausedFocusEvent;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:72: warning: EmbeddedFrame is internal proprietary API and may be removed in a future release
+import sun.awt.EmbeddedFrame;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:73: warning: SunDropTargetEvent is internal proprietary API and may be removed in a future release
+import sun.awt.dnd.SunDropTargetEvent;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:74: warning: CompositionArea is internal proprietary API and may be removed in a future release
+import sun.awt.im.CompositionArea;
+                 ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:75: warning: FontManager is internal proprietary API and may be removed in a future release
+import sun.font.FontManager;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:76: warning: FontManagerFactory is internal proprietary API and may be removed in a future release
+import sun.font.FontManagerFactory;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:77: warning: SunFontManager is internal proprietary API and may be removed in a future release
+import sun.font.SunFontManager;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:78: warning: SunGraphics2D is internal proprietary API and may be removed in a future release
+import sun.java2d.SunGraphics2D;
+                 ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:79: warning: Region is internal proprietary API and may be removed in a future release
+import sun.java2d.pipe.Region;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:80: warning: VSyncedBSManager is internal proprietary API and may be removed in a future release
+import sun.awt.image.VSyncedBSManager;
+                    ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:83: warning: RequestFocusController is internal proprietary API and may be removed in a future release
+import sun.awt.RequestFocusController;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Component.java:84: warning: SunGraphicsEnvironment is internal proprietary API and may be removed in a future release
+import sun.java2d.SunGraphicsEnvironment;
+                 ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamClass.java:51: warning: Unsafe is internal proprietary API and may be removed in a future release
+import sun.misc.Unsafe;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamClass.java:52: warning: CallerSensitive is internal proprietary API and may be removed in a future release
+import sun.reflect.CallerSensitive;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamClass.java:53: warning: Reflection is internal proprietary API and may be removed in a future release
+import sun.reflect.Reflection;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamClass.java:54: warning: ReflectionFactory is internal proprietary API and may be removed in a future release
+import sun.reflect.ReflectionFactory;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectInputStream.java:43: warning: ObjectStreamClassValidator is internal proprietary API and may be removed in a future release
+import sun.misc.ObjectStreamClassValidator;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectInputStream.java:44: warning: SharedSecrets is internal proprietary API and may be removed in a future release
+import sun.misc.SharedSecrets;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectInputStream.java:45: warning: Unsafe is internal proprietary API and may be removed in a future release
+import sun.misc.Unsafe;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\net\URL.java:36: warning: SecurityConstants is internal proprietary API and may be removed in a future release
+import sun.security.util.SecurityConstants;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Image.java:34: warning: SurfaceManager is internal proprietary API and may be removed in a future release
+import sun.awt.image.SurfaceManager;
+                    ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:52: warning: GetPropertyAction is internal proprietary API and may be removed in a future release
+import sun.security.action.GetPropertyAction;
+                          ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:53: warning: BaseLocale is internal proprietary API and may be removed in a future release
+import sun.util.locale.BaseLocale;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:54: warning: InternalLocaleBuilder is internal proprietary API and may be removed in a future release
+import sun.util.locale.InternalLocaleBuilder;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:55: warning: LanguageTag is internal proprietary API and may be removed in a future release
+import sun.util.locale.LanguageTag;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:56: warning: LocaleExtensions is internal proprietary API and may be removed in a future release
+import sun.util.locale.LocaleExtensions;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:57: warning: LocaleMatcher is internal proprietary API and may be removed in a future release
+import sun.util.locale.LocaleMatcher;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:58: warning: LocaleObjectCache is internal proprietary API and may be removed in a future release
+import sun.util.locale.LocaleObjectCache;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:59: warning: LocaleSyntaxException is internal proprietary API and may be removed in a future release
+import sun.util.locale.LocaleSyntaxException;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:60: warning: LocaleUtils is internal proprietary API and may be removed in a future release
+import sun.util.locale.LocaleUtils;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\util\Locale.java:61: warning: ParseStatus is internal proprietary API and may be removed in a future release
+import sun.util.locale.ParseStatus;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\javax\accessibility\AccessibleContext.java:28: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\javax\accessibility\AccessibleContext.java:29: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Thread.java:39: warning: Interruptible is internal proprietary API and may be removed in a future release
+import sun.nio.ch.Interruptible;
+                 ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Thread.java:40: warning: CallerSensitive is internal proprietary API and may be removed in a future release
+import sun.reflect.CallerSensitive;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Thread.java:41: warning: Reflection is internal proprietary API and may be removed in a future release
+import sun.reflect.Reflection;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Thread.java:42: warning: SecurityConstants is internal proprietary API and may be removed in a future release
+import sun.security.util.SecurityConstants;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamField.java:29: warning: CallerSensitive is internal proprietary API and may be removed in a future release
+import sun.reflect.CallerSensitive;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\io\ObjectStreamField.java:30: warning: Reflection is internal proprietary API and may be removed in a future release
+import sun.reflect.Reflection;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\peer\ComponentPeer.java:35: warning: CausedFocusEvent is internal proprietary API and may be removed in a future release
+import sun.awt.CausedFocusEvent;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\peer\ComponentPeer.java:36: warning: Region is internal proprietary API and may be removed in a future release
+import sun.java2d.pipe.Region;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\GraphicsConfiguration.java:34: warning: SunVolatileImage is internal proprietary API and may be removed in a future release
+import sun.awt.image.SunVolatileImage;
+                    ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:48: warning: StandardGlyphVector is internal proprietary API and may be removed in a future release
+import sun.font.StandardGlyphVector;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:50: warning: AttributeMap is internal proprietary API and may be removed in a future release
+import sun.font.AttributeMap;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:51: warning: AttributeValues is internal proprietary API and may be removed in a future release
+import sun.font.AttributeValues;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:52: warning: CompositeFont is internal proprietary API and may be removed in a future release
+import sun.font.CompositeFont;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:53: warning: CreatedFontTracker is internal proprietary API and may be removed in a future release
+import sun.font.CreatedFontTracker;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:54: warning: Font2D is internal proprietary API and may be removed in a future release
+import sun.font.Font2D;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:55: warning: Font2DHandle is internal proprietary API and may be removed in a future release
+import sun.font.Font2DHandle;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:56: warning: FontAccess is internal proprietary API and may be removed in a future release
+import sun.font.FontAccess;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:57: warning: FontManager is internal proprietary API and may be removed in a future release
+import sun.font.FontManager;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:58: warning: FontManagerFactory is internal proprietary API and may be removed in a future release
+import sun.font.FontManagerFactory;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:59: warning: FontUtilities is internal proprietary API and may be removed in a future release
+import sun.font.FontUtilities;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:60: warning: GlyphLayout is internal proprietary API and may be removed in a future release
+import sun.font.GlyphLayout;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:61: warning: FontLineMetrics is internal proprietary API and may be removed in a future release
+import sun.font.FontLineMetrics;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:62: warning: CoreMetrics is internal proprietary API and may be removed in a future release
+import sun.font.CoreMetrics;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Font.java:64: warning: EAttribute is internal proprietary API and may be removed in a future release
+import static sun.font.EAttribute.*;
+                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:57: warning: Unsafe is internal proprietary API and may be removed in a future release
+import sun.misc.Unsafe;
+               ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:58: warning: CallerSensitive is internal proprietary API and may be removed in a future release
+import sun.reflect.CallerSensitive;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:59: warning: ConstantPool is internal proprietary API and may be removed in a future release
+import sun.reflect.ConstantPool;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:60: warning: Reflection is internal proprietary API and may be removed in a future release
+import sun.reflect.Reflection;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:61: warning: ReflectionFactory is internal proprietary API and may be removed in a future release
+import sun.reflect.ReflectionFactory;
+                  ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:62: warning: CoreReflectionFactory is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.factory.CoreReflectionFactory;
+                                   ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:63: warning: GenericsFactory is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.factory.GenericsFactory;
+                                   ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:64: warning: ClassRepository is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.repository.ClassRepository;
+                                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:65: warning: MethodRepository is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.repository.MethodRepository;
+                                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:66: warning: ConstructorRepository is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.repository.ConstructorRepository;
+                                      ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:67: warning: ClassScope is internal proprietary API and may be removed in a future release
+import sun.reflect.generics.scope.ClassScope;
+                                 ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\Class.java:68: warning: SecurityConstants is internal proprietary API and may be removed in a future release
+import sun.security.util.SecurityConstants;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\reflect\AnnotatedElement.java:37: warning: AnnotationSupport is internal proprietary API and may be removed in a future release
+import sun.reflect.annotation.AnnotationSupport;
+                             ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\lang\reflect\AnnotatedElement.java:38: warning: AnnotationType is internal proprietary API and may be removed in a future release
+import sun.reflect.annotation.AnnotationType;
+                             ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\AWTEvent.java:33: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\AWTKeyStroke.java:28: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\event\KeyEvent.java:33: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\event\InputEvent.java:34: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\event\InputEvent.java:36: warning: SecurityConstants is internal proprietary API and may be removed in a future release
+import sun.security.util.SecurityConstants;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Cursor.java:38: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\PopupMenu.java:32: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Menu.java:34: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\MenuItem.java:34: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\MenuComponent.java:31: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\MenuComponent.java:32: warning: AWTAccessor is internal proprietary API and may be removed in a future release
+import sun.awt.AWTAccessor;
+              ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\security\AccessControlContext.java:30: warning: Debug is internal proprietary API and may be removed in a future release
+import sun.security.util.Debug;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\security\AccessControlContext.java:31: warning: SecurityConstants is internal proprietary API and may be removed in a future release
+import sun.security.util.SecurityConstants;
+                        ^
+C:\Users\Edward\Desktop\reactjs\react-app-server\jdk8_src\java\awt\Toolkit.java:49: warning: AppContext is internal proprietary API and may be removed in a future release
+import sun.awt.AppContext;
+              ^
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+100 warnings

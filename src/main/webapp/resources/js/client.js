@@ -62154,7 +62154,7 @@
 	      _this.onEmailError(data.errors.email);
 	      _this.onPasswordError(data.errors.password);
 	      (0, _loader.hideLoader)();
-	      _this.resetForm();
+	      // _this.resetForm();
 	      (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
 	    });
 	    _jquery2.default.when(promise).fail(function (error) {
