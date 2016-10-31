@@ -93,17 +93,20 @@ var RegisterUserForm = React.createClass({
     var _this = this;
     renderLoader();
     $.when(promise).done(function(data) {
-      // window.localStorage.setItem('shop-token', data.token);
+      // window.localStorage.setItem('orders-token', data.token);
       // console.log(data.errors);
-      _this.onEmailError(data.errors.email);
-      _this.onPasswordError(data.errors.password);
+      // console.log(data.token);
+      if (data.errors) {
+        _this.onEmailError(data.errors.email);
+        _this.onPasswordError(data.errors.password);
+      }
       hideLoader();
       // _this.resetForm();
       renderOverlayModal(data.title, data.message, data.success);
     });
     $.when(promise).fail(function(error) {
       hideLoader();
-      renderOverlayModal('Error', 'ERROR', false);
+      renderOverlayModal('Error', 'Something went wrong', false);
       console.log(error);
     });
   },

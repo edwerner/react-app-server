@@ -41,16 +41,18 @@ var Overlay = React.createClass({
 		);
 	},
 	onSuccessButtonClick: function() {
-		var token = window.localStorage.getItem('shop-token');
-		if (token) {
+		// var token = window.localStorage.getItem('orders-token');
+		// if (token) {
+			hideOverlayModal();
 			routeToShopPage();
-		} else {
-    	Backbone.history.navigate('login', {trigger:true});
-    	hideOverlayModal();
-		}
+		// } else {
+  //   		// Backbone.history.navigate('login', {trigger:true});
+  //   		// hideOverlayModal();
+  //   		renderOverlayModal('Error', 'You must be logged in first', false);
+		// }
 	},
 	onFailureButtonClick: function() {
-    Backbone.history.navigate('login', {trigger:true});
+    	Backbone.history.navigate('login', {trigger:true});
 		hideOverlayModal();
 	},
 	onCloseModalClick: function() {
@@ -77,18 +79,14 @@ export function hideOverlayModal() {
 }
 
 export function routeToShopPage() {
-	var token = window.localStorage.getItem('shop-token');
+	// var token = window.localStorage.getItem('shop-token');
 	var promise = $.ajax({
 	  type: 'GET',
-	  url: '/shop',
-	  dataType: 'json',
-	  data: {
-	   	token: token
-	  }
+	  url: '/orders'
 	});
   $.when(promise).done(function() {
-  	hideOverlayModal();
-		Backbone.history.navigate('shop', {trigger:true});
+  		hideOverlayModal();
+		Backbone.history.navigate('orders', {trigger:true});
 		fetchProducts();
   });
   $.when(promise).fail(function(error) {

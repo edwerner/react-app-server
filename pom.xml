@@ -14,6 +14,8 @@
 		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
 			provided explicitly -->
 		<assertj-core-version>3.4.1</assertj-core-version>
+	    <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+	    <thymeleaf-layout-dialect.version>3.0.0.RELEASE</thymeleaf-layout-dialect.version>
 	</properties>
 	<parent>
 		<groupId>io.spring.platform</groupId>
@@ -23,6 +25,16 @@
 	</parent>
 	<dependencies>
 		<!-- Spring -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>4.3.3.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>4.3.3.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -36,11 +48,16 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.restdocs</groupId>
+		    <artifactId>spring-restdocs-core</artifactId>
+		    <version>1.1.2.RELEASE</version>
+		</dependency>
 		<!-- View -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>3.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
@@ -67,6 +84,26 @@
 			<artifactId>thymeleaf-extras-java8time</artifactId>
 			<version>3.0.0.RELEASE</version>
 		</dependency>
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		    <version>2.0.5</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		</dependency>
+<!-- 		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		</dependency> -->
 		<!-- Persistence -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -96,16 +133,37 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>4.3.3.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+		    <artifactId>hsqldb</artifactId>
+		    <version>2.3.4</version>
+    		<scope>runtime</scope>
+		</dependency>
+	    <dependency>
+	        <groupId>org.mongodb</groupId>
+	        <artifactId>mongodb-driver</artifactId>
+	        <version>3.2.2</version>
+	    </dependency>
+	<!-- 	<dependency>
+		    <groupId>org.mongodb</groupId>
+		    <artifactId>mongo-java-driver</artifactId>
+		    <version>3.4.0-rc1</version>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<scope>system</scope>
-    		<systemPath>${basedir}/hsqldb/hsqldb.jar</systemPath>
-		</dependency>
-		<dependency>
+    		<systemPath>${basedir}/hsqldb/hsqldb_debug.jar</systemPath>
+		</dependency> -->
+		<!-- <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1207</version>
-		</dependency>
+		</dependency> -->
 		<!-- Spring Data -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -114,6 +172,32 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
+		</dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-data-mongodb</artifactId>
+	        <version>1.4.1.RELEASE</version>
+	    </dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-jdbc</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <version>1.4.1.RELEASE</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.38</version>
 		</dependency>
 		<!-- Validation -->
 		<dependency>

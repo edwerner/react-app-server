@@ -5,6 +5,8 @@ import javax.json.JsonObject;
 import javax.json.Json;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.http.MediaType;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.FieldError;
+import org.springframework.security.core.Authentication;
+// import org.springframework.http.HttpRequest;
 
 import react.app.server.account.*;
 import react.app.server.support.web.*;
@@ -24,10 +28,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import react.app.server.response.Response;
-import javax.servlet.http.HttpServletRequest;
+import react.app.server.account.AccountService;
 import java.lang.System;
 import java.lang.Object;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+// import react.app.server.config.MongoDao;
 
 
 @Controller
@@ -50,6 +66,10 @@ public class SignupController {
 		Account account = accountService.save(signupForm.createAccount());
 		accountService.signin(account);
 		Response response = new Response();
+		
+		// HttpServletRequest request
+		// CsrfToken token = new HttpSessionCsrfTokenRepository().loadToken(request);
+		// System.out.println(token);
 
 		if (errors.hasErrors()) {
 			FieldError emailError = errors.getFieldError("email");
@@ -72,6 +92,8 @@ public class SignupController {
 			response.setMessage("Account registered successfully");
 			response.setSuccess(true);
 			response.setErrors(null);
+			// MongoDao dao = new MongoDao();
+			// dao.saveAccount();
 		}
 		return response;
 	}

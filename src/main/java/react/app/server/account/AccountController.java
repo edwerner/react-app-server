@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-class AccountController {
+public class AccountController {
 
     private AccountRepository accountRepository;
 
@@ -29,14 +29,14 @@ class AccountController {
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public Account currentAccount(Principal principal) {
         Assert.notNull(principal);
-        return accountRepository.findOneByEmail(principal.getName());
+        return accountRepository.findByEmail(principal.getName());
     }
 
     @RequestMapping(value = "account/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     @Secured("ROLE_ADMIN")
-    public Account account(@PathVariable("id") Long id) {
+    public Account account(@PathVariable("id") String id) {
         return accountRepository.findOne(id);
     }
 }

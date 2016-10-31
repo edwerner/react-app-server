@@ -17,6 +17,12 @@ import react.app.server.response.Response;
 @Controller
 class CustomErrorController {
 	
+
+	// @RequestMapping("error")
+	// public String error(Model model) {
+ //        return "error/general";
+	// }
+
 	/**
 	 * Display an error page, as defined in web.xml <code>custom-error</code> element.
 	 */

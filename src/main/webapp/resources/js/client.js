@@ -37754,13 +37754,15 @@
 			);
 		},
 		onSuccessButtonClick: function onSuccessButtonClick() {
-			var token = window.localStorage.getItem('shop-token');
-			if (token) {
-				routeToShopPage();
-			} else {
-				Backbone.history.navigate('login', { trigger: true });
-				hideOverlayModal();
-			}
+			// var token = window.localStorage.getItem('orders-token');
+			// if (token) {
+			hideOverlayModal();
+			routeToShopPage();
+			// } else {
+			//   		// Backbone.history.navigate('login', {trigger:true});
+			//   		// hideOverlayModal();
+			//   		renderOverlayModal('Error', 'You must be logged in first', false);
+			// }
 		},
 		onFailureButtonClick: function onFailureButtonClick() {
 			Backbone.history.navigate('login', { trigger: true });
@@ -37790,18 +37792,14 @@
 	}
 
 	function routeToShopPage() {
-		var token = window.localStorage.getItem('shop-token');
+		// var token = window.localStorage.getItem('shop-token');
 		var promise = $.ajax({
 			type: 'GET',
-			url: '/shop',
-			dataType: 'json',
-			data: {
-				token: token
-			}
+			url: '/orders'
 		});
 		$.when(promise).done(function () {
 			hideOverlayModal();
-			Backbone.history.navigate('shop', { trigger: true });
+			Backbone.history.navigate('orders', { trigger: true });
 			(0, _orders.fetchProducts)();
 		});
 		$.when(promise).fail(function (error) {
@@ -62149,17 +62147,20 @@
 	    var _this = this;
 	    (0, _loader.renderLoader)();
 	    _jquery2.default.when(promise).done(function (data) {
-	      // window.localStorage.setItem('shop-token', data.token);
+	      // window.localStorage.setItem('orders-token', data.token);
 	      // console.log(data.errors);
-	      _this.onEmailError(data.errors.email);
-	      _this.onPasswordError(data.errors.password);
+	      // console.log(data.token);
+	      if (data.errors) {
+	        _this.onEmailError(data.errors.email);
+	        _this.onPasswordError(data.errors.password);
+	      }
 	      (0, _loader.hideLoader)();
 	      // _this.resetForm();
 	      (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
 	    });
 	    _jquery2.default.when(promise).fail(function (error) {
 	      (0, _loader.hideLoader)();
-	      (0, _overlay.renderOverlayModal)('Error', 'ERROR', false);
+	      (0, _overlay.renderOverlayModal)('Error', 'Something went wrong', false);
 	      console.log(error);
 	    });
 	  },
@@ -62292,7 +62293,7 @@
 			Backbone.history.navigate('orders', { trigger: true });
 		},
 		renderLogoutTab: function renderLogoutTab() {
-			window.localStorage.removeItem('shop-token');
+			window.localStorage.removeItem('orders-token');
 			(0, _overlay.renderOverlayModal)('Logout Success', 'You have successfully logged out', true);
 		},
 		render: function render() {

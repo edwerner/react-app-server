@@ -8,14 +8,17 @@ import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.UUID;
+
+import javax.persistence.PrePersist;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "account")
 public class Account implements java.io.Serializable {
 
 	@Id
-	@GeneratedValue
-	private Long id;
+	private String id;
 
 	@Column(unique = true)
 	private String email;
@@ -36,9 +39,19 @@ public class Account implements java.io.Serializable {
 		this.password = password;
 		this.role = role;
 		this.created = Instant.now();
+		// this.id = UUID.randomUUID().toString();
 	}
 
-	public Long getId() {
+	@PrePersist
+	private void ensureId(){
+	    this.setId(UUID.randomUUID().toString());
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getId() {
 		return id;
 	}
 

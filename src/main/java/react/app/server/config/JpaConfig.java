@@ -17,14 +17,16 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 
 import org.springframework.util.ClassUtils;
 
-import react.app.server.Application;
+import react.app.server.ApplicationConfig;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses = Application.class)
+@EnableJpaRepositories(basePackageClasses = ApplicationConfig.class)
 class JpaConfig {
 
     @Value("${dataSource.driverClassName}")
@@ -41,6 +43,7 @@ class JpaConfig {
     private String hbm2ddlAuto;
 
     @Bean
+    // @ConfigurationProperties(prefix="dataSource")
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(driver);
@@ -60,7 +63,7 @@ class JpaConfig {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
 
-        String entities = ClassUtils.getPackageName(Application.class);
+        String entities = ClassUtils.getPackageName(ApplicationConfig.class);
         String converters = ClassUtils.getPackageName(Jsr310JpaConverters.class);
         entityManagerFactoryBean.setPackagesToScan(entities, converters);
 

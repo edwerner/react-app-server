@@ -18,7 +18,7 @@ var Menu = React.createClass({
 		Backbone.history.navigate('orders', {trigger:true});
 	},
 	renderLogoutTab: function() {
-		window.localStorage.removeItem('shop-token');
+		window.localStorage.removeItem('orders-token');
       	renderOverlayModal('Logout Success', 'You have successfully logged out', true);
 	},
 	render: function() {

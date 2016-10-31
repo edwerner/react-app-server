@@ -1,42 +1,39 @@
-package react.app.server.config;
+// package react.app.server.config;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+// import org.springframework.web.filter.CharacterEncodingFilter;
+// import org.springframework.web.filter.DelegatingFilterProxy;
+// import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+// import org.springframework.boot.context.web.SpringBootServletInitializer;
+// import org.springframework.boot.builder.SpringApplicationBuilder;
+// import org.springframework.context.ApplicationContext;
+// import org.springframework.boot.SpringApplication;
+// import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+// import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+// import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+// import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+// import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+// import org.springframework.context.annotation.PropertySource;
+// import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+// import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
+// import react.app.server.ApplicationConfig;
+// import javax.servlet.*;
 
-import javax.servlet.*;
+// public class WebAppInitializer extends SpringBootServletInitializer {
+    
+//     @Bean
+//     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+//         return new PropertySourcesPlaceholderConfigurer();
+//     }
 
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+//     @Override
+//     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//         return application.sources(ApplicationConfig.class);
+//     }
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {ApplicationConfig.class};
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return null;
-    }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-
-        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
-
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
-    }
-
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("defaultHtmlEscape", "true");
-        registration.setInitParameter("spring.profiles.active", "default");
-    }
-}
+//     public static void main(String... args) {
+//         System.setProperty("spring.profiles.default", System.getProperty("spring.profiles.default", "dev"));
+//         final ApplicationContext applicationContext = SpringApplication.run(ApplicationConfig.class, args);
+//     }   
+// }

@@ -25,7 +25,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 class WebMvcConfig extends WebMvcConfigurationSupport {
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
-    private static final String VIEWS = "/WEB-INF/views/";
+    private static final String VIEWS = "/WEB-INF/templates/";
 
     private static final String RESOURCES_LOCATION = "/resources/";
     private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
