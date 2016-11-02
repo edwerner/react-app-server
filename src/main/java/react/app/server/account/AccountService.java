@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import react.app.server.response.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.json.JsonObject;
+import javax.json.Json;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -44,7 +48,8 @@ public class AccountService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Account account = accountRepository.findByEmail(email);
 		if(account == null) {
-			throw new UsernameNotFoundException("user not found");
+			// throw new UsernameNotFoundException("User not found");
+			return null;
 		}
 		return createUser(account);
 	}

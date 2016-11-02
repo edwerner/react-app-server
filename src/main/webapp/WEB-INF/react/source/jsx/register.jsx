@@ -38,7 +38,7 @@ var RegisterUserForm = React.createClass({
                 <label className="col-lg-2 control-label">Password</label>
                 <div className="col-lg-10">
                     <input onChange={this.onPasswordChange} type="password" className="span2 form-control" name="password" placeholder="Password"/>
-                    <span className={this.state.emailError ? 'error help-block' : 'hidden'}>{this.state.passwordError}</span>
+                    <span className={this.state.passwordError ? 'error help-block' : 'hidden'}>{this.state.passwordError}</span>
                 </div>
             </div>
             <div className="form-group">
@@ -88,7 +88,7 @@ var RegisterUserForm = React.createClass({
     // user.set('last_name', this.state.last_name);
     // user.set('email', this.state.email);
     user.serialize();
-    // user.set('url', '/signup');
+    user.url = '/signup';
     var promise = user.save();
     var _this = this;
     renderLoader();
@@ -96,18 +96,23 @@ var RegisterUserForm = React.createClass({
       // window.localStorage.setItem('orders-token', data.token);
       // console.log(data.errors);
       // console.log(data.token);
-      if (data.errors) {
-        _this.onEmailError(data.errors.email);
-        _this.onPasswordError(data.errors.password);
-      }
+      var emailError = '';
+      var passwordError = '';
       hideLoader();
+      if (data.errors) {
+        emailError = data.errors.email;
+        passwordError = data.errors.password;
+      } else {
+        renderOverlayModal(data.title, data.message, data.success);
+      }
+      _this.onEmailError(emailError);
+      _this.onPasswordError(passwordError);
       // _this.resetForm();
-      renderOverlayModal(data.title, data.message, data.success);
     });
     $.when(promise).fail(function(error) {
       hideLoader();
-      renderOverlayModal('Error', 'Something went wrong', false);
-      console.log(error);
+      renderOverlayModal('Error', error.responseJSON.message, false);
+      // console.log(error);
     });
   },
   resetForm: function() {

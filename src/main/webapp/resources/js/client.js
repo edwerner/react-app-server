@@ -13751,7 +13751,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-lg-10' },
-	          _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'inputEmail', placeholder: 'Email', name: 'username' })
+	          _react2.default.createElement('input', { onChange: this.onEmailChange, type: 'text', className: 'span2 form-control', name: 'email', placeholder: 'Email address' }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: this.state.emailError ? 'error help-block' : 'hidden' },
+	            this.state.emailError
+	          )
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -13765,7 +13770,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-lg-10' },
-	          _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'inputPassword', placeholder: 'Password', name: 'password' })
+	          _react2.default.createElement('input', { onChange: this.onPasswordChange, type: 'password', className: 'span2 form-control', name: 'password', placeholder: 'Password' }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: this.state.passwordError ? 'error help-block' : 'hidden' },
+	            this.state.passwordError
+	          )
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -13794,7 +13804,7 @@
 	          { className: 'col-lg-offset-2 col-lg-10' },
 	          _react2.default.createElement(
 	            'button',
-	            { type: 'submit', className: 'btn btn-default' },
+	            { type: 'submit', className: 'btn btn-default', onClick: this.submitForm },
 	            'Sign in'
 	          )
 	        )
@@ -13822,11 +13832,25 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      username: '',
-	      password: ''
+	      password: '',
+	      first_name: '',
+	      last_name: '',
+	      email: '',
+	      emailError: '',
+	      passwordError: ''
 	    };
+	  },
+	  onEmailError: function onEmailError(e) {
+	    this.setState({ emailError: e });
+	  },
+	  onPasswordError: function onPasswordError(e) {
+	    this.setState({ passwordError: e });
 	  },
 	  onUsernameChange: function onUsernameChange(e) {
 	    this.setState({ username: e.target.value });
+	  },
+	  onEmailChange: function onEmailChange(e) {
+	    this.setState({ email: e.target.value });
 	  },
 	  onPasswordChange: function onPasswordChange(e) {
 	    this.setState({ password: e.target.value });
@@ -13835,30 +13859,37 @@
 	    Backbone.history.navigate('register', { trigger: true });
 	  },
 	  submitForm: function submitForm() {
-	    if (this.isFormComplete()) {
-	      Backbone.emulateHTTP = true;
-	      var user = new _user2.default();
-	      user.set('username', this.state.username);
-	      user.set('password', this.state.password);
-	      user.serialize();
-	      user.set('url', '/login');
-	      var promise = user.save();
-	      var _this = this;
-	      (0, _loader.renderLoader)();
-	      _jquery2.default.when(promise).done(function (data) {
-	        window.localStorage.setItem('shop-token', data.token);
-	        (0, _loader.hideLoader)();
-	        _this.resetForm();
-	        (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
-	      });
-	      _jquery2.default.when(promise).fail(function (error) {
-	        (0, _loader.hideLoader)();
-	        (0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
-	      });
-	    } else {
+	    Backbone.emulateHTTP = true;
+	    var user = new _user2.default();
+	    user.set('email', this.state.email);
+	    user.set('password', this.state.password);
+	    user.serialize();
+	    user.url = '/signin';
+	    var promise = user.save();
+	    var _this = this;
+	    (0, _loader.renderLoader)();
+	    _jquery2.default.when(promise).done(function (data) {
+	      // window.localStorage.setItem('shop-token', data.token);
+	      var emailError = '';
+	      var passwordError = '';
+	      // console.log(data);
 	      (0, _loader.hideLoader)();
-	      (0, _overlay.renderOverlayModal)('Error', 'Form incomplete', false);
-	    }
+	      if (data.errors) {
+	        emailError = data.errors.email;
+	        passwordError = data.errors.password;
+	      } else {
+	        (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
+	      }
+	      _this.onEmailError(emailError);
+	      _this.onPasswordError(passwordError);
+	      // _this.resetForm();
+	    });
+	    _jquery2.default.when(promise).fail(function (error) {
+	      // console.log(error);
+	      (0, _loader.hideLoader)();
+	      (0, _overlay.renderOverlayModal)('Error', error.message, false);
+	      // renderOverlayModal('Error', error.message, false);
+	    });
 	  },
 	  resetForm: function resetForm() {
 	    this.setState({ username: '' });
@@ -37643,9 +37674,9 @@
 	module.exports = Backbone.Model.extend({
 		defaults: {
 			password: '',
-			email: ''
-		},
-		url: '/signup'
+			email: '',
+			url: ''
+		}
 	});
 
 /***/ },
@@ -37845,6 +37876,8 @@
 
 	var _loader = __webpack_require__(197);
 
+	var _overlay = __webpack_require__(191);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ProductTile = __webpack_require__(199);
@@ -37875,7 +37908,7 @@
 		});
 		$.when(promise).fail(function (error) {
 			(0, _loader.hideLoader)();
-			renderOverlayModal('Error', error.responseJSON.message, false);
+			(0, _overlay.renderOverlayModal)('Error', error.message, false);
 		});
 	}
 
@@ -62070,7 +62103,7 @@
 	            _react2.default.createElement('input', { onChange: this.onPasswordChange, type: 'password', className: 'span2 form-control', name: 'password', placeholder: 'Password' }),
 	            _react2.default.createElement(
 	              'span',
-	              { className: this.state.emailError ? 'error help-block' : 'hidden' },
+	              { className: this.state.passwordError ? 'error help-block' : 'hidden' },
 	              this.state.passwordError
 	            )
 	          )
@@ -62142,7 +62175,7 @@
 	    // user.set('last_name', this.state.last_name);
 	    // user.set('email', this.state.email);
 	    user.serialize();
-	    // user.set('url', '/signup');
+	    user.url = '/signup';
 	    var promise = user.save();
 	    var _this = this;
 	    (0, _loader.renderLoader)();
@@ -62150,18 +62183,23 @@
 	      // window.localStorage.setItem('orders-token', data.token);
 	      // console.log(data.errors);
 	      // console.log(data.token);
-	      if (data.errors) {
-	        _this.onEmailError(data.errors.email);
-	        _this.onPasswordError(data.errors.password);
-	      }
+	      var emailError = '';
+	      var passwordError = '';
 	      (0, _loader.hideLoader)();
+	      if (data.errors) {
+	        emailError = data.errors.email;
+	        passwordError = data.errors.password;
+	      } else {
+	        (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
+	      }
+	      _this.onEmailError(emailError);
+	      _this.onPasswordError(passwordError);
 	      // _this.resetForm();
-	      (0, _overlay.renderOverlayModal)(data.title, data.message, data.success);
 	    });
 	    _jquery2.default.when(promise).fail(function (error) {
 	      (0, _loader.hideLoader)();
-	      (0, _overlay.renderOverlayModal)('Error', 'Something went wrong', false);
-	      console.log(error);
+	      (0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+	      // console.log(error);
 	    });
 	  },
 	  resetForm: function resetForm() {

@@ -55,33 +55,29 @@ public class SignupController {
 	private AccountService accountService;
 	
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
-	public String signup(Model model) {
+	public String signupGet(Model model) {
 		model.addAttribute(new SignupForm());
         return SIGNUP_VIEW_NAME;
 	}
 	
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	@ResponseBody
-	public Response signup(@Valid @RequestBody SignupForm signupForm, Errors errors) throws JsonProcessingException {
+	public Response signupPost(@Valid @RequestBody SignupForm signupForm, Errors errors) throws JsonProcessingException {
 		Account account = accountService.save(signupForm.createAccount());
 		accountService.signin(account);
+		FieldError emailError = errors.getFieldError("email");
+		FieldError passwordError = errors.getFieldError("password");
+		ObjectMapper mapper = new ObjectMapper();
+		Map validationErrors = new HashMap();
 		Response response = new Response();
-		
-		// HttpServletRequest request
-		// CsrfToken token = new HttpSessionCsrfTokenRepository().loadToken(request);
-		// System.out.println(token);
 
 		if (errors.hasErrors()) {
-			FieldError emailError = errors.getFieldError("email");
-			FieldError passwordError = errors.getFieldError("password");
-			Map validationErrors = new HashMap();
 			if (emailError != null) {
 				validationErrors.put("email", emailError.getDefaultMessage());
 			}
 			if (passwordError != null) {
 				validationErrors.put("password", passwordError.getDefaultMessage());
 			}
-			ObjectMapper mapper = new ObjectMapper();
 			String errorString = mapper.writeValueAsString(validationErrors);
 			response.setTitle("Error");
 			response.setMessage("Form has validation errors");
@@ -89,11 +85,9 @@ public class SignupController {
 			response.setErrors(errorString);
 		} else {
 			response.setTitle("Success");
-			response.setMessage("Account registered successfully");
+			response.setMessage("Signup successful");
 			response.setSuccess(true);
 			response.setErrors(null);
-			// MongoDao dao = new MongoDao();
-			// dao.saveAccount();
 		}
 		return response;
 	}

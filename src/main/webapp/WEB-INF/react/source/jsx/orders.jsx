@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import sass from '../scss/shop.scss';
 import ProductCollection from '../javascripts/products';
 import {renderLoader, hideLoader} from './loader.jsx';
+import {renderOverlayModal} from './overlay.jsx';
 var ProductTile = require('./product-tile.jsx');
 var Cart = require('./cart.jsx');
 
@@ -27,7 +28,7 @@ export function fetchProducts() {
 	});
 	$.when(promise).fail(function(error) {
 		hideLoader();
-    renderOverlayModal('Error', error.responseJSON.message, false);
+    	renderOverlayModal('Error', error.message, false);
 	});
 }
 

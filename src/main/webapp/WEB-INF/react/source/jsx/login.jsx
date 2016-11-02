@@ -18,13 +18,15 @@ var LoginForm = React.createClass({
         <div className="form-group">
           <label className="col-lg-2 control-label">Email</label>
           <div className="col-lg-10">
-            <input type="text" className="form-control" id="inputEmail" placeholder="Email" name="username" />
+            <input onChange={this.onEmailChange} type="text" className="span2 form-control" name="email" placeholder="Email address"/>
+            <span className={this.state.emailError ? 'error help-block' : 'hidden'}>{this.state.emailError}</span>
           </div>
         </div>
         <div className="form-group">
           <label className="col-lg-2 control-label">Password</label>
           <div className="col-lg-10">
-            <input type="password" className="form-control" id="inputPassword" placeholder="Password" name="password" />
+            <input onChange={this.onPasswordChange} type="password" className="span2 form-control" name="password" placeholder="Password"/>
+            <span className={this.state.passwordError ? 'error help-block' : 'hidden'}>{this.state.passwordError}</span>
           </div>
         </div>
         <div className="form-group">
@@ -38,7 +40,7 @@ var LoginForm = React.createClass({
         </div>
         <div className="form-group">
           <div className="col-lg-offset-2 col-lg-10">
-            <button type="submit" className="btn btn-default">Sign in</button>
+            <button type="submit" className="btn btn-default" onClick={this.submitForm}>Sign in</button>
           </div>
         </div>
         <div className="form-group">
@@ -52,11 +54,25 @@ var LoginForm = React.createClass({
   getInitialState: function() {
     return {
       username: '',
-      password: ''
+      password: '',
+      first_name: '',
+      last_name: '',
+      email: '',
+      emailError: '',
+      passwordError: ''
     }
+  },
+  onEmailError: function(e) {
+    this.setState({emailError: e});
+  },
+  onPasswordError: function(e) {
+    this.setState({passwordError: e});
   },
   onUsernameChange: function(e) {
    this.setState({username: e.target.value});
+  },
+  onEmailChange: function(e) {
+   this.setState({email: e.target.value});
   },
   onPasswordChange: function(e) {
    this.setState({password: e.target.value});
@@ -65,30 +81,37 @@ var LoginForm = React.createClass({
     Backbone.history.navigate('register', {trigger:true});
   },
   submitForm: function() {
-    if (this.isFormComplete()) {
-      Backbone.emulateHTTP = true;
-      var user = new User();
-      user.set('username', this.state.username);
-      user.set('password', this.state.password);
-      user.serialize();
-      user.set('url', '/login');
-      var promise = user.save();
-      var _this = this;
-      renderLoader();
-      $.when(promise).done(function(data) {
-        window.localStorage.setItem('shop-token', data.token);
-        hideLoader();
-        _this.resetForm();
-        renderOverlayModal(data.title, data.message, data.success);
-      });
-      $.when(promise).fail(function(error) {
-        hideLoader();
-        renderOverlayModal('Error', error.responseJSON.message, false);
-      });
-    } else {
+    Backbone.emulateHTTP = true;
+    var user = new User();
+    user.set('email', this.state.email);
+    user.set('password', this.state.password);
+    user.serialize();
+    user.url = '/signin';
+    var promise = user.save();
+    var _this = this;
+    renderLoader();
+    $.when(promise).done(function(data) {
+      // window.localStorage.setItem('shop-token', data.token);
+      var emailError = '';
+      var passwordError = '';
+      // console.log(data);
       hideLoader();
-      renderOverlayModal('Error', 'Form incomplete', false);
-    }
+      if (data.errors) {
+        emailError = data.errors.email;
+        passwordError = data.errors.password;
+      } else {
+        renderOverlayModal(data.title, data.message, data.success);
+      }
+      _this.onEmailError(emailError);
+      _this.onPasswordError(passwordError);
+      // _this.resetForm();
+    });
+    $.when(promise).fail(function(error) {
+      // console.log(error);
+      hideLoader();
+      renderOverlayModal('Error', error.message, false);
+      // renderOverlayModal('Error', error.message, false);
+    });
   },
   resetForm: function() {
     this.setState({username: ''});
