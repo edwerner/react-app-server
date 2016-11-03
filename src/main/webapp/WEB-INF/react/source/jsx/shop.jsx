@@ -24,7 +24,6 @@ export function fetchProducts() {
 	renderLoader();
 	$.when(promise).done(function(data) {
 		hideLoader();
-		Backbone.history.navigate('shop', {trigger:true});
 		renderShopPage(productCollection);
 	});
 	$.when(promise).fail(function(error) {
@@ -34,9 +33,9 @@ export function fetchProducts() {
 }
 
 export function renderShopPage(products) {
-	ReactDOM.render(<Orders showLink='' products={products}/>, document.getElementById('orders__container'));
+	ReactDOM.render(<Orders showLink='' products={products}/>, document.getElementById('shop__container'));
 }
 
 export function hideShopPage() {
-	ReactDOM.render(<Orders showLink='hidden'/>, document.getElementById('orders__container'));
+	ReactDOM.render(<Orders showLink='hidden'/>, document.getElementById('shop__container'));
 }	

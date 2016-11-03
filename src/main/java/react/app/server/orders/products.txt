@@ -1,0 +1,228 @@
+{
+	"products": [{
+		"title" : "Audio Ports",
+		"image": "./images/product-images/audio_ports.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Breadboard",
+		"image": "./images/product-images/breadboard.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Breadboard Jumper Wire Bundle",
+		"image": "./images/product-images/breadboard_jumper_wire_bundle.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Ceramic Capacitor",
+		"image": "./images/product-images/capacitor_ceramic.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Electrolytic Capacitor",
+		"image": "./images/product-images/capacitor_electrolytic.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Diode",
+		"image": "./images/product-images/diode.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Ethernet Connector",
+		"image": "./images/product-images/ethernet.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "5-inch Floppy Drive",
+		"image": "./images/product-images/floppy_drive.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Hard Disk Drive Headers",
+		"image": "./images/product-images/hard_disk_drive_headers.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Large Jumper Cable",
+		"image": "./images/product-images/jumper_cable_lg.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Small Jumper Cable",
+		"image": "./images/product-images/jumper_cable_sm.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Jumper Wire Bundle",
+		"image": "./images/product-images/jumper_wire_bundle.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Green LED",
+		"image": "./images/product-images/led_green.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Red LED",
+		"image": "./images/product-images/led_red.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Tricolor LED",
+		"image": "./images/product-images/led_tricolor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "RAM",
+		"image": "./images/product-images/memory_stick.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Micro USB",
+		"image": "./images/product-images/micro_usb.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Mini Motor",
+		"image": "./images/product-images/motor_mini.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Buzz Motor",
+		"image":"./images/product-images/motor_vibr.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Oscillator",
+		"image": "./images/product-images/oscillator.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "PCI Slots",
+		"image": "./images/product-images/pci_slots.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Photoresistor",
+		"image": "./images/product-images/photoresistor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Piezo Buzzer",
+		"image": "./images/product-images/piezo_buzzer.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Rotary Potentiometer",
+		"image": "./images/product-images/potentiometer_rotary.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Power Supply Unit",
+		"image": "./images/product-images/power_supply_unit.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Power Switch",
+		"image": "./images/product-images/power_switch.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Pressure Sensor",
+		"image": "./images/product-images/pressure_sensor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Printer Connector",
+		"image": "./images/product-images/printer_connector.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Protoboard",
+		"image": "./images/product-images/protoboard.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "PS/2 Ports",
+		"image": "./images/product-images/ps_2_ports.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "PSU Plug",
+		"image": "./images/product-images/psu_plug.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Resistor",
+		"image": "./images/product-images/resistor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Ribbon Cable",
+		"image": "./images/product-images/ribbon_cable.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Micro Servomotor",
+		"image": "./images/product-images/servomotor_micro.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Sleep Switch Display",
+		"image": "./images/product-images/sleep_switch_display.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Speaker",
+		"image": "./images/product-images/speaker.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "DPDT (double pole, double throw) Switch",
+		"image": "./images/product-images/switch_dpdt.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "SPST (single pole, single throw) Switch",
+		"image": "./images/product-images/switch_spst.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Thermistor",
+		"image": "./images/product-images/thermistor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Tilt Sensor",
+		"image": "./images/product-images/tilt_sensor.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "Transformer",
+		"image": "./images/product-images/transformer.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "NPN Transistor",
+		"image": "./images/product-images/transistor_npn.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "USB Connetor Type-A",
+		"image": "./images/product-images/usb_connector_type_a.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "USB Connetor Type-B",
+		"image": "./images/product-images/usb_connector_type_b.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}, {
+		"title": "VGA Connetor",
+		"image": "./images/product-images/vga_connector.jpg",
+		"price": "0.99",
+		"description": "Product description"
+	}]
+}

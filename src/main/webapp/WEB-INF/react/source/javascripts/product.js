@@ -3,10 +3,10 @@ var Backbone = require('backbone');
 module.exports = Backbone.Model.extend({
 	defaults: {
 		id: '',
-		name: '',
+		title: '',
+		image: '',
 		price: '',
-		description: '',
-		quantity: ''
+		description: ''
 	},
 	url: '/product'
 });

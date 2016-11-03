@@ -77,28 +77,29 @@
 			'': 'index',
 			'signin': 'signin',
 			'signup': 'signup',
-			'orders': 'orders'
+			'orders': 'orders',
+			'shop': 'shop'
 		},
 		index: function index() {
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
 			(0, _orders.hideShopPage)();
 			(0, _index.renderIndex)();
-			(0, _menu.renderMenu)(null, 'active', null, null);
+			(0, _menu.renderMenu)(null, 'active', null, null, null);
 		},
 		signin: function signin() {
 			(0, _index.hideIndex)();
 			(0, _register.hideCreateUserForm)();
 			(0, _orders.hideShopPage)();
 			(0, _login.renderLoginForm)();
-			(0, _menu.renderMenu)('active', null, null, null);
+			(0, _menu.renderMenu)('active', null, null, null, null);
 		},
 		signup: function signup() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _orders.hideShopPage)();
 			(0, _register.renderUserForm)();
-			(0, _menu.renderMenu)(null, null, 'active', null);
+			(0, _menu.renderMenu)(null, null, 'active', null, null);
 		},
 		orders: function orders() {
 			(0, _index.hideIndex)();
@@ -106,8 +107,17 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _overlay.routeToShopPage)();
-			(0, _menu.renderMenu)(null, null, null, 'active');
+			// routeToShopPage();
+			(0, _menu.renderMenu)(null, null, null, 'active', null);
+		},
+		shop: function shop() {
+			(0, _index.hideIndex)();
+			(0, _login.hideLoginForm)();
+			(0, _register.hideCreateUserForm)();
+			(0, _login.hideLoginForm)();
+			(0, _register.hideCreateUserForm)();
+			(0, _orders.renderShopPage)();
+			(0, _menu.renderMenu)(null, null, null, null, 'active');
 		}
 	});
 
@@ -37788,7 +37798,8 @@
 			// var token = window.localStorage.getItem('orders-token');
 			// if (token) {
 			hideOverlayModal();
-			routeToShopPage();
+			(0, _orders.fetchProducts)();
+			// routeToShopPage();
 			// } else {
 			//   		// Backbone.history.navigate('login', {trigger:true});
 			//   		// hideOverlayModal();
@@ -37826,12 +37837,12 @@
 		// var token = window.localStorage.getItem('shop-token');
 		var promise = $.ajax({
 			type: 'GET',
-			url: '/orders'
+			url: '/shop'
 		});
 		$.when(promise).done(function () {
-			hideOverlayModal();
-			Backbone.history.navigate('orders', { trigger: true });
-			(0, _orders.fetchProducts)();
+			// hideOverlayModal();
+			Backbone.history.navigate('shop', { trigger: true });
+			// fetchProducts();
 		});
 		$.when(promise).fail(function (error) {
 			renderOverlayModal('Error', error.responseJSON.message, null);
@@ -37904,6 +37915,7 @@
 		(0, _loader.renderLoader)();
 		$.when(promise).done(function (data) {
 			(0, _loader.hideLoader)();
+			Backbone.history.navigate('shop', { trigger: true });
 			renderShopPage(productCollection);
 		});
 		$.when(promise).fail(function (error) {
@@ -37938,15 +37950,15 @@
 	var _ = __webpack_require__(2);
 
 	module.exports = Backbone.Collection.extend({
-	  url: '/products',
-	  model: Product,
-	  parse: function parse(response) {
-	    _.each(response, function (res, id) {
-	      res.id = res._id;
-	      delete res._id;
-	    });
-	    return response;
-	  }
+	  url: '/shop',
+	  model: Product
+	  // parse : function(response) {
+	  // 	_.each(response, function(res, id) {
+	  // 		res.id = res._id;
+	  // 		delete res._id;
+	  // 	});
+	  // 	return response;
+	  // }
 	});
 
 /***/ },
@@ -37960,10 +37972,10 @@
 	module.exports = Backbone.Model.extend({
 		defaults: {
 			id: '',
-			name: '',
+			title: '',
+			image: '',
 			price: '',
-			description: '',
-			quantity: ''
+			description: ''
 		},
 		url: '/product'
 	});
@@ -62331,8 +62343,11 @@
 			Backbone.history.navigate('orders', { trigger: true });
 		},
 		renderLogoutTab: function renderLogoutTab() {
-			window.localStorage.removeItem('orders-token');
+			// window.localStorage.removeItem('orders-token');
 			(0, _overlay.renderOverlayModal)('Logout Success', 'You have successfully logged out', true);
+		},
+		renderShopTab: function renderShopTab() {
+			Backbone.history.navigate('shop', { trigger: true });
 		},
 		render: function render() {
 			return _react2.default.createElement(
@@ -62388,6 +62403,15 @@
 								),
 								_react2.default.createElement(
 									'li',
+									{ className: this.props.activeShop },
+									_react2.default.createElement(
+										'a',
+										{ href: 'javascript:void(0)', onClick: this.renderShopTab },
+										'Shop'
+									)
+								),
+								_react2.default.createElement(
+									'li',
 									{ className: this.props.activeOrders },
 									_react2.default.createElement(
 										'a',
@@ -62410,7 +62434,7 @@
 		}
 	});
 
-	function renderMenu(activeLogin, activeIndex, activeCreate, activeShop) {
+	function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders) {
 		_reactDom2.default.render(_react2.default.createElement(Menu, { activeLogin: activeLogin, activeIndex: activeIndex, activeCreate: activeCreate, activeShop: activeShop }), document.getElementById('navigation__menu'));
 	}
 

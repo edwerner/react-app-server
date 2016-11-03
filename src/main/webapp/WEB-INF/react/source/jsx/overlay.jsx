@@ -44,7 +44,8 @@ var Overlay = React.createClass({
 		// var token = window.localStorage.getItem('orders-token');
 		// if (token) {
 			hideOverlayModal();
-			routeToShopPage();
+			fetchProducts();
+			// routeToShopPage();
 		// } else {
   //   		// Backbone.history.navigate('login', {trigger:true});
   //   		// hideOverlayModal();
@@ -82,12 +83,12 @@ export function routeToShopPage() {
 	// var token = window.localStorage.getItem('shop-token');
 	var promise = $.ajax({
 	  type: 'GET',
-	  url: '/orders'
+	  url: '/shop'
 	});
   $.when(promise).done(function() {
-  		hideOverlayModal();
-		Backbone.history.navigate('orders', {trigger:true});
-		fetchProducts();
+  		// hideOverlayModal();
+		Backbone.history.navigate('shop', {trigger:true});
+		// fetchProducts();
   });
   $.when(promise).fail(function(error) {
  		renderOverlayModal('Error', error.responseJSON.message, null);

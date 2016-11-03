@@ -18,8 +18,11 @@ var Menu = React.createClass({
 		Backbone.history.navigate('orders', {trigger:true});
 	},
 	renderLogoutTab: function() {
-		window.localStorage.removeItem('orders-token');
+		// window.localStorage.removeItem('orders-token');
       	renderOverlayModal('Logout Success', 'You have successfully logged out', true);
+	},
+	renderShopTab: function() {
+		Backbone.history.navigate('shop', {trigger:true});
 	},
 	render: function() {
 		return (
@@ -32,6 +35,7 @@ var Menu = React.createClass({
 		              <li className={this.props.activeLogin}><a href="javascript:void(0)" onClick={this.renderLoginTab}>Sign In</a></li>
 		              <li className={this.props.activeCreate}><a href="javascript:void(0)" onClick={this.renderRegisterTab}>Sign Up</a></li>
 		              <li className={this.props.activeLogout}><a href="javascript:void(0)" onClick={this.renderLogoutTab}>Sign Out</a></li>
+		              <li className={this.props.activeShop}><a href="javascript:void(0)" onClick={this.renderShopTab}>Shop</a></li>
 		              <li className={this.props.activeOrders}><a href="javascript:void(0)" onClick={this.renderOrdersTab}>Orders</a></li>
 		            </ul>
 		          </div>
@@ -47,7 +51,7 @@ var Menu = React.createClass({
 	}
 });
 
-export function renderMenu(activeLogin, activeIndex, activeCreate, activeShop) {
+export function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders) {
 	ReactDOM.render(<Menu activeLogin={activeLogin} activeIndex={activeIndex} activeCreate={activeCreate} activeShop={activeShop}/>,
 		document.getElementById('navigation__menu'));
 }
