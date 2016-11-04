@@ -36,7 +36,7 @@ public class ProductsService {
 	}
 
 	@Transactional
-	public List<Product> getProducts() {
+	public List<Product> getProductList() {
 		return productsRepository.findAll();
 	}
 }

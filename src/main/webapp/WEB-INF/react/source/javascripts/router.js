@@ -54,7 +54,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideLoginForm();
 		hideCreateUserForm();
-		renderShopPage();
+		// renderShopPage();
 		renderMenu(null, null, null, null, 'active');
 	}
 });

@@ -19,8 +19,10 @@ var Orders = React.createClass({
 });
 
 export function fetchProducts() {
+    Backbone.emulateHTTP = true;
 	var productCollection = new ProductCollection();
 	var promise = productCollection.fetch();
+	// productCollection.serialize();
 	renderLoader();
 	$.when(promise).done(function(data) {
 		hideLoader();

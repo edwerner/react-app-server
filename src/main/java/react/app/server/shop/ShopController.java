@@ -83,20 +83,25 @@ public class ShopController {
 	public String ordersGet(Principal principal, HttpServletRequest request) throws JsonProcessingException {        
         String csvFile = "C:/Users/Edward/Desktop/reactjs/react-app-server/src/main/java/react/app/server/orders/products.csv";
         String line = "";
-
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = br.readLine()) != null) {
-                String[] productValue = line.split(",");
-                Product product = new Product(productValue[0], productValue[1], productValue[2], productValue[3]);
-                productsService.save(product);
-            }        
+        	if (getProductList().isEmpty()) {
+	            while ((line = br.readLine()) != null) {
+	                String[] productValue = line.split(",");
+	                Product product = new Product(productValue[0], productValue[1], productValue[2], productValue[3]);
+	                productsService.save(product);
+	            }
+            }    
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
 			ObjectMapper mapper = new ObjectMapper();
-			List<Product> productList = productsService.getProducts();
-			String productsString = mapper.writeValueAsString(productList);
+			String productsString = mapper.writeValueAsString(getProductList());
 			return productsString;
         }
+	}
+
+	public List<Product> getProductList() {
+		List<Product> productList = productsService.getProductList();
+		return productList;
 	}
 }

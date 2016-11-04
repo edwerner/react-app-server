@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import sass from '../scss/overlay.scss';
-import {fetchProducts} from './orders.jsx';
+import {fetchProducts} from './shop.jsx';
 import {hideLoader} from './loader.jsx';
 
 var Overlay = React.createClass({

@@ -62,7 +62,7 @@
 
 	var _menu = __webpack_require__(415);
 
-	var _orders = __webpack_require__(193);
+	var _orders = __webpack_require__(416);
 
 	var _overlay = __webpack_require__(191);
 
@@ -116,7 +116,7 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _orders.renderShopPage)();
+			// renderShopPage();
 			(0, _menu.renderMenu)(null, null, null, null, 'active');
 		}
 	});
@@ -37714,7 +37714,7 @@
 
 	var _overlay2 = _interopRequireDefault(_overlay);
 
-	var _orders = __webpack_require__(193);
+	var _shop = __webpack_require__(193);
 
 	var _loader = __webpack_require__(197);
 
@@ -37798,7 +37798,7 @@
 			// var token = window.localStorage.getItem('orders-token');
 			// if (token) {
 			hideOverlayModal();
-			(0, _orders.fetchProducts)();
+			(0, _shop.fetchProducts)();
 			// routeToShopPage();
 			// } else {
 			//   		// Backbone.history.navigate('login', {trigger:true});
@@ -37865,6 +37865,9 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	exports.fetchProducts = fetchProducts;
 	exports.renderShopPage = renderShopPage;
 	exports.hideShopPage = hideShopPage;
@@ -37894,23 +37897,29 @@
 	var ProductTile = __webpack_require__(199);
 	var Cart = __webpack_require__(203);
 
-	var Orders = _react2.default.createClass({
-		displayName: 'Orders',
+	var Shop = _react2.default.createClass({
+		displayName: 'Shop',
 
 		render: function render() {
-			if (!this.props.products) {
+			var products = this.props.products.models;
+			console.log(products);
+			console.log(typeof products === 'undefined' ? 'undefined' : _typeof(products));
+			if (!products) {
 				return null;
 			}
 			return _react2.default.createElement(
-				'h1',
+				'div',
 				null,
-				'Orders'
+				products.map(function (product) {
+					return _react2.default.createElement(ProductTile, { product: product });
+				})
 			);
 		}
 	});
 
 	function fetchProducts() {
 		var productCollection = new _products2.default();
+		Backbone.emulateHTTP = true;
 		var promise = productCollection.fetch();
 		(0, _loader.renderLoader)();
 		$.when(promise).done(function (data) {
@@ -37925,11 +37934,11 @@
 	}
 
 	function renderShopPage(products) {
-		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: '', products: products }), document.getElementById('orders__container'));
+		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: '', products: products }), document.getElementById('shop__container'));
 	}
 
 	function hideShopPage() {
-		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: 'hidden' }), document.getElementById('orders__container'));
+		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: 'hidden' }), document.getElementById('shop__container'));
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -37950,15 +37959,15 @@
 	var _ = __webpack_require__(2);
 
 	module.exports = Backbone.Collection.extend({
-	  url: '/shop',
-	  model: Product
-	  // parse : function(response) {
-	  // 	_.each(response, function(res, id) {
-	  // 		res.id = res._id;
-	  // 		delete res._id;
-	  // 	});
-	  // 	return response;
-	  // }
+		url: '/shop',
+		model: Product
+		// parse : function(response) {
+		// 	_.each(response, function(res, id) {
+		// 		res.id = res._id;
+		// 		delete res._id;
+		// 	});
+		// 	return response;
+		// }
 	});
 
 /***/ },
@@ -62437,6 +62446,85 @@
 	function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders) {
 		_reactDom2.default.render(_react2.default.createElement(Menu, { activeLogin: activeLogin, activeIndex: activeIndex, activeCreate: activeCreate, activeShop: activeShop }), document.getElementById('navigation__menu'));
 	}
+
+/***/ },
+/* 416 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.fetchProducts = fetchProducts;
+	exports.renderShopPage = renderShopPage;
+	exports.hideShopPage = hideShopPage;
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _shop = __webpack_require__(194);
+
+	var _shop2 = _interopRequireDefault(_shop);
+
+	var _products = __webpack_require__(195);
+
+	var _products2 = _interopRequireDefault(_products);
+
+	var _loader = __webpack_require__(197);
+
+	var _overlay = __webpack_require__(191);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ProductTile = __webpack_require__(199);
+	var Cart = __webpack_require__(203);
+
+	var Orders = _react2.default.createClass({
+		displayName: 'Orders',
+
+		render: function render() {
+			if (!this.props.products) {
+				return null;
+			}
+			return _react2.default.createElement(
+				'h1',
+				null,
+				'Orders'
+			);
+		}
+	});
+
+	function fetchProducts() {
+		Backbone.emulateHTTP = true;
+		var productCollection = new _products2.default();
+		var promise = productCollection.fetch();
+		// productCollection.serialize();
+		(0, _loader.renderLoader)();
+		$.when(promise).done(function (data) {
+			(0, _loader.hideLoader)();
+			Backbone.history.navigate('shop', { trigger: true });
+			renderShopPage(productCollection);
+		});
+		$.when(promise).fail(function (error) {
+			(0, _loader.hideLoader)();
+			(0, _overlay.renderOverlayModal)('Error', error.message, false);
+		});
+	}
+
+	function renderShopPage(products) {
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: '', products: products }), document.getElementById('orders__container'));
+	}
+
+	function hideShopPage() {
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: 'hidden' }), document.getElementById('orders__container'));
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }
 /******/ ]);

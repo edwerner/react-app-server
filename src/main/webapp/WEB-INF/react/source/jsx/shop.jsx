@@ -7,23 +7,32 @@ import {renderOverlayModal} from './overlay.jsx';
 var ProductTile = require('./product-tile.jsx');
 var Cart = require('./cart.jsx');
 
-var Orders = React.createClass({
+var Shop = React.createClass({
 	render: function() {
-    if (!this.props.products) {
-        return null;
-    }
+		var products = this.props.products.models;
+		console.log(products);
+		console.log(typeof products);
+	    if (!products) {
+	        return null;
+	    }
 		return (
-			<h1>Orders</h1>
+			<div>
+			    {products.map(function(product) {
+			        return <ProductTile product={product}/>;
+			    })}
+		    </div>
 		);
 	}
 });
 
 export function fetchProducts() {
 	var productCollection = new ProductCollection();
+    Backbone.emulateHTTP = true;
 	var promise = productCollection.fetch();
 	renderLoader();
 	$.when(promise).done(function(data) {
 		hideLoader();
+		Backbone.history.navigate('shop', {trigger:true});
 		renderShopPage(productCollection);
 	});
 	$.when(promise).fail(function(error) {
@@ -33,9 +42,9 @@ export function fetchProducts() {
 }
 
 export function renderShopPage(products) {
-	ReactDOM.render(<Orders showLink='' products={products}/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Shop showLink='' products={products}/>, document.getElementById('shop__container'));
 }
 
 export function hideShopPage() {
-	ReactDOM.render(<Orders showLink='hidden'/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Shop showLink='hidden'/>, document.getElementById('shop__container'));
 }	

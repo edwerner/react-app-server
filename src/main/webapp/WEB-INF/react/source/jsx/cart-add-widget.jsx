@@ -9,9 +9,9 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-    if (!this.props.cartItem) {
-        return null;
-    }
+	    if (!this.props.cartItem) {
+	        return null;
+	    }
 		return(
 	      <div className='cart__add-widget width__100 flex flex-row flex-vertical-center flex-space-between'>
 	      	<div className='cart__add-widget__minus cart__add-widget__button' onClick={this.decrementQuantity}>-</div>
