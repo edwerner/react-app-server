@@ -37860,7 +37860,7 @@
 /* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -37869,6 +37869,8 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.fetchProducts = fetchProducts;
+	exports.fetchImageByIsbn = fetchImageByIsbn;
+	exports.parseBarcode = parseBarcode;
 	exports.renderShopPage = renderShopPage;
 	exports.hideShopPage = hideShopPage;
 
@@ -37884,7 +37886,15 @@
 
 	var _shop2 = _interopRequireDefault(_shop);
 
-	var _products = __webpack_require__(195);
+	var _jquery = __webpack_require__(3);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _product = __webpack_require__(195);
+
+	var _product2 = _interopRequireDefault(_product);
+
+	var _products = __webpack_require__(196);
 
 	var _products2 = _interopRequireDefault(_products);
 
@@ -37892,10 +37902,15 @@
 
 	var _overlay = __webpack_require__(191);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _productTile = __webpack_require__(199);
 
-	var ProductTile = __webpack_require__(199);
-	var Cart = __webpack_require__(203);
+	var _productTile2 = _interopRequireDefault(_productTile);
+
+	var _cart = __webpack_require__(203);
+
+	var _cart2 = _interopRequireDefault(_cart);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Shop = _react2.default.createClass({
 		displayName: 'Shop',
@@ -37911,7 +37926,7 @@
 				'div',
 				null,
 				products.map(function (product) {
-					return _react2.default.createElement(ProductTile, { product: product });
+					return _react2.default.createElement(_productTile2.default, { product: product });
 				})
 			);
 		}
@@ -37920,18 +37935,90 @@
 	function fetchProducts() {
 		var productCollection = new _products2.default();
 		Backbone.emulateHTTP = true;
-		var promise = productCollection.fetch();
-		(0, _loader.renderLoader)();
-		$.when(promise).done(function (data) {
-			(0, _loader.hideLoader)();
-			Backbone.history.navigate('shop', { trigger: true });
-			renderShopPage(productCollection);
+		// var promise = productCollection.fetch();
+		// $.getJSON( "https://www.librarything.com/api_getdata.php?userid=timspalding&key=2652641547?callback=books", {
+		// 	dataType: 'jsonp'
+		// }).done(function(data) {
+		// 	console.log(data);
+		// }).fail(function(error) {
+		// 	console.log(error);
+		// });
+
+		var productCollection = new _products2.default();
+
+		var promise = _jquery2.default.ajax({
+			method: "GET",
+			url: "https://www.librarything.com/api_getdata.php?userid=timspalding&key=2652641547",
+			dataType: "jsonp"
 		});
-		$.when(promise).fail(function (error) {
+		(0, _loader.renderLoader)();
+		_jquery2.default.when(promise).done(function (data) {
+			// console.log(data);
+			(0, _loader.hideLoader)();
+			var products = data.books;
+			for (var product in products) {
+				// // console.log(book);
+				// console.log(products[product]["ISBN"]);
+				// console.log(products[product].ISBN);
+				// var product = new Product();
+				if (products[product]['ISBN'] != '') {
+					fetchImageByIsbn(products[product]);
+				}
+			}
+			Backbone.history.navigate('shop', { trigger: true });
+			// renderShopPage(productCollection);
+		});
+		_jquery2.default.when(promise).fail(function (error) {
+			console.log(error);
 			(0, _loader.hideLoader)();
 			(0, _overlay.renderOverlayModal)('Error', error.message, false);
 		});
 	}
+
+	function fetchImageByIsbn(book) {
+
+		var xmlhttp = new XMLHttpRequest();
+		var url = 'http://www.barcodefinder.com/search?q=' + book['ISBN'] + '&format=json';
+		xmlhttp.open("GET", url, false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json");
+		xmlhttp.send();
+		// var promise = $.ajax({
+		// 	type: 'GET',
+		// 	url: 'http://www.barcodefinder.com/search?q=' + book['ISBN'] + '&format=json',
+		// 	headers: {
+		//       		Accept : "application/json; charset=utf-8",
+		// 		'Content-Type':'application/json'
+		// 	},
+		// 	contentType: 'application/json',
+		// 	dataType: 'json'
+		// });
+		// console.log(book['ISBN']);
+		// $.when(promise).done(function(data) {
+		// 	console.log(data);
+		// 	product.setId(book['book_id']);
+		// 	product.setTitle(book['title']);
+		// });
+		// $.when(promise).fail(function(data) {
+		// 	console.log(error);
+		// });
+	}
+	function parseBarcode() {}
+
+	// export function fetchProducts() {
+	// 	var productCollection = new ProductCollection();
+	//     Backbone.emulateHTTP = true;
+	// 	var promise = productCollection.fetch();
+	// 	renderLoader();
+	// 	$.when(promise).done(function(data) {
+	// 		hideLoader();
+	// 		Backbone.history.navigate('shop', {trigger:true});
+	// 		renderShopPage(productCollection);
+	// 	});
+	// 	$.when(promise).fail(function(error) {
+	// 		hideLoader();
+	//     	renderOverlayModal('Error', error.message, false);
+	// 	});
+	// }
 
 	function renderShopPage(products) {
 		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: '', products: products }), document.getElementById('shop__container'));
@@ -37940,7 +38027,6 @@
 	function hideShopPage() {
 		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: 'hidden' }), document.getElementById('shop__container'));
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 194 */
@@ -37950,28 +38036,6 @@
 
 /***/ },
 /* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Backbone = __webpack_require__(1);
-	var Product = __webpack_require__(196);
-	var _ = __webpack_require__(2);
-
-	module.exports = Backbone.Collection.extend({
-		url: '/shop',
-		model: Product
-		// parse : function(response) {
-		// 	_.each(response, function(res, id) {
-		// 		res.id = res._id;
-		// 		delete res._id;
-		// 	});
-		// 	return response;
-		// }
-	});
-
-/***/ },
-/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37987,6 +38051,28 @@
 			description: ''
 		},
 		url: '/product'
+	});
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Backbone = __webpack_require__(1);
+	var Product = __webpack_require__(195);
+	var _ = __webpack_require__(2);
+
+	module.exports = Backbone.Collection.extend({
+		url: '/shop',
+		model: Product
+		// parse : function(response) {
+		// 	_.each(response, function(res, id) {
+		// 		res.id = res._id;
+		// 		delete res._id;
+		// 	});
+		// 	return response;
+		// }
 	});
 
 /***/ },
@@ -62472,7 +62558,7 @@
 
 	var _shop2 = _interopRequireDefault(_shop);
 
-	var _products = __webpack_require__(195);
+	var _products = __webpack_require__(196);
 
 	var _products2 = _interopRequireDefault(_products);
 

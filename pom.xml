@@ -24,6 +24,12 @@
 		<relativePath />
 	</parent>
 	<dependencies>
+		<!-- Apache -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.5</version>
+		</dependency>
 		<!-- Spring -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
