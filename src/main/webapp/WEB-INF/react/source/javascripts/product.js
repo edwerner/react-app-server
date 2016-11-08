@@ -4,14 +4,17 @@ module.exports = Backbone.Model.extend({
 	defaults: {
 		id: '',
 		title: '',
+		subtitle: '',
 		author: '',
 		isbn: '',
-		publishdate: '',
+		publishDate: '',
 		language: '',
 		image: '',
 		price: '',
 		description: '',
-		genre: ''
+		genre: '',
+		pageCount: '',
+		publisher: ''
 	},
 	url: '/product'
 });

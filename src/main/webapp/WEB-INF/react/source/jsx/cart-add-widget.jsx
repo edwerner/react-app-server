@@ -13,10 +13,8 @@ module.exports = React.createClass({
 	        return null;
 	    }
 		return(
-	      <div className='cart__add-widget width__100 flex flex-row flex-vertical-center flex-space-between'>
-	      	<div className='cart__add-widget__minus cart__add-widget__button' onClick={this.decrementQuantity}>-</div>
-	      	<div className='cart__add-widget__quantity'>{this.state.quantity}</div>
-	      	<div className='cart__add-widget__plus cart__add-widget__button' onClick={this.incrementQuantity}>+</div>
+	      <div className='cart__add-widget width__100 flex flex-row flex-vertical-center'>
+	      	<h4>Add to Cart</h4>
 	      </div>
 		);
 	},

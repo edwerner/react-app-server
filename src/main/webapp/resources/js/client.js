@@ -37922,7 +37922,7 @@
 			}
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: 'flex flex-row flex-row-wrap' },
 				products.map(function (product, index) {
 					return _react2.default.createElement(_productTile2.default, { product: product, key: index });
 				})
@@ -37973,14 +37973,17 @@
 		defaults: {
 			id: '',
 			title: '',
+			subtitle: '',
 			author: '',
 			isbn: '',
-			publishdate: '',
+			publishDate: '',
 			language: '',
 			image: '',
 			price: '',
 			description: '',
-			genre: ''
+			genre: '',
+			pageCount: '',
+			publisher: ''
 		},
 		url: '/product'
 	});
@@ -38082,28 +38085,102 @@
 	      { className: 'product__tile flex flex-space-between flex-column' },
 	      React.createElement('img', { className: 'product__image', src: this.props.product.get('image') }),
 	      React.createElement(
-	        'div',
+	        'h4',
 	        { className: 'product__title' },
-	        this.props.product.get('name')
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Title: '
+	        ),
+	        this.props.product.get('title')
 	      ),
 	      React.createElement(
-	        'a',
-	        { href: 'javascript:void(0)', className: 'product__description__toggle' },
-	        'Show'
+	        'h4',
+	        { className: 'product__subtitle' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Subtitle: '
+	        ),
+	        this.props.product.get('subtitle')
+	      ),
+	      React.createElement(
+	        'h4',
+	        { className: 'product__author' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Author: '
+	        ),
+	        this.props.product.get('author')
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'product__publisher' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Publisher: '
+	        ),
+	        this.props.product.get('publisher')
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'product__publishdate' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Publish Date: '
+	        ),
+	        this.props.product.get('publishDate')
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'product__pagecount' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Page Count: '
+	        ),
+	        this.props.product.get('pageCount')
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'product__description' },
-	        this.truncateString(25, this.props.product.get('description'))
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Description: '
+	        ),
+	        this.decodeHTMLEntities(this.props.product.get('description'))
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'product__price' },
-	        '$',
-	        this.props.product.get('price')
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'Price: '
+	        ),
+	        this.formatPrice(this.props.product.get('price'))
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'product__isbn' },
+	        React.createElement(
+	          'label',
+	          { className: 'product__label' },
+	          'ISBN: '
+	        ),
+	        this.props.product.get('isbn')
 	      ),
 	      React.createElement(CartAddWidget, { product: this.props.product, cartItem: this.createCartItem(this.props.product.get('id')) })
 	    );
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      fulltext: ''
+	    };
 	  },
 	  createCartItem: function createCartItem(id) {
 	    var cartItem = new CartItem();
@@ -38113,9 +38190,32 @@
 	  truncateString: function truncateString(length, string) {
 	    var substring = "";
 	    if (string) {
-	      substring = string.length > length ? string.substr(0, length - 1) + '&hellip;' : string;
+	      substring = string.length > length ? string.substr(0, length - 1) + ' ...' : string;
 	    }
 	    return substring;
+	  },
+	  toggleDescription: function toggleDescription() {
+	    //<div className='product__description'>{this.state.fulltext ? this.props.product.get('description') : this.truncateString(50, this.props.product.get('description'))}</div>
+	    //<a href='javascript:void(0)' onClick={this.toggleDescription} className='product__description__toggle'>Read More</a>
+	    if (this.state.fulltext) {
+	      this.setState({ 'fulltext': '' });
+	    } else {
+	      this.setState({ 'fulltext': 'fulltext' });
+	    }
+	  },
+	  decodeHTMLEntities: function decodeHTMLEntities(string) {
+	    if (string && typeof string === 'string') {
+	      string = string.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+	      string = string.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+	    }
+	    return string;
+	  },
+	  formatPrice: function formatPrice(price) {
+	    var formattedPrice = '';
+	    if (price.length) {
+	      formattedPrice = '$' + this.props.product.get('price');
+	    }
+	    return formattedPrice;
 	  }
 	});
 
@@ -38143,21 +38243,11 @@
 			}
 			return React.createElement(
 				'div',
-				{ className: 'cart__add-widget width__100 flex flex-row flex-vertical-center flex-space-between' },
+				{ className: 'cart__add-widget width__100 flex flex-row flex-vertical-center' },
 				React.createElement(
-					'div',
-					{ className: 'cart__add-widget__minus cart__add-widget__button', onClick: this.decrementQuantity },
-					'-'
-				),
-				React.createElement(
-					'div',
-					{ className: 'cart__add-widget__quantity' },
-					this.state.quantity
-				),
-				React.createElement(
-					'div',
-					{ className: 'cart__add-widget__plus cart__add-widget__button', onClick: this.incrementQuantity },
-					'+'
+					'h4',
+					null,
+					'Add to Cart'
 				)
 			);
 		},

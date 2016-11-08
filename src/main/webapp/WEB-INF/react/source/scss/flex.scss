@@ -18,6 +18,10 @@
 	flex-direction: row;
 }
 
+.flex-row-wrap {
+  	flex-flow: row wrap;
+}
+
 .flex-column {
 	-webkit-flex-direction: column;
 	flex-direction: column;

@@ -18,7 +18,7 @@ var Shop = React.createClass({
 	        return null;
 	    }
 		return (
-			<div>
+			<div className='flex flex-row flex-row-wrap'>
 			    {products.map(function(product, index) {
 			        return <ProductTile product={product} key={index}/>;
 			    })}

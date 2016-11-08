@@ -46,6 +46,9 @@ input {
   -webkit-flex-direction: row;
   flex-direction: row; }
 
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
 .flex-column {
   -webkit-flex-direction: column;
   flex-direction: column; }
@@ -116,6 +119,9 @@ input {
 .flex-row {
   -webkit-flex-direction: row;
   flex-direction: row; }
+
+.flex-row-wrap {
+  flex-flow: row wrap; }
 
 .flex-column {
   -webkit-flex-direction: column;
@@ -242,6 +248,9 @@ input {
   -webkit-flex-direction: row;
   flex-direction: row; }
 
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
 .flex-column {
   -webkit-flex-direction: column;
   flex-direction: column; }
@@ -268,10 +277,9 @@ input {
 
 .product__tile {
   width: 200px;
-  height: 370px;
+  height: auto;
   padding: 10px;
   margin: 10px;
-  text-align: center;
   -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75); }
@@ -299,6 +307,24 @@ input {
   font-size: 1em; }
 
 .product__price {
+  font-weight: bold; }
+
+.product__author {
+  font-size: 1em; }
+
+.product__publishdate {
+  font-size: 1em; }
+
+.product__pagecount {
+  font-size: 1em; }
+
+.product__isbn {
+  font-size: 1em; }
+
+.product__publisher {
+  font-size: 1em; }
+
+.product__label {
   font-weight: bold; }
 
 .cart__add-widget {
@@ -404,6 +430,9 @@ input {
   -webkit-flex-direction: row;
   flex-direction: row; }
 
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
 .flex-column {
   -webkit-flex-direction: column;
   flex-direction: column; }
@@ -478,6 +507,9 @@ input {
   -webkit-flex-direction: row;
   flex-direction: row; }
 
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
 .flex-column {
   -webkit-flex-direction: column;
   flex-direction: column; }
@@ -548,6 +580,9 @@ input {
 .flex-row {
   -webkit-flex-direction: row;
   flex-direction: row; }
+
+.flex-row-wrap {
+  flex-flow: row wrap; }
 
 .flex-column {
   -webkit-flex-direction: column;

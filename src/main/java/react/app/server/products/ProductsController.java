@@ -152,25 +152,32 @@ public class ProductsController {
 		JSONObject bookObject = null;
 		JSONObject bookInfo = null;
 		JSONObject saleInfo = null;
+		JSONObject descriptionInfo = null;
 		List<Product> productList = new ArrayList<Product>();
 
 		for (int i = 0; i < booksJsonArray.size(); i++) {
 			bookObject = (JSONObject) booksJsonArray.get(i);
 			bookInfo = (JSONObject) bookObject.get("volumeInfo");
 			saleInfo = (JSONObject) bookObject.get("saleInfo");
+			descriptionInfo = (JSONObject) bookObject.get("searchInfo");
 
 			String title ="";
 			String author = "";
 			String isbn = "";
-			String publishdate = "";
+			String publishDate = "";
 			String language = "";
 			String image = "";
 			String price = "";
 			String description = "";
+			String pageCount = "";
+			String publisher = "";
+			String subtitle = "";
 
 			for (Iterator iterator = bookInfo.keySet().iterator(); iterator.hasNext();) {
 			    String key = (String) iterator.next();
 			    if (bookInfo.get(key) instanceof JSONObject) {
+			    	title = (String) bookInfo.get("title");
+			    	subtitle = (String) bookInfo.get("subtitle");
 			    	JSONArray authorJsonArray = (JSONArray) bookInfo.get("authors");
 					String[] authors;
 					if (authorJsonArray != null) {
@@ -188,9 +195,16 @@ public class ProductsController {
 
 					JSONObject imageJsonObject = (JSONObject) bookInfo.get("imageLinks");
 					image = (String) imageJsonObject.get("thumbnail");
-					description = (String) bookInfo.get("description");
-					publishdate = (String) bookInfo.get("publishedDate");
+					// description = (String) bookInfo.get("description");
+
+					if (descriptionInfo != null) {
+						description = (String) descriptionInfo.get("textSnippet");
+					}
+
+					publishDate = (String) bookInfo.get("publishedDate");
 					language = (String) bookInfo.get("language");
+					pageCount = bookInfo.get("pageCount").toString();
+					publisher = (String) bookInfo.get("publisher");
 				}
 			}
 			for (Iterator saleInfoIterator = saleInfo.keySet().iterator(); saleInfoIterator.hasNext();) {
@@ -202,14 +216,17 @@ public class ProductsController {
 			}
 		    Product product = new Product(
 	        	title,
+	        	subtitle,
 	        	author,
 	        	isbn,
-	        	publishdate,
+	        	publishDate,
 	        	language,
 	        	image,
 	        	price,
 	        	description,
-	        	genre);
+	        	genre,
+	        	pageCount,
+	        	publisher);
 	        productList.add(product);
 		}
 		setProductList(productList);

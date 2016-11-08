@@ -23,15 +23,18 @@ public class Product implements java.io.Serializable {
 	@Id
 	private String id;
 	private String title;
+	private String subtitle;
 	private String author;
 	private String isbn;
-	private String publishdate;
+	private String publishDate;
 	private String language;
 	private String image;
 	private String price;
 	@Column(length = 3000)
 	private String description;
 	private String genre;
+	private String pageCount;
+	private String publisher;
 
     protected Product() {
 
@@ -39,23 +42,29 @@ public class Product implements java.io.Serializable {
 	
 	public Product(
 		String title,
+		String subtitle,
 		String author, 
 		String isbn, 
-		String publishdate,
+		String publishDate,
 		String language,
 		String image,
 		String price,
 		String description,
-		String genre) {
+		String genre,
+		String pageCount,
+		String publisher) {
 		this.title = title;
+		this.subtitle = subtitle;
 		this.author = author;
 		this.isbn = isbn;
-		this.publishdate = publishdate;
+		this.publishDate = publishDate;
 		this.language = language;
 		this.image = image;
 		this.price = price;
 		this.description = description;
 		this.genre = genre;
+		this.pageCount = pageCount;
+		this.publisher = publisher;
 	}
 
 	@PrePersist
@@ -91,12 +100,12 @@ public class Product implements java.io.Serializable {
 		return isbn;
 	}
 
-	public void setPublishDate(String publishdate) {
-		this.publishdate = publishdate;
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
 	}
 
 	public String getPublishDate() {
-		return publishdate;
+		return publishDate;
 	}
 
 	public void setLanguage(String language) {
@@ -141,5 +150,29 @@ public class Product implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+    public String getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(String pageCount) {
+		this.pageCount = pageCount;
+	}
+
+    public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+    public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
 	}
 }
