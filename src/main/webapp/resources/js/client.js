@@ -37869,8 +37869,6 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.fetchProducts = fetchProducts;
-	exports.fetchImageByIsbn = fetchImageByIsbn;
-	exports.parseBarcode = parseBarcode;
 	exports.renderShopPage = renderShopPage;
 	exports.hideShopPage = hideShopPage;
 
@@ -37925,8 +37923,8 @@
 			return _react2.default.createElement(
 				'div',
 				null,
-				products.map(function (product) {
-					return _react2.default.createElement(_productTile2.default, { product: product });
+				products.map(function (product, index) {
+					return _react2.default.createElement(_productTile2.default, { product: product, key: index });
 				})
 			);
 		}
@@ -37934,91 +37932,20 @@
 
 	function fetchProducts() {
 		var productCollection = new _products2.default();
+		var promise = productCollection.fetch();
 		Backbone.emulateHTTP = true;
-		// var promise = productCollection.fetch();
-		// $.getJSON( "https://www.librarything.com/api_getdata.php?userid=timspalding&key=2652641547?callback=books", {
-		// 	dataType: 'jsonp'
-		// }).done(function(data) {
-		// 	console.log(data);
-		// }).fail(function(error) {
-		// 	console.log(error);
-		// });
-
-		var productCollection = new _products2.default();
-
-		var promise = _jquery2.default.ajax({
-			method: "GET",
-			url: "https://www.librarything.com/api_getdata.php?userid=timspalding&key=2652641547",
-			dataType: "jsonp"
-		});
 		(0, _loader.renderLoader)();
 		_jquery2.default.when(promise).done(function (data) {
-			// console.log(data);
+			console.log(data);
 			(0, _loader.hideLoader)();
-			var products = data.books;
-			for (var product in products) {
-				// // console.log(book);
-				// console.log(products[product]["ISBN"]);
-				// console.log(products[product].ISBN);
-				// var product = new Product();
-				if (products[product]['ISBN'] != '') {
-					fetchImageByIsbn(products[product]);
-				}
-			}
 			Backbone.history.navigate('shop', { trigger: true });
-			// renderShopPage(productCollection);
+			renderShopPage(productCollection);
 		});
 		_jquery2.default.when(promise).fail(function (error) {
-			console.log(error);
 			(0, _loader.hideLoader)();
 			(0, _overlay.renderOverlayModal)('Error', error.message, false);
 		});
 	}
-
-	function fetchImageByIsbn(book) {
-
-		var xmlhttp = new XMLHttpRequest();
-		var url = 'http://www.barcodefinder.com/search?q=' + book['ISBN'] + '&format=json';
-		xmlhttp.open("GET", url, false);
-		xmlhttp.setRequestHeader("Content-Type", "application/json");
-		xmlhttp.send();
-		// var promise = $.ajax({
-		// 	type: 'GET',
-		// 	url: 'http://www.barcodefinder.com/search?q=' + book['ISBN'] + '&format=json',
-		// 	headers: {
-		//       		Accept : "application/json; charset=utf-8",
-		// 		'Content-Type':'application/json'
-		// 	},
-		// 	contentType: 'application/json',
-		// 	dataType: 'json'
-		// });
-		// console.log(book['ISBN']);
-		// $.when(promise).done(function(data) {
-		// 	console.log(data);
-		// 	product.setId(book['book_id']);
-		// 	product.setTitle(book['title']);
-		// });
-		// $.when(promise).fail(function(data) {
-		// 	console.log(error);
-		// });
-	}
-	function parseBarcode() {}
-
-	// export function fetchProducts() {
-	// 	var productCollection = new ProductCollection();
-	//     Backbone.emulateHTTP = true;
-	// 	var promise = productCollection.fetch();
-	// 	renderLoader();
-	// 	$.when(promise).done(function(data) {
-	// 		hideLoader();
-	// 		Backbone.history.navigate('shop', {trigger:true});
-	// 		renderShopPage(productCollection);
-	// 	});
-	// 	$.when(promise).fail(function(error) {
-	// 		hideLoader();
-	//     	renderOverlayModal('Error', error.message, false);
-	// 	});
-	// }
 
 	function renderShopPage(products) {
 		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: '', products: products }), document.getElementById('shop__container'));
@@ -38046,9 +37973,14 @@
 		defaults: {
 			id: '',
 			title: '',
+			author: '',
+			isbn: '',
+			publishdate: '',
+			language: '',
 			image: '',
 			price: '',
-			description: ''
+			description: '',
+			genre: ''
 		},
 		url: '/product'
 	});
@@ -38064,7 +37996,7 @@
 	var _ = __webpack_require__(2);
 
 	module.exports = Backbone.Collection.extend({
-		url: '/shop',
+		url: '/products',
 		model: Product
 		// parse : function(response) {
 		// 	_.each(response, function(res, id) {
@@ -38155,9 +38087,14 @@
 	        this.props.product.get('name')
 	      ),
 	      React.createElement(
+	        'a',
+	        { href: 'javascript:void(0)', className: 'product__description__toggle' },
+	        'Show'
+	      ),
+	      React.createElement(
 	        'div',
 	        { className: 'product__description' },
-	        this.props.product.get('description')
+	        this.truncateString(25, this.props.product.get('description'))
 	      ),
 	      React.createElement(
 	        'div',
@@ -38172,6 +38109,13 @@
 	    var cartItem = new CartItem();
 	    cartItem.set('product_id', id);
 	    return cartItem;
+	  },
+	  truncateString: function truncateString(length, string) {
+	    var substring = "";
+	    if (string) {
+	      substring = string.length > length ? string.substr(0, length - 1) + '&hellip;' : string;
+	    }
+	    return substring;
 	  }
 	});
 

@@ -85,28 +85,42 @@ import javax.xml.transform.Transformer;
 import java.lang.Exception;
 import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.InputStream;
+import java.util.Arrays;
 
 @Controller
 public class ProductsController {
 
 	@Autowired
 	private ProductsService productsService;
+
+	List<Product> productList;
+
+	public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
 	
 	@RequestMapping(value = "products", method = RequestMethod.GET)
 	@ResponseBody
-	public String productsGet(Principal principal, HttpServletRequest request) throws IOException {
+	public List<Product> productsGet(Principal principal, HttpServletRequest request) throws IOException {
+		List<Product> productList = productsService.getProductList();
+		return productList;
+	}
 
-		String url = "https://www.librarything.com/api_getdata.php?userid=timspalding&key=2652641547";
+	@RequestMapping(value = "products/{query}", method = RequestMethod.GET)
+	@ResponseBody
+	public String productsGet(Principal principal, HttpServletRequest request, @PathVariable String query) throws IOException {
+
+		String url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
+		String genre = query.replace("+", " ");
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
  		con.addRequestProperty("User-Agent", "Mozilla/4.76"); 
-
-		// optional default is GET
 		con.setRequestMethod("GET");
-
-		//add request header
-		// con.setRequestProperty("User-Agent", USER_AGENT);
 
 		int responseCode = con.getResponseCode();
 		System.out.println("\nSending 'GET' request to URL : " + url);
@@ -122,64 +136,106 @@ public class ProductsController {
 		}
 		in.close();
 
-		String productsString = response.toString()
-			.replace("var widgetResults = ", "")
-			.replace("LibraryThing.bookAPI.displayWidgetContents(widgetResults, \"LT_Content\");", "")
-			.replace("};", "}");
+		String productsString = response.toString();
 
 		JSONObject productsJsonObject = null;
-		JSONObject booksJsonObject = null;
+		JSONArray booksJsonArray = null;
 
 		try {
 			productsJsonObject = (JSONObject) new JSONParser().parse(productsString);
-			booksJsonObject = (JSONObject) productsJsonObject.get("books");
+			booksJsonArray = (JSONArray) productsJsonObject.get("items");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 		String isbnProductString = "";
+		JSONObject bookObject = null;
+		JSONObject bookInfo = null;
+		JSONObject saleInfo = null;
+		List<Product> productList = new ArrayList<Product>();
 
-		for (Iterator iterator = booksJsonObject.keySet().iterator(); iterator.hasNext();) {
-		    String key = (String) iterator.next();
-		     if (booksJsonObject.get(key) instanceof JSONObject) {
-			    JSONObject booksWrapper = (JSONObject) booksJsonObject.get(key);
-			    for (Iterator booksIterator = booksWrapper.keySet().iterator(); booksIterator.hasNext();) {
-			    	// String booksKey = (String) booksIterator.next();
-					String id = booksWrapper.get("book_id").toString();
-					String tile = booksWrapper.get("title").toString();
-					String author = booksWrapper.get("author_lf").toString();
-					String isbn = booksWrapper.get("ISBN").toString();
-					String language = booksWrapper.get("language_main").toString();
-					String publicationdate = booksWrapper.get("publicationdate").toString();
-					String image = StringEscapeUtils.unescapeJava(booksWrapper.get("cover").toString());
-					String description = "";
-					String price = "";
-					String genre = "";
-					isbnProductString = fetchProductByIsbn(isbn);
+		for (int i = 0; i < booksJsonArray.size(); i++) {
+			bookObject = (JSONObject) booksJsonArray.get(i);
+			bookInfo = (JSONObject) bookObject.get("volumeInfo");
+			saleInfo = (JSONObject) bookObject.get("saleInfo");
 
-					JSONArray isbnJsonArray = null;
+			String title ="";
+			String author = "";
+			String isbn = "";
+			String publishdate = "";
+			String language = "";
+			String image = "";
+			String price = "";
+			String description = "";
 
-					try {
-						isbnJsonArray = (JSONArray) new JSONParser().parse(isbnProductString);
-					} catch(Exception e) {
-						e.printStackTrace();
-					} finally {
-						// iterate through jsonarray
+			for (Iterator iterator = bookInfo.keySet().iterator(); iterator.hasNext();) {
+			    String key = (String) iterator.next();
+			    if (bookInfo.get(key) instanceof JSONObject) {
+			    	JSONArray authorJsonArray = (JSONArray) bookInfo.get("authors");
+					String[] authors;
+					if (authorJsonArray != null) {
+						authors = jsonArrayToStringArray(authorJsonArray);
+						author = Arrays.toString(authors).replaceAll("\\[", "").replaceAll("\\]","");
 					}
 
-					// for (Iterator isbnIterator = isbnJsonObject.keySet().iterator(); isbnIterator.hasNext();) {
-					// 	String isbnPrice = isbnJsonObject.get("Price").toString();
-					// 	System.out.println(isbnPrice);
-					// }
+					JSONArray isbnJsonArray = (JSONArray) bookInfo.get("industryIdentifiers");
+					String[] isbns;
+					JSONObject isbnJsonObject;
+					if (isbnJsonArray != null) {
+						isbnJsonObject = (JSONObject) isbnJsonArray.get(0);
+						isbn = (String) isbnJsonObject.get("identifier");
+					}
 
-
-					System.out.println(isbnJsonArray);
+					JSONObject imageJsonObject = (JSONObject) bookInfo.get("imageLinks");
+					image = (String) imageJsonObject.get("thumbnail");
+					description = (String) bookInfo.get("description");
+					publishdate = (String) bookInfo.get("publishedDate");
+					language = (String) bookInfo.get("language");
+				}
+			}
+			for (Iterator saleInfoIterator = saleInfo.keySet().iterator(); saleInfoIterator.hasNext();) {
+			    String key = (String) saleInfoIterator.next();
+			    if (saleInfo.get(key) instanceof JSONObject) {
+					JSONObject listPriceJsonObject = (JSONObject) saleInfo.get("listPrice");
+					price = listPriceJsonObject.get("amount").toString();
 			    }
 			}
+		    Product product = new Product(
+	        	title,
+	        	author,
+	        	isbn,
+	        	publishdate,
+	        	language,
+	        	image,
+	        	price,
+	        	description,
+	        	genre);
+	        productList.add(product);
 		}
-
-
+		setProductList(productList);
 		return "hello";
+	}
+
+
+	
+	@RequestMapping(value = "productsave", method = RequestMethod.GET)
+	@ResponseBody
+	public String productsSave() {
+		for (Product product : getProductList()) {
+			productsService.save(product);
+		}
+		return "save";
+	}
+
+	public String[] jsonArrayToStringArray(JSONArray jsonArray) {
+	    int arraySize = jsonArray.size();
+	    String[] stringArray = new String[arraySize];
+
+	    for(int i=0; i<arraySize; i++) {
+	        stringArray[i] = (String) jsonArray.get(i);
+	    }
+
+	    return stringArray;
 	}
 
 	public String fetchProductByIsbn(String isbn) throws IOException {
@@ -198,11 +254,11 @@ public class ProductsController {
 
 		if (stream != null) {
 			errorString = convertInputStreamToString(stream);
+			System.out.println(errorString);
 		}
 
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
-		System.out.println(errorString);
 
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));
