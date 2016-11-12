@@ -5,7 +5,7 @@ import ProductCollection from '../javascripts/products';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
 var ProductTile = require('./product-tile.jsx');
-var Cart = require('./cart.jsx');
+// var Cart = require('./cart.jsx');
 
 var Orders = React.createClass({
 	render: function() {

@@ -6,7 +6,7 @@ import {renderIndex, hideIndex} from '../jsx/index.jsx';
 import {renderMenu} from '../jsx/menu.jsx';
 import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
 import {routeToShopPage} from '../jsx/overlay.jsx';
-import {renderCart, hideCart} from '../jsx/cart.jsx';
+// import {hideCart, renderCart} from '../jsx/cart.jsx';
 
 var App = {};
 
@@ -23,6 +23,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideShopPage();
 		renderIndex();
+		// hideCart();
 		renderMenu(null, 'active', null, null, null);
 	},
 	signin: function() {
@@ -30,6 +31,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideShopPage();
 		renderLoginForm();
+		// hideCart();
 		renderMenu('active', null, null, null, null);
 	},
 	signup: function() {
@@ -37,6 +39,7 @@ App.Router = Backbone.Router.extend({
 		hideLoginForm();
 		hideShopPage();
 		renderUserForm();
+		// hideCart();
 		renderMenu(null, null, 'active', null, null);
 	},
 	orders: function() {
@@ -45,6 +48,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideLoginForm();
 		hideCreateUserForm();
+		// hideCart();
 		// routeToShopPage();
 		renderMenu(null, null, null, 'active', null);
 	},
@@ -54,6 +58,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideLoginForm();
 		hideCreateUserForm();
+		// renderCart();
 		// renderShopPage();
 		renderMenu(null, null, null, null, 'active');
 	}

@@ -7,7 +7,8 @@ import ProductCollection from '../javascripts/products';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
 import ProductTile from './product-tile.jsx';
-import Cart from './cart.jsx';
+import Cart from '../javascripts/cart';
+import {hideCart, renderCart} from './cart.jsx';
 
 var Shop = React.createClass({
 	render: function() {
@@ -37,11 +38,29 @@ export function fetchProducts() {
 		hideLoader();
 		Backbone.history.navigate('shop', {trigger:true});
 		renderShopPage(productCollection);
+		fetchCart();
 	});
 	$.when(promise).fail(function(error) {
 		hideLoader();
     	renderOverlayModal('Error', error.message, false);
 	});
+}
+
+export function fetchCart() {
+	var cart = new Cart();
+	var promise = cart.fetch();
+    Backbone.emulateHTTP = true;
+	renderLoader();
+	$.when(promise).done(function(data) {
+		console.log(cart);
+		hideLoader();
+		// renderCart(cart.get('cartItemList'));
+	});
+	$.when(promise).fail(function(error) {
+		hideLoader();
+    	renderOverlayModal('Error', error.message, false);
+	});
+
 }
 
 export function renderShopPage(products) {

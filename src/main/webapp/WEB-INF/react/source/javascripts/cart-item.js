@@ -2,8 +2,12 @@ var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
 	defaults: {
-		product_id: '',
-		quantity: 0
+		id: '',
+		productId: '',
+		created: '',
+		url: ''
 	},
-	url: '/cart'
+	url: function() {
+		return this.get('url');
+	}
 });

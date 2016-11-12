@@ -27,7 +27,7 @@ module.exports = React.createClass({
   },
   createCartItem: function(id) {
     var cartItem = new CartItem();
-    cartItem.set('product_id', id);
+    cartItem.set('productId', id);
     return cartItem;
   },
   truncateString: function(length, string) {

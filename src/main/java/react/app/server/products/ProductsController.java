@@ -148,7 +148,6 @@ public class ProductsController {
 			e.printStackTrace();
 		}
 		
-		String isbnProductString = "";
 		JSONObject bookObject = null;
 		JSONObject bookInfo = null;
 		JSONObject saleInfo = null;
@@ -184,7 +183,6 @@ public class ProductsController {
 						authors = jsonArrayToStringArray(authorJsonArray);
 						author = Arrays.toString(authors).replaceAll("\\[", "").replaceAll("\\]","");
 					}
-
 					JSONArray isbnJsonArray = (JSONArray) bookInfo.get("industryIdentifiers");
 					String[] isbns;
 					JSONObject isbnJsonObject;
@@ -192,7 +190,6 @@ public class ProductsController {
 						isbnJsonObject = (JSONObject) isbnJsonArray.get(0);
 						isbn = (String) isbnJsonObject.get("identifier");
 					}
-
 					JSONObject imageJsonObject = (JSONObject) bookInfo.get("imageLinks");
 					image = (String) imageJsonObject.get("thumbnail");
 					// description = (String) bookInfo.get("description");
@@ -200,7 +197,6 @@ public class ProductsController {
 					if (descriptionInfo != null) {
 						description = (String) descriptionInfo.get("textSnippet");
 					}
-
 					publishDate = (String) bookInfo.get("publishedDate");
 					language = (String) bookInfo.get("language");
 					pageCount = bookInfo.get("pageCount").toString();
@@ -232,8 +228,6 @@ public class ProductsController {
 		setProductList(productList);
 		return "hello";
 	}
-
-
 	
 	@RequestMapping(value = "productsave", method = RequestMethod.GET)
 	@ResponseBody

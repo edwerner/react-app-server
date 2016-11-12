@@ -1,42 +1,11 @@
 // package react.app.server.account;
 
-// // import java.security.Principal;
-// import java.lang.Override;
+// import java.util.List;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.data.mongodb.core.MongoTemplate;
-// import react.app.server.account.Account;
 // import org.springframework.stereotype.Repository;
-// import org.springframework.stereotype.Service;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-// @Service
-// public abstract class MongoService implements AccountRepository {
+// @Repository
+// public interface CartItemRepository extends JpaRepository<Cart, String>  {
 
-// 	@Autowired
-// 	private MongoTemplate mongoTemplate;
-
-// 	@Override
-//     public Account findOne(String id) {
-//     	return null;
-//     }
-
-//     @Override
-//     public Account findByEmail(String email) {
-//     	return null;
-//     }
-
-//     @Override
-//     public Account save(Account account) { 
-//     	if (!mongoTemplate.collectionExists(Account.class)) {
-//             mongoTemplate.createCollection(Account.class);
-//         }       
-//         mongoTemplate.insert(account, "accounts");
-//         mongoTemplate.save(account);
-//         return account;
-//     }
-
-//     @Override
-//     public Account insert(Account account) {
-//     	return account;
-//     }
 // }

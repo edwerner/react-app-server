@@ -66,9 +66,9 @@
 
 	var _overlay = __webpack_require__(191);
 
-	var _cart = __webpack_require__(203);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// import {hideCart, renderCart} from '../jsx/cart.jsx';
 
 	var App = {};
 
@@ -85,6 +85,7 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _orders.hideShopPage)();
 			(0, _index.renderIndex)();
+			// hideCart();
 			(0, _menu.renderMenu)(null, 'active', null, null, null);
 		},
 		signin: function signin() {
@@ -92,6 +93,7 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _orders.hideShopPage)();
 			(0, _login.renderLoginForm)();
+			// hideCart();
 			(0, _menu.renderMenu)('active', null, null, null, null);
 		},
 		signup: function signup() {
@@ -99,6 +101,7 @@
 			(0, _login.hideLoginForm)();
 			(0, _orders.hideShopPage)();
 			(0, _register.renderUserForm)();
+			// hideCart();
 			(0, _menu.renderMenu)(null, null, 'active', null, null);
 		},
 		orders: function orders() {
@@ -107,6 +110,7 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
+			// hideCart();
 			// routeToShopPage();
 			(0, _menu.renderMenu)(null, null, null, 'active', null);
 		},
@@ -116,6 +120,7 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
+			// renderCart();
 			// renderShopPage();
 			(0, _menu.renderMenu)(null, null, null, null, 'active');
 		}
@@ -37869,6 +37874,7 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.fetchProducts = fetchProducts;
+	exports.fetchCart = fetchCart;
 	exports.renderShopPage = renderShopPage;
 	exports.hideShopPage = hideShopPage;
 
@@ -37904,9 +37910,11 @@
 
 	var _productTile2 = _interopRequireDefault(_productTile);
 
-	var _cart = __webpack_require__(203);
+	var _cart = __webpack_require__(202);
 
 	var _cart2 = _interopRequireDefault(_cart);
+
+	var _cart3 = __webpack_require__(204);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37940,6 +37948,23 @@
 			(0, _loader.hideLoader)();
 			Backbone.history.navigate('shop', { trigger: true });
 			renderShopPage(productCollection);
+			fetchCart();
+		});
+		_jquery2.default.when(promise).fail(function (error) {
+			(0, _loader.hideLoader)();
+			(0, _overlay.renderOverlayModal)('Error', error.message, false);
+		});
+	}
+
+	function fetchCart() {
+		var cart = new _cart2.default();
+		var promise = cart.fetch();
+		Backbone.emulateHTTP = true;
+		(0, _loader.renderLoader)();
+		_jquery2.default.when(promise).done(function (data) {
+			console.log(cart);
+			(0, _loader.hideLoader)();
+			// renderCart(cart.get('cartItemList'));
 		});
 		_jquery2.default.when(promise).fail(function (error) {
 			(0, _loader.hideLoader)();
@@ -38184,7 +38209,7 @@
 	  },
 	  createCartItem: function createCartItem(id) {
 	    var cartItem = new CartItem();
-	    cartItem.set('product_id', id);
+	    cartItem.set('productId', id);
 	    return cartItem;
 	  },
 	  truncateString: function truncateString(length, string) {
@@ -38227,14 +38252,14 @@
 
 	var React = __webpack_require__(5);
 	var CartItem = __webpack_require__(201);
-	var Carts = __webpack_require__(202);
+	// var Carts = require('../javascripts/carts');
 
 	module.exports = React.createClass({
 		displayName: 'exports',
 
 		getInitialState: function getInitialState() {
 			return {
-				quantity: 0
+				buttonText: 'Add to Cart'
 			};
 		},
 		render: function render() {
@@ -38243,27 +38268,66 @@
 			}
 			return React.createElement(
 				'div',
-				{ className: 'cart__add-widget width__100 flex flex-row flex-vertical-center' },
+				{ className: 'cart__add-widget' },
 				React.createElement(
-					'h4',
-					null,
-					'Add to Cart'
+					'div',
+					{ onClick: this.addToCart, className: this.state.buttonText == 'Add to Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden' },
+					React.createElement(
+						'h4',
+						null,
+						this.state.buttonText
+					)
+				),
+				React.createElement(
+					'div',
+					{ onClick: this.removeFromCart, className: this.state.buttonText == 'Remove from Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden' },
+					React.createElement(
+						'h4',
+						null,
+						this.state.buttonText
+					)
 				)
 			);
 		},
-		incrementQuantity: function incrementQuantity() {
+		addToCart: function addToCart() {
 			var cartItem = this.props.cartItem;
-			var quantity = this.state.quantity;
+			console.log(cartItem.get('productId'));
+			// var quantity = this.state.quantity;
 			var _this = this;
-			quantity += 1;
-			cartItem.set('quantity', quantity);
-			this.setState({ quantity: quantity });
+			// quantity += 1;
+			// cartItem.set('quantity', quantity);
+			// this.setState({quantity: quantity});
+			cartItem.set('url', '/cartitemadd');
 			var promise = cartItem.save();
 			$.when(promise).done(function (data) {
 				// window.localStorage.setItem('shop-token', data.token);
 				// hideLoader();
 				// _this.resetForm();
 				// renderOverlayModal(data.title, data.message, data.success);
+				_this.setState({ 'buttonText': 'Remove from Cart' });
+				console.log(data);
+			});
+			$.when(promise).fail(function (error) {
+				console.log(error);
+				// hideLoader();
+				// renderOverlayModal('Error', error.responseJSON.message, false);
+			});
+		},
+		removeFromCart: function removeFromCart() {
+			var cartItem = this.props.cartItem;
+			// var quantity = this.state.quantity;
+			// var _this = this;
+			// quantity += 1;
+			// cartItem.set('quantity', quantity);
+			// this.setState({quantity: quantity});
+			cartItem.set('url', '/cartitemremove');
+			var promise = cartItem.save();
+			$.when(promise).done(function (data) {
+				// window.localStorage.setItem('shop-token', data.token);
+				// hideLoader();
+				// _this.resetForm();
+				// renderOverlayModal(data.title, data.message, data.success);
+				this.setState({ 'buttonText': 'Add to Cart' });
 				console.log(data);
 			});
 			$.when(promise).fail(function (error) {
@@ -38307,10 +38371,13 @@
 
 	module.exports = Backbone.Model.extend({
 		defaults: {
-			product_id: '',
-			quantity: 0
+			productId: '',
+			created: '',
+			url: ''
 		},
-		url: '/cart'
+		url: function url() {
+			return this.get('url');
+		}
 	});
 
 /***/ },
@@ -38320,11 +38387,14 @@
 	'use strict';
 
 	var Backbone = __webpack_require__(1);
-	var CartItem = __webpack_require__(201);
+	var CartItemCollection = __webpack_require__(203);
 
-	module.exports = Backbone.Collection.extend({
-		model: CartItem,
-		url: '/carts'
+	module.exports = Backbone.Model.extend({
+		defaults: {
+			id: '',
+			cartItemList: new CartItemCollection()
+		},
+		url: '/cart'
 	});
 
 /***/ },
@@ -38333,31 +38403,50 @@
 
 	'use strict';
 
-	var React = __webpack_require__(5);
-	var ReactDOM = __webpack_require__(38);
-	var scss = __webpack_require__(204);
+	var Backbone = __webpack_require__(1);
+	var CartItem = __webpack_require__(201);
 
-	module.exports = React.createClass({
-		displayName: 'exports',
-
-		render: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'cart__wrapper' },
-				React.createElement(
-					'h1',
-					null,
-					'Cart'
-				)
-			);
-		}
+	module.exports = Backbone.Collection.extend({
+		model: CartItem
 	});
 
 /***/ },
 /* 204 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	// var React = require('react');
+	// var ReactDOM =  require('react-dom');
+	// var scss = require('../scss/cart.scss');
+	// var CartItem = require('./cart-item.jsx');
+
+	// var Cart = React.createClass({
+	// 	render: function() {
+	// 		var cartItems = this.props.cartItems.models;
+	// 	    if (!cartItems) {
+	// 	        return null;
+	// 	    }
+	// 		return (
+	// 			<div className='cart__wrapper flex flex-row flex-row-wrap'>
+	// 			    {cartItems.map(function(cartItem, index) {
+	// 			        return <CartItem productId={cartItem.get('productId')}/>;
+	// 			    })}
+	// 		    </div>
+	// 		);
+	// 	}
+	// });
+
+	// var cartContainer = document.getElementById("cart__container");
+
+	// export function renderCart(cartItems) {
+	// 	cartContainer.className = cartContainer.className.replace(/\hidden\b/,'');
+	//   ReactDOM.render(<Cart showLink='' cartItems={cartItems}/>, cartContainer);
+	// }
+
+	// export function hideCart() {
+	// 	cartContainer.className += ' hidden';
+	// 	ReactDOM.render(<Cart showLink='hidden'/>, cartContainer);
+	// }
+	"use strict";
 
 /***/ },
 /* 205 */
@@ -62603,7 +62692,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ProductTile = __webpack_require__(199);
-	var Cart = __webpack_require__(203);
+	// var Cart = require('./cart.jsx');
 
 	var Orders = _react2.default.createClass({
 		displayName: 'Orders',
