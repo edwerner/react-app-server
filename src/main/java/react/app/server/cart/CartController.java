@@ -48,6 +48,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import react.app.server.orders.ProductsService;
 import react.app.server.orders.Product;
 import java.util.List;
+import java.util.ArrayList;
 // import react.app.server.config.MongoDao;
 
 
@@ -98,7 +99,13 @@ public class CartController {
 	@RequestMapping(value = "cartitemadd", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCartItemPost(@Valid @RequestBody CartItem cartItem, Errors errors) throws JsonProcessingException {
-		List<String> cartItemList = cartService.saveCart(cartItem.getProductId());
+		List<String> productIdList = cartService.saveCart(cartItem.getProductId());
+		List<CartItem> cartItemList = new ArrayList<CartItem>();
+
+		for (String productId : productIdList) {
+			CartItem item = new CartItem(productId);
+			cartItemList.add(item);
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		String cartItemString = mapper.writeValueAsString(cartItemList);
 		return cartItemString;

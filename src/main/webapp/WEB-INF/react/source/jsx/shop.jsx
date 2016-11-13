@@ -12,17 +12,19 @@ import {hideCart, renderCart} from './cart.jsx';
 
 var Shop = React.createClass({
 	render: function() {
-		var products = this.props.products.models;
+		var products = this.props.products;
 		console.log(products);
 		console.log(typeof products);
 	    if (!products) {
 	        return null;
 	    }
 		return (
-			<div className='flex flex-row flex-row-wrap'>
-			    {products.map(function(product, index) {
-			        return <ProductTile product={product} key={index}/>;
-			    })}
+			<div>
+				<div className='flex flex-row flex-row-wrap'>
+				    {products.models.map(function(product, index) {
+				        return <ProductTile products={products} product={product} key={index}/>;
+				    })}
+			    </div>
 		    </div>
 		);
 	}

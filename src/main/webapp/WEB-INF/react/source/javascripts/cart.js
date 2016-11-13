@@ -1,10 +1,10 @@
 var Backbone = require('backbone');
-var CartItemCollection = require('./cart-items');
+// var CartItemCollection = require('./cart-items');
 
 module.exports = Backbone.Model.extend({
 	defaults: {
-		id: '',
-		cartItemList: new CartItemCollection()
+		id: ''
+		// cartItemList: new CartItemCollection()
 	},
 	url: '/cart'
 });

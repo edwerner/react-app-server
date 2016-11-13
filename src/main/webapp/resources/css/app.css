@@ -456,6 +456,83 @@ input {
 .flex-space-around {
   -webkit-justify-content: space-around;
   justify-content: space-around; }
+
+.cart__wrapper {
+  min-width: 300px; }
+.hidden {
+  display: none; }
+
+.error {
+  color: #cc0000; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.border-radius {
+  border-radius: 3px 3px 3px 3px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
 .hidden {
   display: none; }
 

@@ -14,16 +14,8 @@ import javax.persistence.PrePersist;
 
 import javax.persistence.Embeddable;
 
-@SuppressWarnings("serial")
-@Entity
-@Table(name = "cartitem")
-@Embeddable
-public class CartItem implements java.io.Serializable {
+public class CartItem {
 
-	@Id
-	private String id;
-
-	@Column(unique = true)
 	private String productId;
 
 	private Instant created;
@@ -34,20 +26,6 @@ public class CartItem implements java.io.Serializable {
 	
 	public CartItem(String productId) {
 		this.productId = productId;
-		this.created = Instant.now();
-	}
-
-	@PrePersist
-	private void ensureId(){
-	    this.setId(UUID.randomUUID().toString());
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return id;
 	}
 
     public String getProductId() {
@@ -56,9 +34,5 @@ public class CartItem implements java.io.Serializable {
 
 	public void setProductId(String productId) {
 		this.productId = productId;
-	}
-
-	public Instant getCreated() {
-		return created;
 	}
 }

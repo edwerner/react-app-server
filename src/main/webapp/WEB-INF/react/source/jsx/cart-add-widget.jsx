@@ -1,6 +1,8 @@
 var React = require('react');
 var CartItem = require('../javascripts/cart-item');
-// var Carts = require('../javascripts/carts');
+import CartItems from '../javascripts/cart-items';
+import {renderLoader, hideLoader} from './loader.jsx';
+import {renderCart} from './cart.jsx'
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -9,7 +11,7 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-	    if (!this.props.cartItem) {
+	    if (!this.props.cartItem || !this.props.products) {
 	        return null;
 	    }
 		return(
@@ -28,20 +30,28 @@ module.exports = React.createClass({
 		// console.log(cartItem.get('productId'));
 		// var quantity = this.state.quantity;
 		var _this = this;
+
+    	Backbone.emulateHTTP = true;
 		// quantity += 1;
 		// cartItem.set('quantity', quantity);
 		// this.setState({quantity: quantity});
 		cartItem.set('url', '/cartitemadd')
 		var promise = cartItem.save();
+		renderLoader();
 	    $.when(promise).done(function(data) {
 	      // window.localStorage.setItem('shop-token', data.token);
 	      // hideLoader();
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
+	      hideLoader();
 	      _this.setState({'buttonText': 'Remove from Cart'});
+
+	      // data returns list
+	      renderCart(_this.props.products, _this.formatCartItems(data));
 	      console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
+	    	hideLoader();
 	    	console.log(error);
 	      // hideLoader();
 	      // renderOverlayModal('Error', error.responseJSON.message, false);
@@ -69,6 +79,20 @@ module.exports = React.createClass({
 	      // hideLoader();
 	      // renderOverlayModal('Error', error.responseJSON.message, false);
 	    });
+	},
+	formatCartItems: function(array) {
+		var cartItems = new CartItems();
+		// console.log(array);
+		// var obj = array[0];
+		for (var i = 0; i < array.length; i++) {
+			var cartItem = new CartItem();
+			var item = array[i];
+			cartItem.set('productId', item.productId);
+			cartItems.add(item);
+		}
+		console.log("******************");
+		console.log(cartItems);
+		return cartItems;
 	},
 	decrementQuantity: function() {
 		var cartItem = this.props.cartItem;
