@@ -1,22 +1,27 @@
-var React = require('react');
-var ReactDOM =  require('react-dom');
-var scss = require('../scss/cart.scss');
-var CartItem = require('./cart-item.jsx');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import scss from '../scss/cart.scss';
 import CartTile from './cart-tile.jsx';
+import CartItem from '../javascripts/cart-item';
+import CartItems from '../javascripts/cart-items';
 import _ from 'underscore';
+import {renderLoader, hideLoader} from './loader.jsx';
+import {renderOverlayModal} from './overlay.jsx';
 
 var Cart = React.createClass({
 	render: function() {
 		var cartItems = this.props.cartItems.models;
-		var products = this.props.products.models;
+		var products = this.props.products;
+		console.log(cartItems);
+		console.log(products);
 		var _this = this;
-	    if (!cartItems || !products) {	
+	    if (!cartItems || !products) {
 	        return null;
 	    }
 		return (
-			<div className='cart__wrapper flex flex-row flex-row-wrap'>
+			<div className='cart__wrapper flex flex-column'>
 			    {cartItems.map(function(cartItem, index) {
-			        return <CartTile product={_this.getProductById(products, cartItem.get('productId'))} key={index}/>;
+			        return <CartTile cartItem={cartItem} product={_this.getProductById(products, cartItem.get('productId'))} products={products} key={index}/>;
 			    })}
 		    </div>
 		);
@@ -32,11 +37,25 @@ var Cart = React.createClass({
 var cartContainer = document.getElementById("cart__container");
 
 export function renderCart(products, cartItems) {
-	cartContainer.className = cartContainer.className.replace(/\hidden\b/,'');
   ReactDOM.render(<Cart showLink='' products={products} cartItems={cartItems}/>, cartContainer);
 }
 
 export function hideCart() {
-	cartContainer.className += ' hidden';
 	ReactDOM.render(<Cart showLink='hidden'/>, cartContainer);
+}
+
+export function formatCartItems(array) {
+	var cartItems = new CartItems();
+	// console.log(array);
+	// var obj = array[0];
+	for (var i = 0; i < array.length; i++) {
+		var cartItem = new CartItem();
+		var item = array[i];
+		cartItem.set('productId', item.productId);
+		cartItems.add(item);
+	}
+	// console.log("******************");
+	// console.log(cartItems);
+	// console.log(array);
+	return cartItems;
 }

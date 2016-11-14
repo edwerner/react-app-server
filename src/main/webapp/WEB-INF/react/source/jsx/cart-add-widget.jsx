@@ -1,8 +1,8 @@
 var React = require('react');
-var CartItem = require('../javascripts/cart-item');
-import CartItems from '../javascripts/cart-items';
 import {renderLoader, hideLoader} from './loader.jsx';
-import {renderCart} from './cart.jsx'
+import {renderCart} from './cart.jsx';
+import {renderOverlayModal} from './overlay.jsx';
+import {formatCartItems} from './cart.jsx';
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -26,16 +26,18 @@ module.exports = React.createClass({
 		);
 	},
 	addToCart: function() {
-		var cartItem = this.props.cartItem;
 		// console.log(cartItem.get('productId'));
 		// var quantity = this.state.quantity;
 		var _this = this;
+		var cartItem = this.props.cartItem;
+		var products = this.props.products;
 
-    	Backbone.emulateHTTP = true;
+		Backbone.emulateHTTP = true;
 		// quantity += 1;
 		// cartItem.set('quantity', quantity);
 		// this.setState({quantity: quantity});
-		cartItem.set('url', '/cartitemadd')
+		// cartItem.set('url', '/cartitemadd')
+		cartItem.url = '/cartitemadd';
 		var promise = cartItem.save();
 		renderLoader();
 	    $.when(promise).done(function(data) {
@@ -44,55 +46,64 @@ module.exports = React.createClass({
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
 	      hideLoader();
-	      _this.setState({'buttonText': 'Remove from Cart'});
 
 	      // data returns list
-	      renderCart(_this.props.products, _this.formatCartItems(data));
-	      console.log(data);
+	      // console.log(cartItem);
+	      _this.setAddButtonText();
+	      renderCart(products, formatCartItems(data));
 	    });
 	    $.when(promise).fail(function(error) {
 	    	hideLoader();
 	    	console.log(error);
+	  		renderOverlayModal('Error', error.responseJSON.message, false);
 	      // hideLoader();
 	      // renderOverlayModal('Error', error.responseJSON.message, false);
 	    });
 	},
 	removeFromCart: function() {
-		var cartItem = this.props.cartItem;
+		// console.log(cartItem.get('productId'));
 		// var quantity = this.state.quantity;
 		var _this = this;
+		var cartItem = this.props.cartItem;
+		var products = this.props.products;
+
+		Backbone.emulateHTTP = true;
 		// quantity += 1;
 		// cartItem.set('quantity', quantity);
 		// this.setState({quantity: quantity});
-		cartItem.set('url', '/cartitemremove')
+		// cartItem.set('url', '/cartitemremove')
+		cartItem.url = '/cartitemremove';
 		var promise = cartItem.save();
+		renderLoader();
 	    $.when(promise).done(function(data) {
 	      // window.localStorage.setItem('shop-token', data.token);
 	      // hideLoader();
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
-	      _this.setState({'buttonText': 'Add to Cart'});
-	      console.log(data);
+	      hideLoader();
+	      // _this.setState({'buttonText': 'Add to Cart'});
+
+	      // data returns list
+		    	// console.log(cartItem);
+		    	// console.log(products);
+	      // console.log(cartItem);
+	      _this.setAddButtonText();
+	      renderCart(products, formatCartItems(data));
+	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
-	    	console.log(data);
+	    	hideLoader();
+	    	console.log(error);
+	  		renderOverlayModal('Error', error.responseJSON.message, false);
 	      // hideLoader();
 	      // renderOverlayModal('Error', error.responseJSON.message, false);
 	    });
 	},
-	formatCartItems: function(array) {
-		var cartItems = new CartItems();
-		// console.log(array);
-		// var obj = array[0];
-		for (var i = 0; i < array.length; i++) {
-			var cartItem = new CartItem();
-			var item = array[i];
-			cartItem.set('productId', item.productId);
-			cartItems.add(item);
-		}
-		console.log("******************");
-		console.log(cartItems);
-		return cartItems;
+	setAddButtonText: function() {
+      this.setState({'buttonText': 'Remove from Cart'});
+	},
+	setRemoveButtonText: function() {
+      this.setState({'buttonText': 'Add to Cart'});
 	},
 	decrementQuantity: function() {
 		var cartItem = this.props.cartItem;
@@ -100,14 +111,14 @@ module.exports = React.createClass({
 		if (quantity > 0) {
 			quantity -= 1;
 			cartItem.set('quantity', quantity);
-			this.setState({quantity: quantity});
+			// this.setState({quantity: quantity});
 			var promise = cartItem.save();
 	    $.when(promise).done(function(data) {
 	      // window.localStorage.setItem('shop-token', data.token);
 	      // hideLoader();
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
-	      console.log(data);
+	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
 	    	console.log(data);

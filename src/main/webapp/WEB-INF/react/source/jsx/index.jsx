@@ -8,7 +8,7 @@ var Index = React.createClass({
 			<div className={this.props.showLink ? 'hidden' : 'flex flex-vertical-center flex-column'}>
 	      		<h1>Shopping Cart</h1>
 	      		<p>This is a shopping cart app build with React.js</p>
-	      		<img src='../../../resources/images/shopping-cart-small.png'/>
+	      		<img src='../../../../resources/images/shopping-cart-small.png'/>
 			</div>
 		);
 	}

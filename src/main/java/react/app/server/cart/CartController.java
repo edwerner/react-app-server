@@ -72,15 +72,19 @@ public class CartController {
  //        return SIGNUP_VIEW_NAME;
 	// }
 	
-	@RequestMapping(value = "cart", method = RequestMethod.GET)
+	@RequestMapping(value = "cartitems", method = RequestMethod.GET)
 	@ResponseBody
 	public String cartItemGet() throws JsonProcessingException {
 		Cart cart = cartService.findOrCreateCart();
 		ObjectMapper mapper = new ObjectMapper();
-		String cartItemString = mapper.writeValueAsString(cart);
-		System.out.println(cartItemString);
+		List<String> productIdList = cart.getCartItemList();
+		List<CartItem> cartItemList = new ArrayList<CartItem>();
 
-		return cartItemString;
+		for (String productId : productIdList) {
+			CartItem item = new CartItem(productId);
+			cartItemList.add(item);
+		}
+		return mapper.writeValueAsString(cartItemList);
 	}
 	
 	// @RequestMapping(value = "cartitemcreate", method = RequestMethod.GET)
@@ -99,7 +103,7 @@ public class CartController {
 	@RequestMapping(value = "cartitemadd", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCartItemPost(@Valid @RequestBody CartItem cartItem, Errors errors) throws JsonProcessingException {
-		List<String> productIdList = cartService.saveCart(cartItem.getProductId());
+		List<String> productIdList = cartService.addCartItem(cartItem.getProductId());
 		List<CartItem> cartItemList = new ArrayList<CartItem>();
 
 		for (String productId : productIdList) {
@@ -107,16 +111,20 @@ public class CartController {
 			cartItemList.add(item);
 		}
 		ObjectMapper mapper = new ObjectMapper();
-		String cartItemString = mapper.writeValueAsString(cartItemList);
-		return cartItemString;
+		return mapper.writeValueAsString(cartItemList);
 	}
 	
 	@RequestMapping(value = "cartitemremove", method = RequestMethod.POST)
 	@ResponseBody
 	public String removeCartItemPost(@Valid @RequestBody CartItem cartItem, Errors errors) throws JsonProcessingException {
-		CartItem cartItemToRemove = cartService.removeCartItem(new CartItem(cartItem.getProductId()));
+		List<String> productIdList = cartService.removeCartItem(cartItem.getProductId());
+		List<CartItem> cartItemList = new ArrayList<CartItem>();
+
+		for (String productId : productIdList) {
+			CartItem item = new CartItem(productId);
+			cartItemList.add(item);
+		}
 		ObjectMapper mapper = new ObjectMapper();
-		String cartItemString = mapper.writeValueAsString(cartItemToRemove);
-		return cartItemString;
+		return mapper.writeValueAsString(cartItemList);
 	}
 }

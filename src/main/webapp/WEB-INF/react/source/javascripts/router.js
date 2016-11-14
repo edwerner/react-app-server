@@ -7,6 +7,7 @@ import {renderMenu} from '../jsx/menu.jsx';
 import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
 import {routeToShopPage} from '../jsx/overlay.jsx';
 // import {hideCart, renderCart} from '../jsx/cart.jsx';
+import {fetchProducts} from '../jsx/shop.jsx';
 
 var App = {};
 
@@ -60,6 +61,7 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		// renderCart();
 		// renderShopPage();
+		fetchProducts();
 		renderMenu(null, null, null, null, 'active');
 	}
 });

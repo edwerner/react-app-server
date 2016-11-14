@@ -105,3 +105,7 @@
 	border-bottom-left-radius: $border-radius;
 	@include noselect();
 }
+
+.shop__container {
+	flex-grow: 2;
+}

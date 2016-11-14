@@ -25,6 +25,7 @@ import javax.json.JsonObject;
 import javax.json.Json;
 import java.security.Principal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Iterator;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -62,52 +63,43 @@ public class CartService {
 				cart.setCartItemList(cartItemList);
 				cartRepository.save(cart);
 			}
-			setCart(cart);
 		}
 		return cart;
 	}
 
 	@Transactional
 	public List<String> getCartItems() {
-		List<String> cartItemList = getCart().getCartItemList();
+		List<String> cartItemList = findOrCreateCart().getCartItemList();
 		return cartItemList;
 	}
 
 	@Transactional
-	public List<String> saveCart(String productId) {
+	public List<String> addCartItem(String productId) {
 		List<String> cartItemList = getCartItems();
 		if (!cartItemList.contains(productId)) {
 			cartItemList.add(productId);
 		}
-		Cart cart = getCart();
+		Cart cart = findOrCreateCart();
 		cart.setCartItemList(cartItemList);
 		cartRepository.save(cart);
 		return cartItemList;
 	}
 
 	@Transactional
-	public CartItem removeCartItem(CartItem cartItem) {
+	public List<String> removeCartItem(String productId) {
 		List<String> cartItemList = getCartItems();
-		List<String> cartItemToRemove = new ArrayList<String>();
 
-		for (String productId: cartItemList){
-		    if (new String(productId).equals(cartItem.getProductId()) ){
-		        cartItemToRemove.add(productId);
-		    }
+		Iterator<String> i = cartItemList.iterator();
+		while (i.hasNext()) {
+		   String id = i.next();
+		  	if (new String(id).equals(productId)) {
+		    	i.remove();
+		  	}
 		}
 
-		cartItemList.removeAll(cartItemToRemove);
-		Cart cart = getCart();
+		Cart cart = findOrCreateCart();
 		cart.setCartItemList(cartItemList);
 		cartRepository.save(cart);
-		return cartItem;
-	}
-
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
-
-	public Cart getCart() {
-		return this.cart;
+		return cartItemList;
 	}
 }

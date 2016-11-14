@@ -43,8 +43,10 @@ var Overlay = React.createClass({
 	onSuccessButtonClick: function() {
 		// var token = window.localStorage.getItem('orders-token');
 		// if (token) {
-			hideOverlayModal();
-			fetchProducts();
+		hideOverlayModal();
+			// fetchProducts();
+
+		Backbone.history.navigate('shop', {trigger:true});
 			// routeToShopPage();
 		// } else {
   //   		// Backbone.history.navigate('login', {trigger:true});

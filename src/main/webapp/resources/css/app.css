@@ -369,6 +369,9 @@ input {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
+
+.shop__container {
+  flex-grow: 2; }
 #loader__container {
   position: absolute;
   top: 0px;
@@ -459,6 +462,22 @@ input {
 
 .cart__wrapper {
   min-width: 300px; }
+
+.cart__tile-image {
+  width: 50px;
+  height: 50px;
+  flex-grow: 1; }
+
+.cart__container {
+  flex-grow: 1; }
+
+.cart__tile-title {
+  font-size: 0.8em;
+  margin-right: 10px;
+  flex-grow: 2; }
+
+.cart__remove-button {
+  flex-grow: 1; }
 .hidden {
   display: none; }
 
