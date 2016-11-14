@@ -24,6 +24,9 @@ var Menu = React.createClass({
 	renderShopTab: function() {
 		Backbone.history.navigate('shop', {trigger:true});
 	},
+	renderReviewTab: function() {
+		Backbone.history.navigate('review', {trigger:true});
+	},
 	render: function() {
 		return (
 			<div className='index-container'>
@@ -37,6 +40,7 @@ var Menu = React.createClass({
 		              <li className={this.props.activeLogout}><a href="javascript:void(0)" onClick={this.renderLogoutTab}>Sign Out</a></li>
 		              <li className={this.props.activeShop}><a href="javascript:void(0)" onClick={this.renderShopTab}>Shop</a></li>
 		              <li className={this.props.activeOrders}><a href="javascript:void(0)" onClick={this.renderOrdersTab}>Orders</a></li>
+		              <li className={this.props.activeReview}><a href="javascript:void(0)" onClick={this.renderReviewTab}>Review</a></li>
 		            </ul>
 		          </div>
 		        </div>
@@ -51,7 +55,7 @@ var Menu = React.createClass({
 	}
 });
 
-export function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders) {
-	ReactDOM.render(<Menu activeLogin={activeLogin} activeIndex={activeIndex} activeCreate={activeCreate} activeShop={activeShop}/>,
+export function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders, activeReview) {
+	ReactDOM.render(<Menu activeLogin={activeLogin} activeIndex={activeIndex} activeCreate={activeCreate} activeShop={activeShop} activeReview={activeReview}/>,
 		document.getElementById('navigation__menu'));
 }

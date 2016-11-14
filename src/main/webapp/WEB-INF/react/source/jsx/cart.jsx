@@ -7,10 +7,11 @@ import CartItems from '../javascripts/cart-items';
 import _ from 'underscore';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
+// import {renderReviewPage} from './review.jsx';
 
 var Cart = React.createClass({
 	render: function() {
-		var cartItems = this.props.cartItems.models;
+		var cartItems = this.props.cartItems;
 		var products = this.props.products;
 		console.log(cartItems);
 		console.log(products);
@@ -20,11 +21,15 @@ var Cart = React.createClass({
 	    }
 		return (
 			<div className='cart__wrapper flex flex-column'>
-			    {cartItems.map(function(cartItem, index) {
+				<button onClick={this.routeToReviewPage}>Submit Order</button>
+			    {cartItems.models.map(function(cartItem, index) {
 			        return <CartTile cartItem={cartItem} product={_this.getProductById(products, cartItem.get('productId'))} products={products} key={index}/>;
 			    })}
 		    </div>
 		);
+	},
+	routeToReviewPage: function() {
+	  	Backbone.history.navigate('review', {trigger:true});
 	},
 	getProductById: function(products, productId) {
 		var productMatch = _.find(products, function(product) {

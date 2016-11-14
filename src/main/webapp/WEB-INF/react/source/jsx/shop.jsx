@@ -55,7 +55,7 @@ export function fetchCart(products) {
 	renderLoader();
     $.when(promise).done(function(data) {
       hideLoader();
-      renderCart(products, cartItems);
+      renderCart(products.models, cartItems);
       // console.log(cartItems);
       // console.log(products);
     });

@@ -62,17 +62,18 @@
 
 	var _menu = __webpack_require__(417);
 
-	var _orders = __webpack_require__(418);
-
 	var _overlay = __webpack_require__(191);
+
+	var _cart = __webpack_require__(201);
 
 	var _shop = __webpack_require__(193);
 
+	var _review = __webpack_require__(418);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
 	var App = {};
-	// import {hideCart, renderCart} from '../jsx/cart.jsx';
-
 
 	App.Router = _backbone2.default.Router.extend({
 		routes: {
@@ -80,31 +81,35 @@
 			'signin': 'signin',
 			'signup': 'signup',
 			'orders': 'orders',
-			'shop': 'shop'
+			'shop': 'shop',
+			'review': 'review'
 		},
 		index: function index() {
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _orders.hideShopPage)();
+			(0, _shop.hideShopPage)();
 			(0, _index.renderIndex)();
-			// hideCart();
-			(0, _menu.renderMenu)(null, 'active', null, null, null);
+			(0, _cart.hideCart)();
+			(0, _review.hideReviewPage)();
+			(0, _menu.renderMenu)(null, 'active', null, null, null, null);
 		},
 		signin: function signin() {
 			(0, _index.hideIndex)();
 			(0, _register.hideCreateUserForm)();
-			(0, _orders.hideShopPage)();
+			(0, _shop.hideShopPage)();
 			(0, _login.renderLoginForm)();
-			// hideCart();
-			(0, _menu.renderMenu)('active', null, null, null, null);
+			(0, _cart.hideCart)();
+			(0, _review.hideReviewPage)();
+			(0, _menu.renderMenu)('active', null, null, null, null, null);
 		},
 		signup: function signup() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
-			(0, _orders.hideShopPage)();
+			(0, _shop.hideShopPage)();
 			(0, _register.renderUserForm)();
-			// hideCart();
-			(0, _menu.renderMenu)(null, null, 'active', null, null);
+			(0, _cart.hideCart)();
+			(0, _review.hideReviewPage)();
+			(0, _menu.renderMenu)(null, null, 'active', null, null, null);
 		},
 		orders: function orders() {
 			(0, _index.hideIndex)();
@@ -112,9 +117,10 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			// hideCart();
+			(0, _cart.hideCart)();
 			// routeToShopPage();
-			(0, _menu.renderMenu)(null, null, null, 'active', null);
+			(0, _review.hideReviewPage)();
+			(0, _menu.renderMenu)(null, null, null, 'active', null, null);
 		},
 		shop: function shop() {
 			(0, _index.hideIndex)();
@@ -124,8 +130,24 @@
 			(0, _register.hideCreateUserForm)();
 			// renderCart();
 			// renderShopPage();
+			(0, _review.hideReviewPage)();
 			(0, _shop.fetchProducts)();
-			(0, _menu.renderMenu)(null, null, null, null, 'active');
+			(0, _menu.renderMenu)(null, null, null, null, 'active', null);
+		},
+		review: function review() {
+			(0, _index.hideIndex)();
+			(0, _login.hideLoginForm)();
+			(0, _register.hideCreateUserForm)();
+			(0, _login.hideLoginForm)();
+			(0, _register.hideCreateUserForm)();
+			(0, _shop.hideShopPage)();
+			(0, _cart.hideCart)();
+			// renderReviewPage();
+			// renderCart();
+			// renderShopPage();
+			// fetchProducts();
+			(0, _review.fetchReviewProducts)();
+			(0, _menu.renderMenu)(null, null, null, null, null, 'active');
 		}
 	});
 
@@ -37972,7 +37994,7 @@
 		(0, _loader.renderLoader)();
 		_jquery2.default.when(promise).done(function (data) {
 			(0, _loader.hideLoader)();
-			(0, _cart3.renderCart)(products, cartItems);
+			(0, _cart3.renderCart)(products.models, cartItems);
 			// console.log(cartItems);
 			// console.log(products);
 		});
@@ -38457,11 +38479,13 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import {renderReviewPage} from './review.jsx';
+
 	var Cart = _react2.default.createClass({
 		displayName: 'Cart',
 
 		render: function render() {
-			var cartItems = this.props.cartItems.models;
+			var cartItems = this.props.cartItems;
 			var products = this.props.products;
 			console.log(cartItems);
 			console.log(products);
@@ -38472,10 +38496,18 @@
 			return _react2.default.createElement(
 				'div',
 				{ className: 'cart__wrapper flex flex-column' },
-				cartItems.map(function (cartItem, index) {
+				_react2.default.createElement(
+					'button',
+					{ onClick: this.routeToReviewPage },
+					'Submit Order'
+				),
+				cartItems.models.map(function (cartItem, index) {
 					return _react2.default.createElement(_cartTile2.default, { cartItem: cartItem, product: _this.getProductById(products, cartItem.get('productId')), products: products, key: index });
 				})
 			);
+		},
+		routeToReviewPage: function routeToReviewPage() {
+			Backbone.history.navigate('review', { trigger: true });
 		},
 		getProductById: function getProductById(products, productId) {
 			var productMatch = _underscore2.default.find(products, function (product) {
@@ -62795,6 +62827,9 @@
 		renderShopTab: function renderShopTab() {
 			Backbone.history.navigate('shop', { trigger: true });
 		},
+		renderReviewTab: function renderReviewTab() {
+			Backbone.history.navigate('review', { trigger: true });
+		},
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
@@ -62864,6 +62899,15 @@
 										{ href: 'javascript:void(0)', onClick: this.renderOrdersTab },
 										'Orders'
 									)
+								),
+								_react2.default.createElement(
+									'li',
+									{ className: this.props.activeReview },
+									_react2.default.createElement(
+										'a',
+										{ href: 'javascript:void(0)', onClick: this.renderReviewTab },
+										'Review'
+									)
 								)
 							)
 						)
@@ -62880,8 +62924,8 @@
 		}
 	});
 
-	function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders) {
-		_reactDom2.default.render(_react2.default.createElement(Menu, { activeLogin: activeLogin, activeIndex: activeIndex, activeCreate: activeCreate, activeShop: activeShop }), document.getElementById('navigation__menu'));
+	function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders, activeReview) {
+		_reactDom2.default.render(_react2.default.createElement(Menu, { activeLogin: activeLogin, activeIndex: activeIndex, activeCreate: activeCreate, activeShop: activeShop, activeReview: activeReview }), document.getElementById('navigation__menu'));
 	}
 
 /***/ },
@@ -62893,9 +62937,10 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.fetchProducts = fetchProducts;
-	exports.renderShopPage = renderShopPage;
-	exports.hideShopPage = hideShopPage;
+	exports.renderReviewPage = renderReviewPage;
+	exports.hideReviewPage = hideReviewPage;
+	exports.fetchReviewProducts = fetchReviewProducts;
+	exports.fetchReviewCartItems = fetchReviewCartItems;
 
 	var _react = __webpack_require__(5);
 
@@ -62905,13 +62950,33 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _shop = __webpack_require__(194);
+	var _cart = __webpack_require__(202);
 
-	var _shop2 = _interopRequireDefault(_shop);
+	var _cart2 = _interopRequireDefault(_cart);
+
+	var _cartTile = __webpack_require__(203);
+
+	var _cartTile2 = _interopRequireDefault(_cartTile);
+
+	var _cartItem = __webpack_require__(204);
+
+	var _cartItem2 = _interopRequireDefault(_cartItem);
+
+	var _cartItems = __webpack_require__(205);
+
+	var _cartItems2 = _interopRequireDefault(_cartItems);
 
 	var _products = __webpack_require__(196);
 
 	var _products2 = _interopRequireDefault(_products);
+
+	var _reviewTile = __webpack_require__(419);
+
+	var _reviewTile2 = _interopRequireDefault(_reviewTile);
+
+	var _underscore = __webpack_require__(2);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
 
 	var _loader = __webpack_require__(197);
 
@@ -62919,48 +62984,191 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ProductTile = __webpack_require__(199);
-	// var Cart = require('./cart.jsx');
-
-	var Orders = _react2.default.createClass({
-		displayName: 'Orders',
+	var Review = _react2.default.createClass({
+		displayName: 'Review',
 
 		render: function render() {
-			if (!this.props.products) {
+			var cartItems = this.props.cartItems;
+			var products = this.props.products;
+			console.log(cartItems);
+			console.log(products);
+			var _this = this;
+			if (!cartItems || !products) {
 				return null;
 			}
 			return _react2.default.createElement(
-				'h1',
-				null,
-				'Orders'
+				'div',
+				{ className: 'review__wrapper flex flex-column' },
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Review Page'
+				),
+				cartItems.map(function (cartItem, index) {
+					return _react2.default.createElement(_reviewTile2.default, { cartItem: cartItem, product: _this.getProductById(products, cartItem.get('productId')), products: products, key: index });
+				})
 			);
+		},
+		getProductById: function getProductById(products, productId) {
+			var productMatch = _underscore2.default.find(products, function (product) {
+				return product.get('id') == productId;
+			});
+			return productMatch;
 		}
 	});
 
-	function fetchProducts() {
+	var reviewContainer = document.getElementById("review__container");
+
+	function renderReviewPage(products, cartItems) {
+		_reactDom2.default.render(_react2.default.createElement(Review, { showLink: '', products: products, cartItems: cartItems }), reviewContainer);
+	}
+
+	function hideReviewPage() {
+		_reactDom2.default.render(_react2.default.createElement(Review, { showLink: 'hidden' }), reviewContainer);
+	}
+
+	function fetchReviewProducts() {
+		var products = new _products2.default();
+		var promise = products.fetch();
 		Backbone.emulateHTTP = true;
-		var productCollection = new _products2.default();
-		var promise = productCollection.fetch();
-		// productCollection.serialize();
 		(0, _loader.renderLoader)();
 		$.when(promise).done(function (data) {
+			// console.log(data);
 			(0, _loader.hideLoader)();
-			Backbone.history.navigate('shop', { trigger: true });
-			renderShopPage(productCollection);
+			fetchReviewCartItems(products.models);
 		});
 		$.when(promise).fail(function (error) {
 			(0, _loader.hideLoader)();
-			(0, _overlay.renderOverlayModal)('Error', error.message, false);
+			(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
 		});
 	}
 
-	function renderShopPage(products) {
-		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: '', products: products }), document.getElementById('orders__container'));
+	function fetchReviewCartItems(products) {
+		var cartItems = new _cartItems2.default();
+		var promise = cartItems.fetch();
+		Backbone.emulateHTTP = true;
+		(0, _loader.renderLoader)();
+		$.when(promise).done(function (data) {
+			(0, _loader.hideLoader)();
+			Backbone.history.navigate('review', { trigger: true });
+			renderReviewPage(products, cartItems);
+			// console.log(cartItems);
+			// console.log(products);
+		});
+		$.when(promise).fail(function (error) {
+			(0, _loader.hideLoader)();
+			console.log(error);
+			(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+		});
 	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
-	function hideShopPage() {
-		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: 'hidden' }), document.getElementById('orders__container'));
-	}
+/***/ },
+/* 419 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _cart = __webpack_require__(202);
+
+	var _cart2 = _interopRequireDefault(_cart);
+
+	var _cart3 = __webpack_require__(201);
+
+	var _loader = __webpack_require__(197);
+
+	var _review = __webpack_require__(418);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = _react2.default.createClass({
+		displayName: 'exports',
+
+		getInitialState: function getInitialState() {
+			return {
+				closeButtonHover: ''
+			};
+		},
+		render: function render() {
+			var product = this.props.product;
+			if (!product || !this.props.products || !this.props.cartItem) {
+				return null;
+			}
+			console.log(this.props.products);
+			return _react2.default.createElement(
+				'div',
+				{ className: 'cart__tile flex flex-space-between flex-row flex-vertical-center' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'cart__tile-title flex-start' },
+					product.get('title')
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'flex-end' },
+					_react2.default.createElement('img', { className: 'cart__tile-image', src: product.get('image') })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: this.state.closeButtonHover ? 'cart__remove-button flex-end button-mouseenter' : 'overlay__close-button flex-end button-mouseleave',
+						onClick: this.removeFromCart, onMouseEnter: this.onRemoveCartItemMouseEnter, onMouseLeave: this.onRemoveCartItemMouseLeave },
+					_react2.default.createElement('img', { className: 'overlay__close-button-image', src: '../../../../resources/images/close-button.svg' })
+				)
+			);
+		},
+		removeFromCart: function removeFromCart() {
+			// console.log(cartItem.get('productId'));
+			// var quantity = this.state.quantity;
+			var _this = this;
+			var cartItem = this.props.cartItem;
+			var products = this.props.products;
+
+			Backbone.emulateHTTP = true;
+			// quantity += 1;
+			// cartItem.set('quantity', quantity);
+			// this.setState({quantity: quantity});
+			// cartItem.set('url', '/cartitemremove')
+			cartItem.url = '/cartitemremove';
+			var promise = cartItem.save();
+			(0, _loader.renderLoader)();
+			$.when(promise).done(function (data) {
+				// window.localStorage.setItem('shop-token', data.token);
+				// hideLoader();
+				// _this.resetForm();
+				// renderOverlayModal(data.title, data.message, data.success);
+				(0, _loader.hideLoader)();
+				// _this.setState({'buttonText': 'Add to Cart'});
+
+				// data returns list
+				// console.log(cartItem);
+				// console.log(products);
+				// console.log(cartItem);
+				(0, _review.renderReviewPage)(products, (0, _cart3.formatCartItems)(data));
+				// console.log(data);
+			});
+			$.when(promise).fail(function (error) {
+				(0, _loader.hideLoader)();
+				console.log(error);
+				renderOverlayModal('Error', error.responseJSON.message, false);
+				// hideLoader();
+				// renderOverlayModal('Error', error.responseJSON.message, false);
+			});
+		},
+		onRemoveCartItemMouseEnter: function onRemoveCartItemMouseEnter() {
+			this.setState({ 'closeButtonHover': 'mouseenter' });
+		},
+		onRemoveCartItemMouseLeave: function onRemoveCartItemMouseLeave() {
+			this.setState({ 'closeButtonHover': '' });
+		}
+	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }

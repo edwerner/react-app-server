@@ -4,10 +4,11 @@ import {renderLoginForm, hideLoginForm} from '../jsx/login.jsx';
 import {renderUserForm, hideCreateUserForm} from '../jsx/register.jsx';
 import {renderIndex, hideIndex} from '../jsx/index.jsx';
 import {renderMenu} from '../jsx/menu.jsx';
-import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
+// import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
 import {routeToShopPage} from '../jsx/overlay.jsx';
-// import {hideCart, renderCart} from '../jsx/cart.jsx';
-import {fetchProducts} from '../jsx/shop.jsx';
+import {hideCart} from '../jsx/cart.jsx';
+import {fetchProducts, hideShopPage, renderShopPage} from '../jsx/shop.jsx';
+import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
 
 var App = {};
 
@@ -17,31 +18,35 @@ App.Router = Backbone.Router.extend({
 		'signin': 'signin',
 		'signup': 'signup',
 		'orders': 'orders',
-		'shop': 'shop'
+		'shop': 'shop',
+		'review':'review'
 	},
 	index: function() {
 		hideLoginForm();
 		hideCreateUserForm();
 		hideShopPage();
 		renderIndex();
-		// hideCart();
-		renderMenu(null, 'active', null, null, null);
+		hideCart();
+		hideReviewPage();
+		renderMenu(null, 'active', null, null, null, null);
 	},
 	signin: function() {
 		hideIndex();
 		hideCreateUserForm();
 		hideShopPage();
 		renderLoginForm();
-		// hideCart();
-		renderMenu('active', null, null, null, null);
+		hideCart();
+		hideReviewPage();
+		renderMenu('active', null, null, null, null, null);
 	},
 	signup: function() {
 		hideIndex();
 		hideLoginForm();
 		hideShopPage();
 		renderUserForm();
-		// hideCart();
-		renderMenu(null, null, 'active', null, null);
+		hideCart();
+		hideReviewPage();
+		renderMenu(null, null, 'active', null, null, null);
 	},
 	orders: function() {
 		hideIndex();
@@ -49,9 +54,10 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideLoginForm();
 		hideCreateUserForm();
-		// hideCart();
+		hideCart();
 		// routeToShopPage();
-		renderMenu(null, null, null, 'active', null);
+		hideReviewPage();
+		renderMenu(null, null, null, 'active', null, null);
 	},
 	shop: function() {
 		hideIndex();
@@ -61,8 +67,24 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		// renderCart();
 		// renderShopPage();
+		hideReviewPage();
 		fetchProducts();
-		renderMenu(null, null, null, null, 'active');
+		renderMenu(null, null, null, null, 'active', null);
+	},
+	review: function() {
+		hideIndex();
+		hideLoginForm();
+		hideCreateUserForm();
+		hideLoginForm();
+		hideCreateUserForm();
+		hideShopPage();
+		hideCart();
+		// renderReviewPage();
+		// renderCart();
+		// renderShopPage();
+		// fetchProducts();
+		fetchReviewProducts();
+		renderMenu(null, null, null, null, null, 'active');
 	}
 });
 
