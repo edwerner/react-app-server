@@ -16,7 +16,7 @@ module.exports = React.createClass({
       	<div className='product__description'><label className='product__label'>Description: </label>{this.decodeHTMLEntities(this.props.product.get('description'))}</div>
       	<div className='product__price'><label className='product__label'>Price: </label>{this.formatPrice(this.props.product.get('price'))}</div>
         <div className='product__isbn'><label className='product__label'>ISBN: </label>{this.props.product.get('isbn')}</div>
-      	<CartAddWidget products={this.props.products} product={this.props.product} cartItem={this.createCartItem(this.props.product.get('id'))}/>
+      	<CartAddWidget products={this.props.products} cartItem={this.createCartItem(this.props.product.get('id'))} cartItems={this.props.cartItems}/>
       </div>
 		);
 	},

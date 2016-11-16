@@ -42,7 +42,7 @@ var Overlay = React.createClass({
 	},
 	onSuccessButtonClick: function() {
 		// var token = window.localStorage.getItem('orders-token');
-		// if (token) {
+		// if (token)e {
 		hideOverlayModal();
 			// fetchProducts();
 

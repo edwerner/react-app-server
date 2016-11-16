@@ -37826,7 +37826,7 @@
 		},
 		onSuccessButtonClick: function onSuccessButtonClick() {
 			// var token = window.localStorage.getItem('orders-token');
-			// if (token) {
+			// if (token)e {
 			hideOverlayModal();
 			// fetchProducts();
 
@@ -37951,9 +37951,10 @@
 
 		render: function render() {
 			var products = this.props.products;
+			var cartItems = this.props.cartItems;
 			// console.log(products);
 			// console.log(typeof products);
-			if (!products) {
+			if (!products || !cartItems) {
 				return null;
 			}
 			return _react2.default.createElement(
@@ -37963,7 +37964,7 @@
 					'div',
 					{ className: 'flex flex-row flex-row-wrap' },
 					products.map(function (product, index) {
-						return _react2.default.createElement(_productTile2.default, { products: products, product: product, key: index });
+						return _react2.default.createElement(_productTile2.default, { products: products, cartItems: cartItems, product: product, key: index });
 					})
 				)
 			);
@@ -37978,7 +37979,6 @@
 		_jquery2.default.when(promise).done(function (data) {
 			// console.log(data);
 			(0, _loader.hideLoader)();
-			renderShopPage(products.models);
 			fetchCart(products);
 		});
 		_jquery2.default.when(promise).fail(function (error) {
@@ -37994,6 +37994,7 @@
 		(0, _loader.renderLoader)();
 		_jquery2.default.when(promise).done(function (data) {
 			(0, _loader.hideLoader)();
+			renderShopPage(products.models, cartItems);
 			(0, _cart3.renderCart)(products.models, cartItems);
 			// console.log(cartItems);
 			// console.log(products);
@@ -38005,8 +38006,8 @@
 		});
 	}
 
-	function renderShopPage(products) {
-		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: '', products: products }), document.getElementById('shop__container'));
+	function renderShopPage(products, cartItems) {
+		_reactDom2.default.render(_react2.default.createElement(Shop, { showLink: '', products: products, cartItems: cartItems }), document.getElementById('shop__container'));
 	}
 
 	function hideShopPage() {
@@ -38232,7 +38233,7 @@
 	        ),
 	        this.props.product.get('isbn')
 	      ),
-	      React.createElement(CartAddWidget, { products: this.props.products, product: this.props.product, cartItem: this.createCartItem(this.props.product.get('id')) })
+	      React.createElement(CartAddWidget, { products: this.props.products, cartItem: this.createCartItem(this.props.product.get('id')), cartItems: this.props.cartItems })
 	    );
 	  },
 	  getInitialState: function getInitialState() {
@@ -38283,49 +38284,87 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.renderCartAddWidget = renderCartAddWidget;
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _underscore = __webpack_require__(2);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
 	var _loader = __webpack_require__(197);
 
 	var _cart = __webpack_require__(201);
 
 	var _overlay = __webpack_require__(191);
 
-	var React = __webpack_require__(5);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-
-	module.exports = React.createClass({
+	module.exports = _react2.default.createClass({
 		displayName: 'exports',
 
+		componentWillMount: function componentWillMount() {
+			var cartItems = this.props.cartItems;
+			if (cartItems) {
+				var cartItemMatch = _underscore2.default.find(cartItems.models, function (item) {
+					return item.get('productId') == cartItem.get('productId');
+				});
+				if (cartItemMatch == undefined) {
+					this.setState({ buttonText: 'Add to Cart' });
+				} else {
+					this.setState({ buttonText: 'Remove from Cart' });
+				}
+			} else {
+				this.setState({ buttonText: 'Remove from Cart' });
+			}
+		},
 		getInitialState: function getInitialState() {
 			return {
-				buttonText: 'Add to Cart'
+				buttonText: ''
 			};
 		},
 		render: function render() {
-			if (!this.props.cartItem || !this.props.products) {
+			var cartItem = this.props.cartItem;
+			var cartItems = this.props.cartItems;
+			if (!cartItem || !this.props.products || !cartItems) {
 				return null;
 			}
-			return React.createElement(
+			return _react2.default.createElement(
 				'div',
 				{ className: 'cart__add-widget' },
-				React.createElement(
+				_react2.default.createElement(
 					'div',
 					{ onClick: this.addToCart, className: this.state.buttonText == 'Add to Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden' },
-					React.createElement(
+					_react2.default.createElement(
 						'h4',
 						null,
 						this.state.buttonText
 					)
 				),
-				React.createElement(
+				_react2.default.createElement(
 					'div',
 					{ onClick: this.removeFromCart, className: this.state.buttonText == 'Remove from Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden' },
-					React.createElement(
+					_react2.default.createElement(
 						'h4',
 						null,
 						this.state.buttonText
 					)
 				)
 			);
+		},
+		setButtonText: function setButtonText(added) {
+			var buttonText = '';
+			if (added) {
+				buttonText = 'Remove from Cart';
+			} else {
+				buttonText = 'Add to Cart';
+			}
+			return buttonText;
 		},
 		addToCart: function addToCart() {
 			// console.log(cartItem.get('productId'));
@@ -38347,12 +38386,15 @@
 				// hideLoader();
 				// _this.resetForm();
 				// renderOverlayModal(data.title, data.message, data.success);
-				(0, _loader.hideLoader)();
 
 				// data returns list
 				// console.log(cartItem);
-				_this.setAddButtonText();
-				(0, _cart.renderCart)(products, (0, _cart.formatCartItems)(data));
+				// _this.setAddButtonText();
+				(0, _loader.hideLoader)();
+				var cartItems = (0, _cart.formatCartItems)(data);
+				_this.setState({ buttonText: 'Remove from Cart' });
+				(0, _cart.renderCart)(products, cartItems);
+				// renderCartAddWidget(products, cartItems);
 			});
 			$.when(promise).fail(function (error) {
 				(0, _loader.hideLoader)();
@@ -38382,15 +38424,17 @@
 				// hideLoader();
 				// _this.resetForm();
 				// renderOverlayModal(data.title, data.message, data.success);
-				(0, _loader.hideLoader)();
 				// _this.setState({'buttonText': 'Add to Cart'});
 
 				// data returns list
 				// console.log(cartItem);
 				// console.log(products);
 				// console.log(cartItem);
-				_this.setAddButtonText();
-				(0, _cart.renderCart)(products, (0, _cart.formatCartItems)(data));
+				(0, _loader.hideLoader)();
+				var cartItems = (0, _cart.formatCartItems)(data);
+				_this.setState({ buttonText: 'Add to Cart' });
+				(0, _cart.renderCart)(products, cartItems);
+				// renderCartAddWidget(_this.props.products, cartItems);
 				// console.log(data);
 			});
 			$.when(promise).fail(function (error) {
@@ -38400,12 +38444,6 @@
 				// hideLoader();
 				// renderOverlayModal('Error', error.responseJSON.message, false);
 			});
-		},
-		setAddButtonText: function setAddButtonText() {
-			this.setState({ 'buttonText': 'Remove from Cart' });
-		},
-		setRemoveButtonText: function setRemoveButtonText() {
-			this.setState({ 'buttonText': 'Add to Cart' });
 		},
 		decrementQuantity: function decrementQuantity() {
 			var cartItem = this.props.cartItem;
@@ -38430,6 +38468,10 @@
 			}
 		}
 	});
+
+	function renderCartAddWidget(products, cartItems) {
+		ReactDOM.render(_react2.default.createElement(Shop, { showLink: '', products: products, cartItems: cartItems }), document.getElementById('shop__container'));
+	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },

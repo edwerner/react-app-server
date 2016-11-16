@@ -14,16 +14,17 @@ import {hideCart, renderCart} from './cart.jsx';
 var Shop = React.createClass({
 	render: function() {
 		var products = this.props.products;
+		var cartItems = this.props.cartItems;
 		// console.log(products);
 		// console.log(typeof products);
-	    if (!products) {
+	    if (!products || !cartItems) {
 	        return null;
 	    }
 		return (
 			<div>
 				<div className='flex flex-row flex-row-wrap'>
 				    {products.map(function(product, index) {
-				        return <ProductTile products={products} product={product} key={index}/>;
+				        return <ProductTile products={products} cartItems={cartItems} product={product} key={index}/>;
 				    })}
 			    </div>
 		    </div>
@@ -39,7 +40,6 @@ export function fetchProducts() {
 	$.when(promise).done(function(data) {
 		// console.log(data);
 		hideLoader();
-		renderShopPage(products.models);
 		fetchCart(products);
 	});
 	$.when(promise).fail(function(error) {
@@ -55,6 +55,7 @@ export function fetchCart(products) {
 	renderLoader();
     $.when(promise).done(function(data) {
       hideLoader();
+	  renderShopPage(products.models, cartItems);
       renderCart(products.models, cartItems);
       // console.log(cartItems);
       // console.log(products);
@@ -66,8 +67,8 @@ export function fetchCart(products) {
     });
 }
 
-export function renderShopPage(products) {
-	ReactDOM.render(<Shop showLink='' products={products}/>, document.getElementById('shop__container'));
+export function renderShopPage(products, cartItems) {
+	ReactDOM.render(<Shop showLink='' products={products} cartItems={cartItems}/>, document.getElementById('shop__container'));
 }
 
 export function hideShopPage() {

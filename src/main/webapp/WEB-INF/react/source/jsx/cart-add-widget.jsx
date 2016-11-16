@@ -1,17 +1,36 @@
-var React = require('react');
+import React from 'react';
+import _ from 'underscore';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderCart} from './cart.jsx';
 import {renderOverlayModal} from './overlay.jsx';
 import {formatCartItems} from './cart.jsx';
 
 module.exports = React.createClass({
+	componentWillMount: function() {
+		var cartItems = this.props.cartItems;
+		if (cartItems) {
+		    var cartItemMatch = _.find(cartItems.models, function(item) {
+		    	return item.get('productId') == cartItem.get('productId');
+		    });
+		    if (cartItemMatch == undefined) {
+		    	this.setState({buttonText: 'Add to Cart'});
+		    }
+		    else {
+		    	this.setState({buttonText: 'Remove from Cart'});
+		    }
+		} else {
+		    this.setState({buttonText: 'Remove from Cart'});
+		}
+	},
 	getInitialState: function() {
 		return {
-			buttonText: 'Add to Cart'
+			buttonText: ''
 		}
 	},
 	render: function() {
-	    if (!this.props.cartItem || !this.props.products) {
+		var cartItem = this.props.cartItem;
+		var cartItems = this.props.cartItems;
+	    if (!cartItem || !this.props.products || !cartItems) {
 	        return null;
 	    }
 		return(
@@ -24,6 +43,15 @@ module.exports = React.createClass({
 				</div>
 	      	</div>
 		);
+	},
+	setButtonText: function(added) {
+		var buttonText = '';
+		if (added) {
+			buttonText = 'Remove from Cart';
+		} else {
+			buttonText = 'Add to Cart';
+		}
+		return buttonText;
 	},
 	addToCart: function() {
 		// console.log(cartItem.get('productId'));
@@ -45,12 +73,15 @@ module.exports = React.createClass({
 	      // hideLoader();
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
-	      hideLoader();
 
 	      // data returns list
 	      // console.log(cartItem);
-	      _this.setAddButtonText();
-	      renderCart(products, formatCartItems(data));
+	      // _this.setAddButtonText();
+	      hideLoader();
+	      var cartItems = formatCartItems(data);
+	      _this.setState({buttonText: 'Remove from Cart'});
+	      renderCart(products, cartItems);
+	      // renderCartAddWidget(products, cartItems);
 	    });
 	    $.when(promise).fail(function(error) {
 	    	hideLoader();
@@ -80,15 +111,17 @@ module.exports = React.createClass({
 	      // hideLoader();
 	      // _this.resetForm();
 	      // renderOverlayModal(data.title, data.message, data.success);
-	      hideLoader();
 	      // _this.setState({'buttonText': 'Add to Cart'});
 
 	      // data returns list
 		    	// console.log(cartItem);
 		    	// console.log(products);
 	      // console.log(cartItem);
-	      _this.setAddButtonText();
-	      renderCart(products, formatCartItems(data));
+	      hideLoader();
+	      var cartItems = formatCartItems(data);
+	      _this.setState({buttonText: 'Add to Cart'});
+	      renderCart(products, cartItems);
+	      // renderCartAddWidget(_this.props.products, cartItems);
 	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
@@ -98,12 +131,6 @@ module.exports = React.createClass({
 	      // hideLoader();
 	      // renderOverlayModal('Error', error.responseJSON.message, false);
 	    });
-	},
-	setAddButtonText: function() {
-      this.setState({'buttonText': 'Remove from Cart'});
-	},
-	setRemoveButtonText: function() {
-      this.setState({'buttonText': 'Add to Cart'});
 	},
 	decrementQuantity: function() {
 		var cartItem = this.props.cartItem;
@@ -128,3 +155,7 @@ module.exports = React.createClass({
 		}
 	}
 });
+
+export function renderCartAddWidget(products, cartItems) {
+	ReactDOM.render(<Shop showLink='' products={products} cartItems={cartItems}/>, document.getElementById('shop__container'));
+}
