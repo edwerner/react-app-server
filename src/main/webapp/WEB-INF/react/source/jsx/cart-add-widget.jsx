@@ -1,38 +1,52 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'underscore';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderCart} from './cart.jsx';
 import {renderOverlayModal} from './overlay.jsx';
 import {formatCartItems} from './cart.jsx';
+import Callbacks from '../javascripts/globals';
 
 module.exports = React.createClass({
+	getInitialState: function() {
+		return {
+			buttonText: '',
+			cartItem: this.props.cartItem,
+			cartItems: this.props.cartItems,
+			products: this.props.products
+		}
+	},
+	componentWillReceiveProps: function(nextProps) {
+		this.setState({cartItem: nextProps.cartItem});
+		this.setState({cartItems: nextProps.cartItems});
+		this.setState({products: nextProps.products});
+		this.updateWidgetText(nextProps.cartItem, nextProps.cartItems);
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  },
 	componentWillMount: function() {
-		var cartItems = this.props.cartItems;
+		this.updateWidgetText(this.state.cartItem, this.state.cartItems);
+	},
+	updateWidgetText: function(cartItem, cartItems) {
 		if (cartItems) {
 		    var cartItemMatch = _.find(cartItems.models, function(item) {
 		    	return item.get('productId') == cartItem.get('productId');
 		    });
 		    if (cartItemMatch == undefined) {
-		    	this.setState({buttonText: 'Add to Cart'});
+	      	this.setState({buttonText: 'Add to Cart'});
 		    }
 		    else {
-		    	this.setState({buttonText: 'Remove from Cart'});
+	      	this.setState({buttonText: 'Remove from Cart'});
 		    }
 		} else {
-		    this.setState({buttonText: 'Remove from Cart'});
-		}
-	},
-	getInitialState: function() {
-		return {
-			buttonText: ''
+	    this.setState({buttonText: 'Product Unavailable'});
 		}
 	},
 	render: function() {
-		var cartItem = this.props.cartItem;
-		var cartItems = this.props.cartItems;
-	    if (!cartItem || !this.props.products || !cartItems) {
-	        return null;
-	    }
+    if (!this.state.cartItem || !this.state.products || !this.state.cartItems) {
+        return null;
+    }
 		return(
 			<div className='cart__add-widget'>
 				<div onClick={this.addToCart} className={this.state.buttonText == 'Add to Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden'}>
@@ -44,14 +58,8 @@ module.exports = React.createClass({
 	      	</div>
 		);
 	},
-	setButtonText: function(added) {
-		var buttonText = '';
-		if (added) {
-			buttonText = 'Remove from Cart';
-		} else {
-			buttonText = 'Add to Cart';
-		}
-		return buttonText;
+	setButtonText: function(status) {
+		return this.setState({buttonText: status});
 	},
 	addToCart: function() {
 		// console.log(cartItem.get('productId'));
@@ -79,8 +87,9 @@ module.exports = React.createClass({
 	      // _this.setAddButtonText();
 	      hideLoader();
 	      var cartItems = formatCartItems(data);
-	      _this.setState({buttonText: 'Remove from Cart'});
+	      _this.setButtonText('Remove from Cart');
 	      renderCart(products, cartItems);
+	      // renderCartAddWidget(products, cartItems, cartItem);
 	      // renderCartAddWidget(products, cartItems);
 	    });
 	    $.when(promise).fail(function(error) {
@@ -119,9 +128,8 @@ module.exports = React.createClass({
 	      // console.log(cartItem);
 	      hideLoader();
 	      var cartItems = formatCartItems(data);
-	      _this.setState({buttonText: 'Add to Cart'});
+	      _this.setButtonText('Add to Cart');
 	      renderCart(products, cartItems);
-	      // renderCartAddWidget(_this.props.products, cartItems);
 	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
@@ -156,6 +164,8 @@ module.exports = React.createClass({
 	}
 });
 
-export function renderCartAddWidget(products, cartItems) {
-	ReactDOM.render(<Shop showLink='' products={products} cartItems={cartItems}/>, document.getElementById('shop__container'));
-}
+// export function renderCartAddWidget(products, cartItems, cartItem) {
+// 	ReactDOM.render(<CartAddWidget showLink='' products={products} cartItems={cartItems} cartItem={cartItem}/>, document.getElementById('shop__container'));
+// }
+
+// module.exports = CartAddWidget;

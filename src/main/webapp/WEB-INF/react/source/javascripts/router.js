@@ -9,8 +9,7 @@ import {routeToShopPage} from '../jsx/overlay.jsx';
 import {hideCart} from '../jsx/cart.jsx';
 import {fetchProducts, hideShopPage, renderShopPage} from '../jsx/shop.jsx';
 import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
-
-var App = {};
+import App from './globals';
 
 App.Router = Backbone.Router.extend({
 	routes: {

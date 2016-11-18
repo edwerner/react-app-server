@@ -16,13 +16,22 @@ module.exports = React.createClass({
       	<div className='product__description'><label className='product__label'>Description: </label>{this.decodeHTMLEntities(this.props.product.get('description'))}</div>
       	<div className='product__price'><label className='product__label'>Price: </label>{this.formatPrice(this.props.product.get('price'))}</div>
         <div className='product__isbn'><label className='product__label'>ISBN: </label>{this.props.product.get('isbn')}</div>
-      	<CartAddWidget products={this.props.products} cartItem={this.createCartItem(this.props.product.get('id'))} cartItems={this.props.cartItems}/>
+      	<CartAddWidget products={this.state.products} cartItem={this.createCartItem(this.props.product.get('id'))} cartItems={this.state.cartItems}/>
       </div>
 		);
 	},
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({cartItems: nextProps.cartItems});
+    this.setState({products: nextProps.products});
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  },
   getInitialState: function() {
     return {
-      fulltext: ''
+      fulltext: '',
+      cartItems: this.props.cartItems,
+      products: this.props.products
     }
   },
   createCartItem: function(id) {

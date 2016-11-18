@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import scss from '../scss/cart.scss';
-import {formatCartItems} from './cart.jsx';
+import {formatCartItems, renderCart} from './cart.jsx';
 import {renderLoader, hideLoader} from './loader.jsx';
-import {renderCart} from './cart.jsx';
+import {fetchCart, renderShopPage} from './shop.jsx';
+import {renderCartAddWidget} from './cart-add-widget.jsx';
+import Callbacks from '../javascripts/globals';
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -16,7 +18,6 @@ module.exports = React.createClass({
 	    if (!product || !this.props.products || !this.props.cartItem) {
 	        return null;
 	    }
-	    console.log(this.props.products);
 		return (
 			<div className='cart__tile flex flex-space-between flex-row flex-vertical-center'>
 				 <div className='cart__tile-title flex-start'>{product.get('title')}</div>
@@ -31,6 +32,11 @@ module.exports = React.createClass({
 		);
 	},
 	removeFromCart: function() {
+
+
+		// fetchCart(this.props.products);
+
+
 		// console.log(cartItem.get('productId'));
 		// var quantity = this.state.quantity;
 		var _this = this;
@@ -57,7 +63,13 @@ module.exports = React.createClass({
 		    	// console.log(cartItem);
 		    	// console.log(products);
 	      // console.log(cartItem);
-	      renderCart(products, formatCartItems(data));
+	      var cartItems = formatCartItems(data);
+	  	  // renderShopPage(products, cartItems);
+	      // renderShopPage(products, cartItems);
+	      // renderCartAddWidget(products, cartItems, cartItem);
+	      renderShopPage(products, cartItems);
+	      renderCart(products, cartItems);
+	      // Callbacks.updateCartItems(cartItems);
 	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {

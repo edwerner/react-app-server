@@ -10,13 +10,31 @@ import ProductTile from './product-tile.jsx';
 import Cart from '../javascripts/cart';
 import CartItems from '../javascripts/cart-items';
 import {hideCart, renderCart} from './cart.jsx';
+import Callbacks from '../javascripts/globals';
 
 var Shop = React.createClass({
+	getInitialState: function() {
+		return {
+			cartItems: this.props.cartItems,
+			products: this.props.products
+		}
+	},
+	// componentWillMount: function() {
+	// 	Callbacks.updateCartItems = (cartItems) => {
+	// 	    this.setState({cartItems: cartItems});
+	// 	    console.log('updateCartItems');
+	// 	};
+	// },
+	componentWillReceiveProps: function(nextProps) {
+		this.setState({cartItems: nextProps.cartItems});
+		this.setState({products: nextProps.products});
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  },
 	render: function() {
-		var products = this.props.products;
-		var cartItems = this.props.cartItems;
-		// console.log(products);
-		// console.log(typeof products);
+		var products = this.state.products;
+		var cartItems = this.state.cartItems;
 	    if (!products || !cartItems) {
 	        return null;
 	    }
@@ -44,7 +62,7 @@ export function fetchProducts() {
 	});
 	$.when(promise).fail(function(error) {
 		hideLoader();
-      	renderOverlayModal('Error', error.responseJSON.message, false);
+     	renderOverlayModal('Error', error.responseJSON.message, false);
 	});
 }
 
@@ -55,7 +73,7 @@ export function fetchCart(products) {
 	renderLoader();
     $.when(promise).done(function(data) {
       hideLoader();
-	  renderShopPage(products.models, cartItems);
+	  	renderShopPage(products.models, cartItems);
       renderCart(products.models, cartItems);
       // console.log(cartItems);
       // console.log(products);
