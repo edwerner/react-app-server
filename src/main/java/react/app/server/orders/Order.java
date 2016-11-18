@@ -15,34 +15,34 @@ import javax.persistence.PrePersist;
 import javax.persistence.ElementCollection;
 import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
-import javax.persistence.CascadeType;
+// import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.JoinColumn;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "order")
+@Table(name = "submittedorder")
 public class Order implements java.io.Serializable {
 
 	@Id
 	private String id;
 
-	// @Column(unique = true)
-	private String userId;
+	private String accountId;
 
 	private Instant created;
 
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy="product")
-    @ElementCollection
-   	// @CollectionTable(name = "product", joinColumns = @JoinColumn(name="id"))
-	private List<Product> productList;
+	@Cascade({CascadeType.ALL})
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+	private List<String> productList;
 
     protected Order() {
 
 	}
 	
-	public Order(String userId) {
-		this.userId = userId;
+	public Order(String accountId) {
+		this.accountId = accountId;
 		this.created = Instant.now();
 	}
 
@@ -59,19 +59,23 @@ public class Order implements java.io.Serializable {
 		return id;
 	}
 
-    public String getUserId() {
-		return userId;
+    public String getAccountId() {
+		return accountId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 
 	public Instant getCreated() {
 		return created;
 	}
 
-	public void addToProductList(Product product) {
-		productList.add(product);
+	public void setProductList(List<String> productList) {
+		this.productList = productList;
+	}
+
+	public List<String> getProductList() {
+		return this.productList;
 	}
 }

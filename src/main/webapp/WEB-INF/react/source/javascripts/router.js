@@ -7,6 +7,7 @@ import {renderMenu} from '../jsx/menu.jsx';
 import {hideCart} from '../jsx/cart.jsx';
 import {fetchProducts, hideShopPage, renderShopPage} from '../jsx/shop.jsx';
 import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
+import {hideOrderPage} from '../jsx/order.jsx';
 import App from './globals';
 
 App.Router = Backbone.Router.extend({
@@ -16,7 +17,8 @@ App.Router = Backbone.Router.extend({
 		'signup': 'signup',
 		'orders': 'orders',
 		'shop': 'shop',
-		'review':'review'
+		'review':'review',
+		'order': 'order'
 	},
 	index: function() {
 		hideLoginForm();
@@ -25,6 +27,7 @@ App.Router = Backbone.Router.extend({
 		renderIndex();
 		hideCart();
 		hideReviewPage();
+		hideOrderPage();
 		renderMenu(null, 'active', null, null, null, null);
 	},
 	signin: function() {
@@ -34,6 +37,7 @@ App.Router = Backbone.Router.extend({
 		renderLoginForm();
 		hideCart();
 		hideReviewPage();
+		hideOrderPage();
 		renderMenu('active', null, null, null, null, null);
 	},
 	signup: function() {
@@ -43,37 +47,44 @@ App.Router = Backbone.Router.extend({
 		renderUserForm();
 		hideCart();
 		hideReviewPage();
+		hideOrderPage();
 		renderMenu(null, null, 'active', null, null, null);
 	},
 	orders: function() {
 		hideIndex();
 		hideLoginForm();
 		hideCreateUserForm();
+		hideCart();
+		hideShopPage();
+		hideReviewPage();
+		hideOrderPage();
+		renderMenu(null, null, null, 'active', null, null);
+	},
+	order: function() {
+		hideIndex();
 		hideLoginForm();
 		hideCreateUserForm();
-		hideCart();
 		hideReviewPage();
-		renderMenu(null, null, null, 'active', null, null);
+		hideShopPage();
+		hideCart();
+		renderMenu(null, null, null, null, null, null);
 	},
 	shop: function() {
 		hideIndex();
 		hideLoginForm();
 		hideCreateUserForm();
-		hideLoginForm();
-		hideCreateUserForm();
 		hideReviewPage();
+		hideOrderPage();
 		fetchProducts();
-		renderShopPage();
 		renderMenu(null, null, null, null, 'active', null);
 	},
 	review: function() {
 		hideIndex();
 		hideLoginForm();
 		hideCreateUserForm();
-		hideLoginForm();
-		hideCreateUserForm();
 		hideShopPage();
 		hideCart();
+		hideOrderPage();
 		fetchReviewProducts();
 		renderMenu(null, null, null, null, null, 'active');
 	}

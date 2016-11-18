@@ -6,9 +6,11 @@ import CartItem from '../javascripts/cart-item';
 import CartItems from '../javascripts/cart-items';
 import Products from '../javascripts/products';
 import ReviewTile from './review-tile.jsx';
+import Order from '../javascripts/order';
 import _ from 'underscore';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
+import {renderOrderPage} from './order.jsx';
 
 var Review = React.createClass({
 	render: function() {
@@ -24,8 +26,45 @@ var Review = React.createClass({
 			    {cartItems.map(function(cartItem, index) {
 			        return <ReviewTile cartItem={cartItem} product={_this.getProductById(products, cartItem.get('productId'))} products={products} key={index}/>;
 			    })}
+			    <button onClick={this.submitOrder}>Submit Order</button>
 		    </div>
 		);
+	},
+	submitOrder: function() {
+		var order = new Order();
+		var promise = order.fetch();
+		var _this = this;
+		var products = this.props.products;
+		renderLoader();
+		$.when(promise).done(function(data) {
+			hideLoader();
+			_this.clearCartItems(order, products);
+		});
+		$.when(promise).fail(function(error) {
+			hideLoader();
+	     	renderOverlayModal('Error', error.responseJSON.message, false);
+		});
+	},
+	clearCartItems: function(order, products) {	
+		var promise = $.ajax({
+		   url: '/cartitemclear',
+		   type: 'GET',
+		   dataType: 'text'
+		});
+		var _this = this;
+		renderLoader();
+		$.when(promise).done(function(data) {
+			hideLoader();
+			_this.routeToOrderPage();
+			renderOrderPage(order, products);
+		});
+		$.when(promise).fail(function(error) {
+			hideLoader();
+	     	renderOverlayModal('Error', error.responseJSON.message, false);
+		});
+	},
+	routeToOrderPage: function() {
+	  	Backbone.history.navigate('order', {trigger:true});
 	},
 	getProductById: function(products, productId) {
 		var productMatch = _.find(products, function(product) {

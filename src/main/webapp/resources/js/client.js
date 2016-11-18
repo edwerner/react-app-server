@@ -68,6 +68,8 @@
 
 	var _review = __webpack_require__(419);
 
+	var _order = __webpack_require__(422);
+
 	var _globals = __webpack_require__(207);
 
 	var _globals2 = _interopRequireDefault(_globals);
@@ -81,7 +83,8 @@
 			'signup': 'signup',
 			'orders': 'orders',
 			'shop': 'shop',
-			'review': 'review'
+			'review': 'review',
+			'order': 'order'
 		},
 		index: function index() {
 			(0, _login.hideLoginForm)();
@@ -90,6 +93,7 @@
 			(0, _index.renderIndex)();
 			(0, _cart.hideCart)();
 			(0, _review.hideReviewPage)();
+			(0, _order.hideOrderPage)();
 			(0, _menu.renderMenu)(null, 'active', null, null, null, null);
 		},
 		signin: function signin() {
@@ -99,6 +103,7 @@
 			(0, _login.renderLoginForm)();
 			(0, _cart.hideCart)();
 			(0, _review.hideReviewPage)();
+			(0, _order.hideOrderPage)();
 			(0, _menu.renderMenu)('active', null, null, null, null, null);
 		},
 		signup: function signup() {
@@ -108,37 +113,44 @@
 			(0, _register.renderUserForm)();
 			(0, _cart.hideCart)();
 			(0, _review.hideReviewPage)();
+			(0, _order.hideOrderPage)();
 			(0, _menu.renderMenu)(null, null, 'active', null, null, null);
 		},
 		orders: function orders() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
+			(0, _cart.hideCart)();
+			(0, _shop.hideShopPage)();
+			(0, _review.hideReviewPage)();
+			(0, _order.hideOrderPage)();
+			(0, _menu.renderMenu)(null, null, null, 'active', null, null);
+		},
+		order: function order() {
+			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _cart.hideCart)();
 			(0, _review.hideReviewPage)();
-			(0, _menu.renderMenu)(null, null, null, 'active', null, null);
+			(0, _shop.hideShopPage)();
+			(0, _cart.hideCart)();
+			(0, _menu.renderMenu)(null, null, null, null, null, null);
 		},
 		shop: function shop() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _login.hideLoginForm)();
-			(0, _register.hideCreateUserForm)();
 			(0, _review.hideReviewPage)();
+			(0, _order.hideOrderPage)();
 			(0, _shop.fetchProducts)();
-			(0, _shop.renderShopPage)();
 			(0, _menu.renderMenu)(null, null, null, null, 'active', null);
 		},
 		review: function review() {
 			(0, _index.hideIndex)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			(0, _login.hideLoginForm)();
-			(0, _register.hideCreateUserForm)();
 			(0, _shop.hideShopPage)();
 			(0, _cart.hideCart)();
+			(0, _order.hideOrderPage)();
 			(0, _review.fetchReviewProducts)();
 			(0, _menu.renderMenu)(null, null, null, null, null, 'active');
 		}
@@ -37938,14 +37950,10 @@
 			}
 			return _react2.default.createElement(
 				'div',
-				null,
-				_react2.default.createElement(
-					'div',
-					{ className: 'flex flex-row flex-row-wrap' },
-					products.map(function (product, index) {
-						return _react2.default.createElement(_productTile2.default, { products: products, cartItems: cartItems, product: product, key: index });
-					})
-				)
+				{ className: 'flex flex-row flex-row-wrap' },
+				products.map(function (product, index) {
+					return _react2.default.createElement(_productTile2.default, { products: products, cartItems: cartItems, product: product, key: index });
+				})
 			);
 		}
 	});
@@ -62930,6 +62938,10 @@
 
 	var _reviewTile2 = _interopRequireDefault(_reviewTile);
 
+	var _order = __webpack_require__(421);
+
+	var _order2 = _interopRequireDefault(_order);
+
 	var _underscore = __webpack_require__(2);
 
 	var _underscore2 = _interopRequireDefault(_underscore);
@@ -62937,6 +62949,8 @@
 	var _loader = __webpack_require__(197);
 
 	var _overlay = __webpack_require__(191);
+
+	var _order3 = __webpack_require__(422);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -62960,8 +62974,49 @@
 				),
 				cartItems.map(function (cartItem, index) {
 					return _react2.default.createElement(_reviewTile2.default, { cartItem: cartItem, product: _this.getProductById(products, cartItem.get('productId')), products: products, key: index });
-				})
+				}),
+				_react2.default.createElement(
+					'button',
+					{ onClick: this.submitOrder },
+					'Submit Order'
+				)
 			);
+		},
+		submitOrder: function submitOrder() {
+			var order = new _order2.default();
+			var promise = order.fetch();
+			var _this = this;
+			var products = this.props.products;
+			(0, _loader.renderLoader)();
+			$.when(promise).done(function (data) {
+				(0, _loader.hideLoader)();
+				_this.clearCartItems(order, products);
+			});
+			$.when(promise).fail(function (error) {
+				(0, _loader.hideLoader)();
+				(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+			});
+		},
+		clearCartItems: function clearCartItems(order, products) {
+			var promise = $.ajax({
+				url: '/cartitemclear',
+				type: 'GET',
+				dataType: 'text'
+			});
+			var _this = this;
+			(0, _loader.renderLoader)();
+			$.when(promise).done(function (data) {
+				(0, _loader.hideLoader)();
+				_this.routeToOrderPage();
+				(0, _order3.renderOrderPage)(order, products);
+			});
+			$.when(promise).fail(function (error) {
+				(0, _loader.hideLoader)();
+				(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+			});
+		},
+		routeToOrderPage: function routeToOrderPage() {
+			Backbone.history.navigate('order', { trigger: true });
 		},
 		getProductById: function getProductById(products, productId) {
 			var productMatch = _underscore2.default.find(products, function (product) {
@@ -63097,6 +63152,93 @@
 		}
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 421 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Backbone = __webpack_require__(1);
+
+	module.exports = Backbone.Model.extend({
+		defaults: {
+			id: '',
+			accountId: '',
+			created: '',
+			productList: ''
+		},
+		url: '/order'
+	});
+
+/***/ },
+/* 422 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.renderOrderPage = renderOrderPage;
+	exports.hideOrderPage = hideOrderPage;
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _shop = __webpack_require__(194);
+
+	var _shop2 = _interopRequireDefault(_shop);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Order = _react2.default.createClass({
+		displayName: 'Order',
+
+		render: function render() {
+			var order = this.props.order;
+			var productList = null;
+			if (!order) {
+				return null;
+			} else {
+				productList = order.get('productList');
+				if (productList == null) {
+					return null;
+				}
+			}
+			return _react2.default.createElement(
+				'div',
+				{ className: 'flex flex-column' },
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Order Receipt'
+				),
+				productList.map(function (productId, index) {
+					return _react2.default.createElement(
+						'div',
+						null,
+						productId
+					);
+				})
+			);
+		}
+	});
+
+	var orderContainer = document.getElementById('order__container');
+
+	function renderOrderPage(order, products) {
+		_reactDom2.default.render(_react2.default.createElement(Order, { showLink: '', order: order, products: products }), orderContainer);
+	}
+
+	function hideOrderPage() {
+		_reactDom2.default.render(_react2.default.createElement(Order, { showLink: 'hidden' }), orderContainer);
+	}
 
 /***/ }
 /******/ ]);

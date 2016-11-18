@@ -3,6 +3,7 @@ package react.app.server.orders;
 import java.util.Collections;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import react.app.server.response.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.json.JsonObject;
 import javax.json.Json;
+import java.lang.System;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -31,6 +33,20 @@ public class OrdersService {
 	@Transactional
 	public Order save(Order order) {
 		ordersRepository.save(order);
+		return order;
+	}
+
+	@Transactional
+	public List<Order> findOrders() {
+		return ordersRepository.findAll();
+	}
+
+	@Transactional
+	public Order findOrCreateOrder(String accountId) {
+		Order order = ordersRepository.findByAccountId(accountId);
+		if (order == null) {
+			order = new Order(accountId);
+		}
 		return order;
 	}
 }

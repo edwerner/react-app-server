@@ -1,4 +1,4 @@
-package react.app.server.signup;
+package react.app.server.cart;
 
 import javax.validation.Valid;
 import javax.json.JsonObject;
@@ -74,7 +74,7 @@ public class CartController {
 	
 	@RequestMapping(value = "cartitems", method = RequestMethod.GET)
 	@ResponseBody
-	public String cartItemGet() throws JsonProcessingException {
+	public String cartItemsGet() throws JsonProcessingException {
 		Cart cart = cartService.findOrCreateCart();
 		ObjectMapper mapper = new ObjectMapper();
 		List<String> productIdList = cart.getCartItemList();
@@ -114,6 +114,12 @@ public class CartController {
 		return mapper.writeValueAsString(cartItemList);
 	}
 	
+	@RequestMapping(value = "cartitemclear", method = RequestMethod.GET)
+	@ResponseBody
+	public String clearCartItemsGet() {
+		return cartService.clearCartItems();
+	}
+
 	@RequestMapping(value = "cartitemremove", method = RequestMethod.POST)
 	@ResponseBody
 	public String removeCartItemPost(@Valid @RequestBody CartItem cartItem, Errors errors) throws JsonProcessingException {

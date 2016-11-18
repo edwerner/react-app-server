@@ -33,12 +33,10 @@ var Shop = React.createClass({
 	        return null;
 	    }
 		return (
-			<div>
-				<div className='flex flex-row flex-row-wrap'>
-				    {products.map(function(product, index) {
-				        return <ProductTile products={products} cartItems={cartItems} product={product} key={index}/>;
-				    })}
-			    </div>
+			<div className='flex flex-row flex-row-wrap'>
+			    {products.map(function(product, index) {
+			        return <ProductTile products={products} cartItems={cartItems} product={product} key={index}/>;
+			    })}
 		    </div>
 		);
 	}
@@ -70,7 +68,7 @@ export function fetchCart(products) {
   $.when(promise).fail(function(error) {
   	hideLoader();
   	console.log(error);
-    	renderOverlayModal('Error', error.responseJSON.message, false);
+    renderOverlayModal('Error', error.responseJSON.message, false);
   });
 }
 

@@ -1,4 +1,4 @@
-package react.app.server.account;
+package react.app.server.cart;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +26,7 @@ import javax.json.Json;
 import java.security.Principal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Iterator;
+import java.util.Collections;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -71,6 +72,16 @@ public class CartService {
 	public List<String> getCartItems() {
 		List<String> cartItemList = findOrCreateCart().getCartItemList();
 		return cartItemList;
+	}
+
+	@Transactional
+	public String clearCartItems() {
+		List<String> cartItemList = findOrCreateCart().getCartItemList();
+		Cart cart = findOrCreateCart();
+		cartItemList = Collections.emptyList();
+		cart.setCartItemList(cartItemList);
+		cartRepository.save(cart);
+		return "Cart cleared";
 	}
 
 	@Transactional
