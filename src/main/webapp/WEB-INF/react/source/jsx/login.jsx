@@ -91,10 +91,8 @@ var LoginForm = React.createClass({
     var _this = this;
     renderLoader();
     $.when(promise).done(function(data) {
-      // window.localStorage.setItem('shop-token', data.token);
       var emailError = '';
       var passwordError = '';
-      // console.log(data);
       hideLoader();
       if (data.errors) {
         emailError = data.errors.email;
@@ -107,10 +105,9 @@ var LoginForm = React.createClass({
       // _this.resetForm();
     });
     $.when(promise).fail(function(error) {
-      // console.log(error);
       hideLoader();
       renderOverlayModal('Error', error.message, false);
-      // renderOverlayModal('Error', error.message, false);
+      console.log(error);
     });
   },
   resetForm: function() {

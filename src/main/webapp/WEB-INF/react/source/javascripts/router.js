@@ -4,8 +4,6 @@ import {renderLoginForm, hideLoginForm} from '../jsx/login.jsx';
 import {renderUserForm, hideCreateUserForm} from '../jsx/register.jsx';
 import {renderIndex, hideIndex} from '../jsx/index.jsx';
 import {renderMenu} from '../jsx/menu.jsx';
-// import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
-import {routeToShopPage} from '../jsx/overlay.jsx';
 import {hideCart} from '../jsx/cart.jsx';
 import {fetchProducts, hideShopPage, renderShopPage} from '../jsx/shop.jsx';
 import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
@@ -54,7 +52,6 @@ App.Router = Backbone.Router.extend({
 		hideLoginForm();
 		hideCreateUserForm();
 		hideCart();
-		// routeToShopPage();
 		hideReviewPage();
 		renderMenu(null, null, null, 'active', null, null);
 	},
@@ -64,10 +61,9 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideLoginForm();
 		hideCreateUserForm();
-		// renderCart();
-		// renderShopPage();
 		hideReviewPage();
 		fetchProducts();
+		renderShopPage();
 		renderMenu(null, null, null, null, 'active', null);
 	},
 	review: function() {
@@ -78,10 +74,6 @@ App.Router = Backbone.Router.extend({
 		hideCreateUserForm();
 		hideShopPage();
 		hideCart();
-		// renderReviewPage();
-		// renderCart();
-		// renderShopPage();
-		// fetchProducts();
 		fetchReviewProducts();
 		renderMenu(null, null, null, null, null, 'active');
 	}
@@ -89,6 +81,7 @@ App.Router = Backbone.Router.extend({
 
 new App.Router();
 Backbone.history.start({pushState: true});
+Backbone.emulateHTTP = true;
 
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");

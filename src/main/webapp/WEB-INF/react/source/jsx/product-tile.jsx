@@ -47,8 +47,6 @@ module.exports = React.createClass({
     return  substring;
   },
   toggleDescription: function() {
-    //<div className='product__description'>{this.state.fulltext ? this.props.product.get('description') : this.truncateString(50, this.props.product.get('description'))}</div>
-    //<a href='javascript:void(0)' onClick={this.toggleDescription} className='product__description__toggle'>Read More</a>
     if (this.state.fulltext) {
       this.setState({'fulltext': ''});
     } else {

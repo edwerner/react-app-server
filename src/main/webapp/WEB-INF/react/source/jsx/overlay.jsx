@@ -41,18 +41,8 @@ var Overlay = React.createClass({
 		);
 	},
 	onSuccessButtonClick: function() {
-		// var token = window.localStorage.getItem('orders-token');
-		// if (token)e {
 		hideOverlayModal();
-			// fetchProducts();
-
 		Backbone.history.navigate('shop', {trigger:true});
-			// routeToShopPage();
-		// } else {
-  //   		// Backbone.history.navigate('login', {trigger:true});
-  //   		// hideOverlayModal();
-  //   		renderOverlayModal('Error', 'You must be logged in first', false);
-		// }
 	},
 	onFailureButtonClick: function() {
     	Backbone.history.navigate('login', {trigger:true});
@@ -79,20 +69,4 @@ export function renderOverlayModal(title, message, success) {
 export function hideOverlayModal() {
 	overlayContainer.className += ' hidden';
 	ReactDOM.render(<Overlay showLink='hidden'/>, overlayContainer);
-}
-
-export function routeToShopPage() {
-	// var token = window.localStorage.getItem('shop-token');
-	var promise = $.ajax({
-	  type: 'GET',
-	  url: '/shop'
-	});
-  $.when(promise).done(function() {
-  		// hideOverlayModal();
-		Backbone.history.navigate('shop', {trigger:true});
-		// fetchProducts();
-  });
-  $.when(promise).fail(function(error) {
- 		renderOverlayModal('Error', error.responseJSON.message, null);
-  });
 }

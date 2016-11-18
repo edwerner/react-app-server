@@ -80,22 +80,15 @@ var RegisterUserForm = React.createClass({
     Backbone.history.navigate('signin', {trigger:true});
   },
   submitForm: function() {
-    Backbone.emulateHTTP = true;
     var user = new User();
     user.set('email', this.state.email);
     user.set('password', this.state.password);
-    // user.set('first_name', this.state.first_name);
-    // user.set('last_name', this.state.last_name);
-    // user.set('email', this.state.email);
     user.serialize();
     user.url = '/signup';
     var promise = user.save();
     var _this = this;
     renderLoader();
     $.when(promise).done(function(data) {
-      // window.localStorage.setItem('orders-token', data.token);
-      // console.log(data.errors);
-      // console.log(data.token);
       var emailError = '';
       var passwordError = '';
       hideLoader();
@@ -112,7 +105,7 @@ var RegisterUserForm = React.createClass({
     $.when(promise).fail(function(error) {
       hideLoader();
       renderOverlayModal('Error', error.responseJSON.message, false);
-      // console.log(error);
+      console.log(error);
     });
   },
   resetForm: function() {

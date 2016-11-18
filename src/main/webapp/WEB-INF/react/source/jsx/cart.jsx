@@ -7,14 +7,11 @@ import CartItems from '../javascripts/cart-items';
 import _ from 'underscore';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
-// import {renderReviewPage} from './review.jsx';
 
 var Cart = React.createClass({
 	render: function() {
 		var cartItems = this.props.cartItems;
 		var products = this.props.products;
-		// console.log(cartItems);
-		// console.log(products);
 		var _this = this;
 	    if (!cartItems || !products) {
 	        return null;
@@ -51,16 +48,11 @@ export function hideCart() {
 
 export function formatCartItems(array) {
 	var cartItems = new CartItems();
-	// console.log(array);
-	// var obj = array[0];
 	for (var i = 0; i < array.length; i++) {
 		var cartItem = new CartItem();
 		var item = array[i];
 		cartItem.set('productId', item.productId);
 		cartItems.add(item);
 	}
-	// console.log("******************");
-	// console.log(cartItems);
-	// console.log(array);
 	return cartItems;
 }

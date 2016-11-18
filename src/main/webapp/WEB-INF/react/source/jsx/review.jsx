@@ -14,8 +14,6 @@ var Review = React.createClass({
 	render: function() {
 		var cartItems = this.props.cartItems;
 		var products = this.props.products;
-		// console.log(cartItems);
-		// console.log(products);
 		var _this = this;
 	    if (!cartItems || !products) {
 	        return null;
@@ -50,10 +48,8 @@ export function hideReviewPage() {
 export function fetchReviewProducts() {
 	var products = new Products();
 	var promise = products.fetch();
-    Backbone.emulateHTTP = true;
 	renderLoader();
 	$.when(promise).done(function(data) {
-		// console.log(data);
 		hideLoader();
 		fetchReviewCartItems(products.models);
 	});
@@ -66,15 +62,11 @@ export function fetchReviewProducts() {
 export function fetchReviewCartItems(products) {
 	var cartItems = new CartItems();
 	var promise = cartItems.fetch();
-    Backbone.emulateHTTP = true;
 	renderLoader();
     $.when(promise).done(function(data) {
       hideLoader();
 	  Backbone.history.navigate('review', {trigger:true});
-      renderReviewPage(products, cartItems);
-      // console.log(cartItems);
-      // console.log(products);
-    });
+      renderReviewPage(products, cartItems);    });
     $.when(promise).fail(function(error) {
     	hideLoader();
     	console.log(error);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import {routeToShopPage, renderOverlayModal} from './overlay.jsx';
+import {renderOverlayModal} from './overlay.jsx';
 
 var Menu = React.createClass({
 	renderLoginTab: function() {
@@ -14,11 +14,9 @@ var Menu = React.createClass({
 		Backbone.history.navigate('signup', {trigger:true});
 	},
 	renderOrdersTab: function() {
-		// routeToShopPage();
 		Backbone.history.navigate('orders', {trigger:true});
 	},
 	renderLogoutTab: function() {
-		// window.localStorage.removeItem('orders-token');
       	renderOverlayModal('Logout Success', 'You have successfully logged out', true);
 	},
 	renderShopTab: function() {

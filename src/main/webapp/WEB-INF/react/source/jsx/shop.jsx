@@ -19,12 +19,6 @@ var Shop = React.createClass({
 			products: this.props.products
 		}
 	},
-	// componentWillMount: function() {
-	// 	Callbacks.updateCartItems = (cartItems) => {
-	// 	    this.setState({cartItems: cartItems});
-	// 	    console.log('updateCartItems');
-	// 	};
-	// },
 	componentWillReceiveProps: function(nextProps) {
 		this.setState({cartItems: nextProps.cartItems});
 		this.setState({products: nextProps.products});
@@ -53,10 +47,8 @@ var Shop = React.createClass({
 export function fetchProducts() {
 	var products = new Products();
 	var promise = products.fetch();
-    Backbone.emulateHTTP = true;
 	renderLoader();
 	$.when(promise).done(function(data) {
-		// console.log(data);
 		hideLoader();
 		fetchCart(products);
 	});
@@ -69,20 +61,17 @@ export function fetchProducts() {
 export function fetchCart(products) {
 	var cartItems = new CartItems();
 	var promise = cartItems.fetch();
-    Backbone.emulateHTTP = true;
 	renderLoader();
-    $.when(promise).done(function(data) {
-      hideLoader();
-	  	renderShopPage(products.models, cartItems);
-      renderCart(products.models, cartItems);
-      // console.log(cartItems);
-      // console.log(products);
-    });
-    $.when(promise).fail(function(error) {
-    	hideLoader();
-    	console.log(error);
-      	renderOverlayModal('Error', error.responseJSON.message, false);
-    });
+  $.when(promise).done(function(data) {
+    hideLoader();
+  	renderShopPage(products.models, cartItems);
+    renderCart(products.models, cartItems);
+  });
+  $.when(promise).fail(function(error) {
+  	hideLoader();
+  	console.log(error);
+    	renderOverlayModal('Error', error.responseJSON.message, false);
+  });
 }
 
 export function renderShopPage(products, cartItems) {

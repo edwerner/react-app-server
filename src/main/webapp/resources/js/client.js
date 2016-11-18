@@ -62,15 +62,13 @@
 
 	var _menu = __webpack_require__(418);
 
-	var _overlay = __webpack_require__(191);
-
 	var _cart = __webpack_require__(201);
 
 	var _shop = __webpack_require__(193);
 
 	var _review = __webpack_require__(419);
 
-	var _globals = __webpack_require__(204);
+	var _globals = __webpack_require__(207);
 
 	var _globals2 = _interopRequireDefault(_globals);
 
@@ -119,7 +117,6 @@
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
 			(0, _cart.hideCart)();
-			// routeToShopPage();
 			(0, _review.hideReviewPage)();
 			(0, _menu.renderMenu)(null, null, null, 'active', null, null);
 		},
@@ -129,10 +126,9 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _login.hideLoginForm)();
 			(0, _register.hideCreateUserForm)();
-			// renderCart();
-			// renderShopPage();
 			(0, _review.hideReviewPage)();
 			(0, _shop.fetchProducts)();
+			(0, _shop.renderShopPage)();
 			(0, _menu.renderMenu)(null, null, null, null, 'active', null);
 		},
 		review: function review() {
@@ -143,19 +139,14 @@
 			(0, _register.hideCreateUserForm)();
 			(0, _shop.hideShopPage)();
 			(0, _cart.hideCart)();
-			// renderReviewPage();
-			// renderCart();
-			// renderShopPage();
-			// fetchProducts();
 			(0, _review.fetchReviewProducts)();
 			(0, _menu.renderMenu)(null, null, null, null, null, 'active');
 		}
 	});
-	// import {hideShopPage, renderShopPage} from '../jsx/orders.jsx';
-
 
 	new _globals2.default.Router();
 	_backbone2.default.history.start({ pushState: true });
+	_backbone2.default.emulateHTTP = true;
 
 	var token = (0, _jquery2.default)("meta[name='_csrf']").attr("content");
 	var header = (0, _jquery2.default)("meta[name='_csrf_header']").attr("content");
@@ -13912,10 +13903,8 @@
 	    var _this = this;
 	    (0, _loader.renderLoader)();
 	    _jquery2.default.when(promise).done(function (data) {
-	      // window.localStorage.setItem('shop-token', data.token);
 	      var emailError = '';
 	      var passwordError = '';
-	      // console.log(data);
 	      (0, _loader.hideLoader)();
 	      if (data.errors) {
 	        emailError = data.errors.email;
@@ -13928,10 +13917,9 @@
 	      // _this.resetForm();
 	    });
 	    _jquery2.default.when(promise).fail(function (error) {
-	      // console.log(error);
 	      (0, _loader.hideLoader)();
 	      (0, _overlay.renderOverlayModal)('Error', error.message, false);
-	      // renderOverlayModal('Error', error.message, false);
+	      console.log(error);
 	    });
 	  },
 	  resetForm: function resetForm() {
@@ -37726,14 +37714,13 @@
 /* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 	exports.renderOverlayModal = renderOverlayModal;
 	exports.hideOverlayModal = hideOverlayModal;
-	exports.routeToShopPage = routeToShopPage;
 
 	var _react = __webpack_require__(5);
 
@@ -37828,18 +37815,8 @@
 			);
 		},
 		onSuccessButtonClick: function onSuccessButtonClick() {
-			// var token = window.localStorage.getItem('orders-token');
-			// if (token)e {
 			hideOverlayModal();
-			// fetchProducts();
-
 			Backbone.history.navigate('shop', { trigger: true });
-			// routeToShopPage();
-			// } else {
-			//   		// Backbone.history.navigate('login', {trigger:true});
-			//   		// hideOverlayModal();
-			//   		renderOverlayModal('Error', 'You must be logged in first', false);
-			// }
 		},
 		onFailureButtonClick: function onFailureButtonClick() {
 			Backbone.history.navigate('login', { trigger: true });
@@ -37867,23 +37844,6 @@
 		overlayContainer.className += ' hidden';
 		_reactDom2.default.render(_react2.default.createElement(Overlay, { showLink: 'hidden' }), overlayContainer);
 	}
-
-	function routeToShopPage() {
-		// var token = window.localStorage.getItem('shop-token');
-		var promise = $.ajax({
-			type: 'GET',
-			url: '/shop'
-		});
-		$.when(promise).done(function () {
-			// hideOverlayModal();
-			Backbone.history.navigate('shop', { trigger: true });
-			// fetchProducts();
-		});
-		$.when(promise).fail(function (error) {
-			renderOverlayModal('Error', error.responseJSON.message, null);
-		});
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 192 */
@@ -37937,17 +37897,17 @@
 
 	var _productTile2 = _interopRequireDefault(_productTile);
 
-	var _cart = __webpack_require__(207);
+	var _cart = __webpack_require__(206);
 
 	var _cart2 = _interopRequireDefault(_cart);
 
-	var _cartItems = __webpack_require__(206);
+	var _cartItems = __webpack_require__(205);
 
 	var _cartItems2 = _interopRequireDefault(_cartItems);
 
 	var _cart3 = __webpack_require__(201);
 
-	var _globals = __webpack_require__(204);
+	var _globals = __webpack_require__(207);
 
 	var _globals2 = _interopRequireDefault(_globals);
 
@@ -37962,12 +37922,6 @@
 				products: this.props.products
 			};
 		},
-		// componentWillMount: function() {
-		// 	Callbacks.updateCartItems = (cartItems) => {
-		// 	    this.setState({cartItems: cartItems});
-		// 	    console.log('updateCartItems');
-		// 	};
-		// },
 		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 			this.setState({ cartItems: nextProps.cartItems });
 			this.setState({ products: nextProps.products });
@@ -37999,10 +37953,8 @@
 	function fetchProducts() {
 		var products = new _products2.default();
 		var promise = products.fetch();
-		Backbone.emulateHTTP = true;
 		(0, _loader.renderLoader)();
 		_jquery2.default.when(promise).done(function (data) {
-			// console.log(data);
 			(0, _loader.hideLoader)();
 			fetchCart(products);
 		});
@@ -38015,14 +37967,11 @@
 	function fetchCart(products) {
 		var cartItems = new _cartItems2.default();
 		var promise = cartItems.fetch();
-		Backbone.emulateHTTP = true;
 		(0, _loader.renderLoader)();
 		_jquery2.default.when(promise).done(function (data) {
 			(0, _loader.hideLoader)();
 			renderShopPage(products.models, cartItems);
 			(0, _cart3.renderCart)(products.models, cartItems);
-			// console.log(cartItems);
-			// console.log(products);
 		});
 		_jquery2.default.when(promise).fail(function (error) {
 			(0, _loader.hideLoader)();
@@ -38158,7 +38107,7 @@
 
 	var React = __webpack_require__(5);
 	var CartAddWidget = __webpack_require__(200);
-	var CartItem = __webpack_require__(205);
+	var CartItem = __webpack_require__(204);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -38289,8 +38238,6 @@
 	    return substring;
 	  },
 	  toggleDescription: function toggleDescription() {
-	    //<div className='product__description'>{this.state.fulltext ? this.props.product.get('description') : this.truncateString(50, this.props.product.get('description'))}</div>
-	    //<a href='javascript:void(0)' onClick={this.toggleDescription} className='product__description__toggle'>Read More</a>
 	    if (this.state.fulltext) {
 	      this.setState({ 'fulltext': '' });
 	    } else {
@@ -38337,10 +38284,6 @@
 
 	var _overlay = __webpack_require__(191);
 
-	var _globals = __webpack_require__(204);
-
-	var _globals2 = _interopRequireDefault(_globals);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = _react2.default.createClass({
@@ -38364,6 +38307,9 @@
 			return true;
 		},
 
+		componentWillMount: function componentWillMount() {
+			this.updateWidgetText(this.state.cartItem, this.state.cartItems);
+		},
 		updateWidgetText: function updateWidgetText(cartItem, cartItems) {
 			if (cartItems) {
 				var cartItemMatch = _underscore2.default.find(cartItems.models, function (item) {
@@ -38409,82 +38355,41 @@
 			return this.setState({ buttonText: status });
 		},
 		addToCart: function addToCart() {
-			// console.log(cartItem.get('productId'));
-			// var quantity = this.state.quantity;
 			var _this = this;
 			var cartItem = this.props.cartItem;
 			var products = this.props.products;
-
-			Backbone.emulateHTTP = true;
-			// quantity += 1;
-			// cartItem.set('quantity', quantity);
-			// this.setState({quantity: quantity});
-			// cartItem.set('url', '/cartitemadd')
 			cartItem.url = '/cartitemadd';
 			var promise = cartItem.save();
 			(0, _loader.renderLoader)();
 			$.when(promise).done(function (data) {
-				// window.localStorage.setItem('shop-token', data.token);
-				// hideLoader();
-				// _this.resetForm();
-				// renderOverlayModal(data.title, data.message, data.success);
-
-				// data returns list
-				// console.log(cartItem);
-				// _this.setAddButtonText();
 				(0, _loader.hideLoader)();
 				var cartItems = (0, _cart.formatCartItems)(data);
 				_this.setButtonText('Remove from Cart');
 				(0, _cart.renderCart)(products, cartItems);
-				// renderCartAddWidget(products, cartItems, cartItem);
-				// renderCartAddWidget(products, cartItems);
 			});
 			$.when(promise).fail(function (error) {
 				(0, _loader.hideLoader)();
 				console.log(error);
 				(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
-				// hideLoader();
-				// renderOverlayModal('Error', error.responseJSON.message, false);
 			});
 		},
 		removeFromCart: function removeFromCart() {
-			// console.log(cartItem.get('productId'));
-			// var quantity = this.state.quantity;
 			var _this = this;
 			var cartItem = this.props.cartItem;
 			var products = this.props.products;
-
-			Backbone.emulateHTTP = true;
-			// quantity += 1;
-			// cartItem.set('quantity', quantity);
-			// this.setState({quantity: quantity});
-			// cartItem.set('url', '/cartitemremove')
 			cartItem.url = '/cartitemremove';
 			var promise = cartItem.save();
 			(0, _loader.renderLoader)();
 			$.when(promise).done(function (data) {
-				// window.localStorage.setItem('shop-token', data.token);
-				// hideLoader();
-				// _this.resetForm();
-				// renderOverlayModal(data.title, data.message, data.success);
-				// _this.setState({'buttonText': 'Add to Cart'});
-
-				// data returns list
-				// console.log(cartItem);
-				// console.log(products);
-				// console.log(cartItem);
 				(0, _loader.hideLoader)();
 				var cartItems = (0, _cart.formatCartItems)(data);
 				_this.setButtonText('Add to Cart');
 				(0, _cart.renderCart)(products, cartItems);
-				// console.log(data);
 			});
 			$.when(promise).fail(function (error) {
 				(0, _loader.hideLoader)();
-				console.log(error);
 				(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
-				// hideLoader();
-				// renderOverlayModal('Error', error.responseJSON.message, false);
+				console.log(error);
 			});
 		},
 		decrementQuantity: function decrementQuantity() {
@@ -38493,29 +38398,14 @@
 			if (quantity > 0) {
 				quantity -= 1;
 				cartItem.set('quantity', quantity);
-				// this.setState({quantity: quantity});
 				var promise = cartItem.save();
-				$.when(promise).done(function (data) {
-					// window.localStorage.setItem('shop-token', data.token);
-					// hideLoader();
-					// _this.resetForm();
-					// renderOverlayModal(data.title, data.message, data.success);
-					// console.log(data);
-				});
+				$.when(promise).done(function (data) {});
 				$.when(promise).fail(function (error) {
 					console.log(data);
-					// hideLoader();
-					// renderOverlayModal('Error', error.responseJSON.message, false);
 				});
 			}
 		}
 	});
-
-	// export function renderCartAddWidget(products, cartItems, cartItem) {
-	// 	ReactDOM.render(<CartAddWidget showLink='' products={products} cartItems={cartItems} cartItem={cartItem}/>, document.getElementById('shop__container'));
-	// }
-
-	// module.exports = CartAddWidget;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
@@ -38547,11 +38437,11 @@
 
 	var _cartTile2 = _interopRequireDefault(_cartTile);
 
-	var _cartItem = __webpack_require__(205);
+	var _cartItem = __webpack_require__(204);
 
 	var _cartItem2 = _interopRequireDefault(_cartItem);
 
-	var _cartItems = __webpack_require__(206);
+	var _cartItems = __webpack_require__(205);
 
 	var _cartItems2 = _interopRequireDefault(_cartItems);
 
@@ -38565,16 +38455,12 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import {renderReviewPage} from './review.jsx';
-
 	var Cart = _react2.default.createClass({
 		displayName: 'Cart',
 
 		render: function render() {
 			var cartItems = this.props.cartItems;
 			var products = this.props.products;
-			// console.log(cartItems);
-			// console.log(products);
 			var _this = this;
 			if (!cartItems || !products) {
 				return null;
@@ -38615,17 +38501,12 @@
 
 	function formatCartItems(array) {
 		var cartItems = new _cartItems2.default();
-		// console.log(array);
-		// var obj = array[0];
 		for (var i = 0; i < array.length; i++) {
 			var cartItem = new _cartItem2.default();
 			var item = array[i];
 			cartItem.set('productId', item.productId);
 			cartItems.add(item);
 		}
-		// console.log("******************");
-		// console.log(cartItems);
-		// console.log(array);
 		return cartItems;
 	}
 
@@ -38660,10 +38541,6 @@
 	var _shop = __webpack_require__(193);
 
 	var _cartAddWidget = __webpack_require__(200);
-
-	var _globals = __webpack_require__(204);
-
-	var _globals2 = _interopRequireDefault(_globals);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38702,51 +38579,22 @@
 			);
 		},
 		removeFromCart: function removeFromCart() {
-
-			// fetchCart(this.props.products);
-
-
-			// console.log(cartItem.get('productId'));
-			// var quantity = this.state.quantity;
 			var _this = this;
 			var cartItem = this.props.cartItem;
 			var products = this.props.products;
-
-			Backbone.emulateHTTP = true;
-			// quantity += 1;
-			// cartItem.set('quantity', quantity);
-			// this.setState({quantity: quantity});
-			// cartItem.set('url', '/cartitemremove')
 			cartItem.url = '/cartitemremove';
 			var promise = cartItem.save();
 			(0, _loader.renderLoader)();
 			$.when(promise).done(function (data) {
-				// window.localStorage.setItem('shop-token', data.token);
-				// hideLoader();
-				// _this.resetForm();
-				// renderOverlayModal(data.title, data.message, data.success);
 				(0, _loader.hideLoader)();
-				// _this.setState({'buttonText': 'Add to Cart'});
-
-				// data returns list
-				// console.log(cartItem);
-				// console.log(products);
-				// console.log(cartItem);
 				var cartItems = (0, _cart3.formatCartItems)(data);
-				// renderShopPage(products, cartItems);
-				// renderShopPage(products, cartItems);
-				// renderCartAddWidget(products, cartItems, cartItem);
 				(0, _shop.renderShopPage)(products, cartItems);
 				(0, _cart3.renderCart)(products, cartItems);
-				// Callbacks.updateCartItems(cartItems);
-				// console.log(data);
 			});
 			$.when(promise).fail(function (error) {
 				(0, _loader.hideLoader)();
 				console.log(error);
 				renderOverlayModal('Error', error.responseJSON.message, false);
-				// hideLoader();
-				// renderOverlayModal('Error', error.responseJSON.message, false);
 			});
 		},
 		onRemoveCartItemMouseEnter: function onRemoveCartItemMouseEnter() {
@@ -38760,18 +38608,6 @@
 
 /***/ },
 /* 204 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	var App = {};
-	var Callbacks = {};
-
-	module.exports.App = App;
-	module.exports.Callbacks = Callbacks;
-
-/***/ },
-/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38793,13 +38629,13 @@
 	});
 
 /***/ },
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Backbone = __webpack_require__(1);
-	var CartItem = __webpack_require__(205);
+	var CartItem = __webpack_require__(204);
 
 	module.exports = Backbone.Collection.extend({
 		model: CartItem,
@@ -38807,7 +38643,7 @@
 	});
 
 /***/ },
-/* 207 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38822,6 +38658,18 @@
 		},
 		url: '/cart'
 	});
+
+/***/ },
+/* 207 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var App = {};
+	var Callbacks = {};
+
+	module.exports.App = App;
+	module.exports.Callbacks = Callbacks;
 
 /***/ },
 /* 208 */
@@ -62772,22 +62620,15 @@
 	    Backbone.history.navigate('signin', { trigger: true });
 	  },
 	  submitForm: function submitForm() {
-	    Backbone.emulateHTTP = true;
 	    var user = new _user2.default();
 	    user.set('email', this.state.email);
 	    user.set('password', this.state.password);
-	    // user.set('first_name', this.state.first_name);
-	    // user.set('last_name', this.state.last_name);
-	    // user.set('email', this.state.email);
 	    user.serialize();
 	    user.url = '/signup';
 	    var promise = user.save();
 	    var _this = this;
 	    (0, _loader.renderLoader)();
 	    _jquery2.default.when(promise).done(function (data) {
-	      // window.localStorage.setItem('orders-token', data.token);
-	      // console.log(data.errors);
-	      // console.log(data.token);
 	      var emailError = '';
 	      var passwordError = '';
 	      (0, _loader.hideLoader)();
@@ -62804,7 +62645,7 @@
 	    _jquery2.default.when(promise).fail(function (error) {
 	      (0, _loader.hideLoader)();
 	      (0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
-	      // console.log(error);
+	      console.log(error);
 	    });
 	  },
 	  resetForm: function resetForm() {
@@ -62878,12 +62719,14 @@
 		}
 	});
 
+	var index = document.getElementById('index');
+
 	function renderIndex() {
-		_reactDom2.default.render(_react2.default.createElement(Index, { showLink: '' }), document.getElementById('index'));
+		_reactDom2.default.render(_react2.default.createElement(Index, { showLink: '' }), index);
 	}
 
 	function hideIndex() {
-		_reactDom2.default.render(_react2.default.createElement(Index, { showLink: 'hidden' }), document.getElementById('index'));
+		_reactDom2.default.render(_react2.default.createElement(Index, { showLink: 'hidden' }), index);
 	}
 
 /***/ },
@@ -62932,11 +62775,9 @@
 			Backbone.history.navigate('signup', { trigger: true });
 		},
 		renderOrdersTab: function renderOrdersTab() {
-			// routeToShopPage();
 			Backbone.history.navigate('orders', { trigger: true });
 		},
 		renderLogoutTab: function renderLogoutTab() {
-			// window.localStorage.removeItem('orders-token');
 			(0, _overlay.renderOverlayModal)('Logout Success', 'You have successfully logged out', true);
 		},
 		renderShopTab: function renderShopTab() {
@@ -63073,11 +62914,11 @@
 
 	var _cartTile2 = _interopRequireDefault(_cartTile);
 
-	var _cartItem = __webpack_require__(205);
+	var _cartItem = __webpack_require__(204);
 
 	var _cartItem2 = _interopRequireDefault(_cartItem);
 
-	var _cartItems = __webpack_require__(206);
+	var _cartItems = __webpack_require__(205);
 
 	var _cartItems2 = _interopRequireDefault(_cartItems);
 
@@ -63105,8 +62946,6 @@
 		render: function render() {
 			var cartItems = this.props.cartItems;
 			var products = this.props.products;
-			// console.log(cartItems);
-			// console.log(products);
 			var _this = this;
 			if (!cartItems || !products) {
 				return null;
@@ -63145,10 +62984,8 @@
 	function fetchReviewProducts() {
 		var products = new _products2.default();
 		var promise = products.fetch();
-		Backbone.emulateHTTP = true;
 		(0, _loader.renderLoader)();
 		$.when(promise).done(function (data) {
-			// console.log(data);
 			(0, _loader.hideLoader)();
 			fetchReviewCartItems(products.models);
 		});
@@ -63161,14 +62998,11 @@
 	function fetchReviewCartItems(products) {
 		var cartItems = new _cartItems2.default();
 		var promise = cartItems.fetch();
-		Backbone.emulateHTTP = true;
 		(0, _loader.renderLoader)();
 		$.when(promise).done(function (data) {
 			(0, _loader.hideLoader)();
 			Backbone.history.navigate('review', { trigger: true });
 			renderReviewPage(products, cartItems);
-			// console.log(cartItems);
-			// console.log(products);
 		});
 		$.when(promise).fail(function (error) {
 			(0, _loader.hideLoader)();
@@ -63217,7 +63051,6 @@
 			if (!product || !this.props.products || !this.props.cartItem) {
 				return null;
 			}
-			console.log(this.props.products);
 			return _react2.default.createElement(
 				'div',
 				{ className: 'cart__tile flex flex-space-between flex-row flex-vertical-center' },
@@ -63240,41 +63073,20 @@
 			);
 		},
 		removeFromCart: function removeFromCart() {
-			// console.log(cartItem.get('productId'));
-			// var quantity = this.state.quantity;
 			var _this = this;
 			var cartItem = this.props.cartItem;
 			var products = this.props.products;
-
-			Backbone.emulateHTTP = true;
-			// quantity += 1;
-			// cartItem.set('quantity', quantity);
-			// this.setState({quantity: quantity});
-			// cartItem.set('url', '/cartitemremove')
 			cartItem.url = '/cartitemremove';
 			var promise = cartItem.save();
 			(0, _loader.renderLoader)();
 			$.when(promise).done(function (data) {
-				// window.localStorage.setItem('shop-token', data.token);
-				// hideLoader();
-				// _this.resetForm();
-				// renderOverlayModal(data.title, data.message, data.success);
 				(0, _loader.hideLoader)();
-				// _this.setState({'buttonText': 'Add to Cart'});
-
-				// data returns list
-				// console.log(cartItem);
-				// console.log(products);
-				// console.log(cartItem);
 				(0, _review.renderReviewPage)(products, (0, _cart3.formatCartItems)(data));
-				// console.log(data);
 			});
 			$.when(promise).fail(function (error) {
 				(0, _loader.hideLoader)();
 				console.log(error);
 				renderOverlayModal('Error', error.responseJSON.message, false);
-				// hideLoader();
-				// renderOverlayModal('Error', error.responseJSON.message, false);
 			});
 		},
 		onRemoveCartItemMouseEnter: function onRemoveCartItemMouseEnter() {

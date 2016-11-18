@@ -14,10 +14,12 @@ var Index = React.createClass({
 	}
 });
 
+var index = document.getElementById('index');
+
 export function renderIndex() {
-	ReactDOM.render(<Index showLink=''/>, document.getElementById('index'));
+	ReactDOM.render(<Index showLink=''/>, index);
 }
 
 export function hideIndex() {
-	ReactDOM.render(<Index showLink='hidden'/>, document.getElementById('index'));
+	ReactDOM.render(<Index showLink='hidden'/>, index);
 }

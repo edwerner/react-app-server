@@ -5,7 +5,6 @@ import {formatCartItems, renderCart} from './cart.jsx';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {fetchCart, renderShopPage} from './shop.jsx';
 import {renderCartAddWidget} from './cart-add-widget.jsx';
-import Callbacks from '../javascripts/globals';
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -32,52 +31,22 @@ module.exports = React.createClass({
 		);
 	},
 	removeFromCart: function() {
-
-
-		// fetchCart(this.props.products);
-
-
-		// console.log(cartItem.get('productId'));
-		// var quantity = this.state.quantity;
 		var _this = this;
 		var cartItem = this.props.cartItem;
 		var products = this.props.products;
-
-		Backbone.emulateHTTP = true;
-		// quantity += 1;
-		// cartItem.set('quantity', quantity);
-		// this.setState({quantity: quantity});
-		// cartItem.set('url', '/cartitemremove')
 		cartItem.url = '/cartitemremove';
 		var promise = cartItem.save();
 		renderLoader();
 	    $.when(promise).done(function(data) {
-	      // window.localStorage.setItem('shop-token', data.token);
-	      // hideLoader();
-	      // _this.resetForm();
-	      // renderOverlayModal(data.title, data.message, data.success);
 	      hideLoader();
-	      // _this.setState({'buttonText': 'Add to Cart'});
-
-	      // data returns list
-		    	// console.log(cartItem);
-		    	// console.log(products);
-	      // console.log(cartItem);
 	      var cartItems = formatCartItems(data);
-	  	  // renderShopPage(products, cartItems);
-	      // renderShopPage(products, cartItems);
-	      // renderCartAddWidget(products, cartItems, cartItem);
 	      renderShopPage(products, cartItems);
 	      renderCart(products, cartItems);
-	      // Callbacks.updateCartItems(cartItems);
-	      // console.log(data);
 	    });
 	    $.when(promise).fail(function(error) {
 	    	hideLoader();
 	    	console.log(error);
 	  		renderOverlayModal('Error', error.responseJSON.message, false);
-	      // hideLoader();
-	      // renderOverlayModal('Error', error.responseJSON.message, false);
 	    });
 	},
 	onRemoveCartItemMouseEnter: function() {
