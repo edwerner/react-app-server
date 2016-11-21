@@ -72,6 +72,8 @@
 
 	var _productDetails = __webpack_require__(200);
 
+	var _orders = __webpack_require__(426);
+
 	var _globals = __webpack_require__(208);
 
 	var _globals2 = _interopRequireDefault(_globals);
@@ -97,6 +99,7 @@
 			(0, _review.hideReviewPage)();
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)(null, 'active', null, null, null, null);
 		},
 		signin: function signin() {
@@ -108,6 +111,7 @@
 			(0, _review.hideReviewPage)();
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)('active', null, null, null, null, null);
 		},
 		signup: function signup() {
@@ -119,6 +123,7 @@
 			(0, _review.hideReviewPage)();
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)(null, null, 'active', null, null, null);
 		},
 		orders: function orders() {
@@ -130,6 +135,7 @@
 			(0, _review.hideReviewPage)();
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
+			(0, _orders.routeToOrdersPage)();
 			(0, _menu.renderMenu)(null, null, null, 'active', null, null);
 		},
 		order: function order() {
@@ -140,6 +146,7 @@
 			(0, _shop.hideShopPage)();
 			(0, _cart.hideCart)();
 			(0, _productDetails.hideProductDetails)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)(null, null, null, null, null, null);
 		},
 		shop: function shop() {
@@ -150,6 +157,7 @@
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
 			(0, _shop.fetchProducts)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)(null, null, null, null, 'active', null);
 		},
 		review: function review() {
@@ -161,6 +169,7 @@
 			(0, _order.hideOrderPage)();
 			(0, _productDetails.hideProductDetails)();
 			(0, _review.fetchReviewProducts)();
+			(0, _orders.hideOrdersPage)();
 			(0, _menu.renderMenu)(null, null, null, null, null, 'active');
 		}
 	});
@@ -37842,8 +37851,9 @@
 		bindEnterKeyup: function bindEnterKeyup() {
 			var _this = this;
 			$(document).keyup(function (e) {
-				if (e.keyCode === 13) {
+				if (e.keyCode === 27) {
 					_this.onCloseModalClick();
+					_this.restoreOverflow();
 				}
 			});
 		},
@@ -37857,11 +37867,12 @@
 		},
 		onFailureButtonClick: function onFailureButtonClick() {
 			hideOverlayModal();
-			restoreOverflow();
+			this.restoreOverflow();
 			Backbone.history.navigate('login', { trigger: true });
 		},
 		onCloseModalClick: function onCloseModalClick() {
 			hideOverlayModal();
+			this.restoreOverflow();
 		},
 		onCloseButtonMouseEnter: function onCloseButtonMouseEnter() {
 			this.setState({ 'closeButtonHover': 'mouseenter' });
@@ -63474,11 +63485,29 @@
 
 	var _underscore2 = _interopRequireDefault(_underscore);
 
+	var _jquery = __webpack_require__(3);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _orders = __webpack_require__(425);
+
+	var _orders2 = _interopRequireDefault(_orders);
+
+	var _loader = __webpack_require__(197);
+
+	var _orders3 = __webpack_require__(426);
+
+	var _overlay = __webpack_require__(191);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Order = _react2.default.createClass({
 		displayName: 'Order',
 
+		componentWillMount: function componentWillMount() {
+			(0, _jquery2.default)("body").addClass('overflow-hidden');
+			this.bindEnterKeyup();
+		},
 		render: function render() {
 			var order = this.props.order;
 			var products = this.props.products;
@@ -63494,11 +63523,16 @@
 			}
 			return _react2.default.createElement(
 				'div',
-				{ className: 'flex flex-column' },
+				{ className: 'order__wrapper' },
 				_react2.default.createElement(
 					'h1',
 					null,
 					'Order Receipt'
+				),
+				_react2.default.createElement(
+					'button',
+					{ onClick: this.closeOrderReceipt },
+					'Close'
 				),
 				productList.map(function (productId, index) {
 					var product = _this.getCurrentProduct(products, productId);
@@ -63516,131 +63550,166 @@
 					var publisher = product.get('publisher');
 					return _react2.default.createElement(
 						'div',
-						{ className: 'order__tile flex flex-column flex-space-between' },
+						{ className: 'width__100 order__tile flex flex-row', key: index },
 						_react2.default.createElement(
 							'div',
-							{ className: image ? 'flex-start' : 'hidden' },
+							{ className: image ? 'flex flex-start' : 'hidden' },
 							_react2.default.createElement('img', { className: 'order__tile-image', src: image })
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: title ? 'order__tile-title' : 'hidden' },
+							{ className: 'flex flex-end flex-column' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Title  '
+								'div',
+								{ className: title ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Title  '
+								),
+								title
 							),
-							title
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: subtitle ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Subtitle  '
+								'div',
+								{ className: subtitle ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Subtitle  '
+								),
+								subtitle
 							),
-							subtitle
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: author ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Author  '
+								'div',
+								{ className: author ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Author  '
+								),
+								author
 							),
-							author
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: isbn ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'ISBN  '
+								'div',
+								{ className: isbn ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'ISBN  '
+								),
+								isbn
 							),
-							isbn
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: publishDate ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Publish Date  '
+								'div',
+								{ className: publishDate ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Publish Date  '
+								),
+								publishDate
 							),
-							publishDate
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: language ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								' Language  '
+								'div',
+								{ className: language ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									' Language  '
+								),
+								language
 							),
-							language
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: price ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Price  '
+								'div',
+								{ className: price ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Price  '
+								),
+								price
 							),
-							price
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: description ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Description  '
+								'div',
+								{ className: description ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Description  '
+								),
+								description
 							),
-							description
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: genre ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Genre  '
+								'div',
+								{ className: genre ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Genre  '
+								),
+								genre
 							),
-							genre
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: pageCount ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Page Count '
+								'div',
+								{ className: pageCount ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Page Count '
+								),
+								pageCount
 							),
-							pageCount
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: publisher ? 'order__tile-title' : 'hidden' },
 							_react2.default.createElement(
-								'label',
-								null,
-								'Publisher '
-							),
-							publisher
+								'div',
+								{ className: publisher ? 'order__tile-title' : 'hidden' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Publisher '
+								),
+								publisher
+							)
 						)
 					);
 				})
 			);
+		},
+		bindEnterKeyup: function bindEnterKeyup() {
+			var _this = this;
+			(0, _jquery2.default)(document).keyup(function (e) {
+				if (e.keyCode === 27) {
+					_this.onCloseModalClick();
+					_this.restoreOverflow();
+				}
+			});
+		},
+		restoreOverflow: function restoreOverflow() {
+			(0, _jquery2.default)("body").removeClass('overflow-hidden');
 		},
 		getCurrentProduct: function getCurrentProduct(products, productId) {
 			var productMatch = _underscore2.default.find(products, function (product) {
 				return product.get('id') == productId;
 			});
 			return productMatch;
+		},
+
+		closeOrderReceipt: function closeOrderReceipt() {
+			var _this = this;
+			var products = this.props.products;
+			var orders = new _orders2.default();
+			var promise = orders.fetch();
+			(0, _loader.renderLoader)();
+			_jquery2.default.when(promise).done(function (data) {
+				(0, _loader.hideLoader)();
+				_this.restoreOverflow();
+				Backbone.history.navigate('orders', { trigger: true });
+				(0, _orders3.renderOrdersPage)(orders, products);
+			});
+			_jquery2.default.when(promise).fail(function (error) {
+				(0, _loader.hideLoader)();
+				_this.restoreOverflow();
+				(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+			});
 		}
 	});
 
@@ -63659,6 +63728,400 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 425 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Backbone = __webpack_require__(1);
+	var Order = __webpack_require__(422);
+
+	module.exports = Backbone.Collection.extend({
+		url: '/orders',
+		model: Order
+	});
+
+/***/ },
+/* 426 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.renderOrdersPage = renderOrdersPage;
+	exports.hideOrdersPage = hideOrdersPage;
+	exports.routeToOrdersPage = routeToOrdersPage;
+	exports.fetchOrders = fetchOrders;
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _shop = __webpack_require__(194);
+
+	var _shop2 = _interopRequireDefault(_shop);
+
+	var _products = __webpack_require__(196);
+
+	var _products2 = _interopRequireDefault(_products);
+
+	var _orders = __webpack_require__(425);
+
+	var _orders2 = _interopRequireDefault(_orders);
+
+	var _loader = __webpack_require__(197);
+
+	var _overlay = __webpack_require__(191);
+
+	var _orderTile = __webpack_require__(427);
+
+	var _orderTile2 = _interopRequireDefault(_orderTile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ProductTile = __webpack_require__(199);
+
+
+	var Orders = _react2.default.createClass({
+		displayName: 'Orders',
+
+		render: function render() {
+			var orders = this.props.orders;
+			var products = this.props.products;
+			if (!orders || !products) {
+				return null;
+			}
+			return _react2.default.createElement(
+				'div',
+				{ id: 'orders__tile-container' },
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Orders'
+				),
+				orders.models.map(function (order, index) {
+					return _react2.default.createElement(_orderTile2.default, { order: order, products: products, key: index });
+				})
+			);
+		}
+	});
+
+	var ordersContainer = document.getElementById('orders__container');
+
+	function renderOrdersPage(orders, products) {
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: '', orders: orders, products: products }), ordersContainer);
+	}
+
+	function hideOrdersPage() {
+		_reactDom2.default.render(_react2.default.createElement(Orders, { showLink: 'hidden' }), ordersContainer);
+	}
+
+	function routeToOrdersPage() {
+		var products = new _products2.default();
+		var promise = products.fetch();
+		(0, _loader.renderLoader)();
+		$.when(promise).done(function (data) {
+			(0, _loader.hideLoader)();
+			fetchOrders(products.models);
+		});
+		$.when(promise).fail(function (error) {
+			(0, _loader.hideLoader)();
+			(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+		});
+	}
+
+	function fetchOrders(products) {
+		var orders = new _orders2.default();
+		var promise = orders.fetch();
+		(0, _loader.renderLoader)();
+		$.when(promise).done(function (data) {
+			(0, _loader.hideLoader)();
+			Backbone.history.navigate('orders', { trigger: true });
+			renderOrdersPage(orders, products);
+		});
+		$.when(promise).fail(function (error) {
+			(0, _loader.hideLoader)();
+			(0, _overlay.renderOverlayModal)('Error', error.responseJSON.message, false);
+		});
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 427 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _React$createClass;
+
+	var _underscore = __webpack_require__(2);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	var _order = __webpack_require__(424);
+
+	var _order2 = _interopRequireDefault(_order);
+
+	var _products2 = __webpack_require__(196);
+
+	var _products3 = _interopRequireDefault(_products2);
+
+	var _productDetails = __webpack_require__(200);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var React = __webpack_require__(5);
+	var CartAddWidget = __webpack_require__(201);
+	var CartItem = __webpack_require__(205);
+
+
+	module.exports = React.createClass((_React$createClass = {
+	  displayName: 'exports',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      closeButtonHover: '',
+	      expandedTile: ''
+	    };
+	  },
+	  render: function render() {
+	    var order = this.props.order;
+	    var products = this.props.products;
+	    if (!order || !products) {
+	      return null;
+	    }
+	    var orderProducts = this.getOrderProducts(order, products);
+	    if (!orderProducts) {
+	      return null;
+	    }
+	    var _this = this;
+	    return React.createElement(
+	      'div',
+	      { onClick: _this.state.expandedTile ? _this.hideOrderDetails : _this.showOrderDetails,
+	        className: _this.state.expandedTile ? 'expanded__tile expandable__order-tile' : 'expandable__order-tile' },
+	      orderProducts.models.map(function (product, index) {
+
+	        var image = product.get('image');
+	        var title = product.get('title');
+	        var subtitle = product.get('subtitle');
+	        var author = product.get('author');
+	        var isbn = product.get('isbn');
+	        var publishDate = product.get('publishDate');
+	        var language = product.get('language');
+	        var price = product.get('price');
+	        var description = product.get('description');
+	        var genre = product.get('genre');
+	        var pageCount = product.get('pageCount');
+	        var publisher = product.get('publisher');
+
+	        return React.createElement(
+	          'div',
+	          { className: 'width__100 flex flex-row', key: index },
+	          React.createElement(
+	            'div',
+	            { className: image ? 'flex-start' : 'hidden' },
+	            React.createElement('img', { className: 'order__tile-image', src: image })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'flex flex-end flex-column' },
+	            React.createElement(
+	              'div',
+	              { className: title ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Title  '
+	              ),
+	              title
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: subtitle ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Subtitle  '
+	              ),
+	              subtitle
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: author ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Author  '
+	              ),
+	              author
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: isbn ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'ISBN  '
+	              ),
+	              isbn
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: publishDate ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Publish Date  '
+	              ),
+	              publishDate
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: language ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                ' Language  '
+	              ),
+	              language
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: price ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Price  '
+	              ),
+	              price
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: description ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Description  '
+	              ),
+	              description
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: genre ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Genre  '
+	              ),
+	              genre
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: pageCount ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Page Count '
+	              ),
+	              pageCount
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: publisher ? 'order__tile-title' : 'hidden' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'Publisher '
+	              ),
+	              publisher
+	            )
+	          )
+	        );
+	      })
+	    );
+	  },
+	  getOrderProducts: function getOrderProducts(order, products) {
+	    var productList = order.get('productList');
+	    var _products = new _products3.default();
+	    for (var i = 0; i < productList.length; i++) {
+	      var productMatch = _underscore2.default.find(products, function (product) {
+	        return product.get('id') == productList[i];
+	      });
+	      if (productMatch != undefined) {
+	        _products.add(productMatch);
+	      }
+	      if (i == productList.length - 1) {
+	        return _products;
+	      }
+	    }
+	  },
+	  showOrderDetails: function showOrderDetails() {
+	    this.setState({ expandedTile: 'expanded' });
+	  },
+	  hideOrderDetails: function hideOrderDetails() {
+	    this.setState({ expandedTile: '' });
+	  },
+	  onProductImageMouseEnter: function onProductImageMouseEnter() {
+	    this.setState({ 'closeButtonHover': 'mouseenter' });
+	  },
+	  onProductImageMouseLeave: function onProductImageMouseLeave() {
+	    this.setState({ 'closeButtonHover': '' });
+	  },
+	  showProductDetails: function showProductDetails() {
+	    (0, _productDetails.renderProductDetails)(this.props.product);
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({ cartItems: nextProps.cartItems });
+	    this.setState({ products: nextProps.products });
+	  },
+	  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+	    return true;
+	  }
+	}, _defineProperty(_React$createClass, 'getInitialState', function getInitialState() {
+	  return {
+	    fulltext: '',
+	    cartItems: this.props.cartItems,
+	    products: this.props.products
+	  };
+	}), _defineProperty(_React$createClass, 'createCartItem', function createCartItem(id) {
+	  var cartItem = new CartItem();
+	  cartItem.set('productId', id);
+	  return cartItem;
+	}), _defineProperty(_React$createClass, 'truncateString', function truncateString(length, string) {
+	  var substring = "";
+	  if (string) {
+	    substring = string.length > length ? string.substr(0, length - 1) + ' ...' : string;
+	  }
+	  return substring;
+	}), _defineProperty(_React$createClass, 'toggleDescription', function toggleDescription() {
+	  if (this.state.fulltext) {
+	    this.setState({ 'fulltext': '' });
+	  } else {
+	    this.setState({ 'fulltext': 'fulltext' });
+	  }
+	}), _defineProperty(_React$createClass, 'decodeHTMLEntities', function decodeHTMLEntities(string) {
+	  if (string && typeof string === 'string') {
+	    string = string.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+	    string = string.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+	  }
+	  return string;
+	}), _defineProperty(_React$createClass, 'formatPrice', function formatPrice(price) {
+	  var formattedPrice = '';
+	  if (price.length) {
+	    formattedPrice = '$' + product.get('price');
+	  }
+	  return formattedPrice;
+	}), _React$createClass));
 
 /***/ }
 /******/ ]);

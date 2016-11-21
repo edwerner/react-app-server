@@ -54,6 +54,6 @@ var Menu = React.createClass({
 });
 
 export function renderMenu(activeLogin, activeIndex, activeCreate, activeShop, activeOrders, activeReview) {
-	ReactDOM.render(<Menu activeLogin={activeLogin} activeIndex={activeIndex} activeCreate={activeCreate} activeShop={activeShop} activeReview={activeReview}/>,
+	ReactDOM.render(<Menu activeLogin={activeLogin} activeIndex={activeIndex} activeCreate={activeCreate} activeShop={activeShop} activeOrders={activeOrders} activeReview={activeReview}/>,
 		document.getElementById('navigation__menu'));
 }

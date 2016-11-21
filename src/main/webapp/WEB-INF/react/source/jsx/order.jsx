@@ -2,8 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import sass from '../scss/order.scss';
 import _ from 'underscore';
+import $ from 'jquery';
+import Orders from '../javascripts/orders';
+import {renderLoader, hideLoader} from './loader.jsx';
+import {renderOrdersPage} from './orders.jsx';
+import {renderOverlayModal} from './overlay.jsx';
 
 var Order = React.createClass({
+  componentWillMount: function() {
+		$("body").addClass('overflow-hidden');
+		this.bindEnterKeyup();
+  },
 	render: function() {
 		var order = this.props.order;
 		var products = this.props.products;
@@ -18,8 +27,9 @@ var Order = React.createClass({
 	    	}
 	    }
 		return (
-			<div className='flex flex-column'>
+			<div className='order__wrapper'>
 				<h1>Order Receipt</h1>
+				<button onClick={this.closeOrderReceipt}>Close</button>
 			    {productList.map(function(productId, index) {
 			    	var product = _this.getCurrentProduct(products, productId);
 			    	var image = product.get('image');
@@ -34,64 +44,96 @@ var Order = React.createClass({
 			    	var genre = product.get('genre');
 			    	var pageCount = product.get('pageCount');
 			    	var publisher = product.get('publisher');
-			        return <div className='order__tile flex flex-column flex-space-between'>
-			        	<div className={image ? 'flex-start' : 'hidden'}>
+			        return <div className='width__100 order__tile flex flex-row' key={index}>
+			        	<div className={image ? 'flex flex-start' : 'hidden'}>
 			        		<img className='order__tile-image' src={image}/>
 			        	</div>
-			        	<div className={title ? 'order__tile-title' : 'hidden' }>
-			        		<label>Title &nbsp;</label> 
-			        		{title}
-			        	</div>
-			        	<div className={subtitle ? 'order__tile-title' : 'hidden' }>
-			        		<label>Subtitle &nbsp;</label> 
-			        		{subtitle}
-			        	</div>
-			        	<div className={author ? 'order__tile-title' : 'hidden' }>
-			        		<label>Author &nbsp;</label> 
-			        		{author}
-			        	</div>
-			        	<div className={isbn ? 'order__tile-title' : 'hidden' }>
-			        		<label>ISBN &nbsp;</label> 
-			        		{isbn}
-			        	</div>
-			        	<div className={publishDate ? 'order__tile-title' : 'hidden' }>
-			        		<label>Publish Date &nbsp;</label> 
-			        		{publishDate}
-			        	</div>
-			        	<div className={language ? 'order__tile-title' : 'hidden' }>
-			        		<label> Language &nbsp;</label> 
-			        		{language}
-			        	</div>
-			        	<div className={price ? 'order__tile-title' : 'hidden' }>
-			        		<label>Price &nbsp;</label> 
-			        		{price}
-			        	</div>
-			        	<div className={description ? 'order__tile-title' : 'hidden' }>
-			        		<label>Description &nbsp;</label> 
-			        		{description}
-			        	</div>
-			        	<div className={genre ? 'order__tile-title' : 'hidden' }>
-			        		<label>Genre &nbsp;</label> 
-			        		{genre}
-			        	</div>
-			        	<div className={pageCount ? 'order__tile-title' : 'hidden' }>
-			        		<label>Page Count&nbsp;</label> 
-			        		{pageCount}
-			        	</div>
-			        	<div className={publisher ? 'order__tile-title' : 'hidden' }>
-			        		<label>Publisher&nbsp;</label> 
-			        		{publisher}
-			        	</div>
+			        	<div className='flex flex-end flex-column'>
+				        	<div className={title ? 'order__tile-title' : 'hidden' }>
+				        		<label>Title &nbsp;</label> 
+				        		{title}
+				        	</div>
+				        	<div className={subtitle ? 'order__tile-title' : 'hidden' }>
+				        		<label>Subtitle &nbsp;</label> 
+				        		{subtitle}
+				        	</div>
+				        	<div className={author ? 'order__tile-title' : 'hidden' }>
+				        		<label>Author &nbsp;</label> 
+				        		{author}
+				        	</div>
+				        	<div className={isbn ? 'order__tile-title' : 'hidden' }>
+				        		<label>ISBN &nbsp;</label> 
+				        		{isbn}
+				        	</div>
+				        	<div className={publishDate ? 'order__tile-title' : 'hidden' }>
+				        		<label>Publish Date &nbsp;</label> 
+				        		{publishDate}
+				        	</div>
+				        	<div className={language ? 'order__tile-title' : 'hidden' }>
+				        		<label> Language &nbsp;</label> 
+				        		{language}
+				        	</div>
+				        	<div className={price ? 'order__tile-title' : 'hidden' }>
+				        		<label>Price &nbsp;</label> 
+				        		{price}
+				        	</div>
+				        	<div className={description ? 'order__tile-title' : 'hidden' }>
+				        		<label>Description &nbsp;</label> 
+				        		{description}
+				        	</div>
+				        	<div className={genre ? 'order__tile-title' : 'hidden' }>
+				        		<label>Genre &nbsp;</label> 
+				        		{genre}
+				        	</div>
+				        	<div className={pageCount ? 'order__tile-title' : 'hidden' }>
+				        		<label>Page Count&nbsp;</label> 
+				        		{pageCount}
+				        	</div>
+				        	<div className={publisher ? 'order__tile-title' : 'hidden' }>
+				        		<label>Publisher&nbsp;</label> 
+				        		{publisher}
+				        	</div>
+				        </div>
 			        </div>;
 			    })}
 		    </div>
 		);
+	},
+  bindEnterKeyup: function() {
+    var _this = this;
+    $(document).keyup(function(e) {
+      if (e.keyCode === 27) {
+        _this.onCloseModalClick();
+        _this.restoreOverflow();
+      }
+    });
+  },
+	restoreOverflow: function() {
+		$("body").removeClass('overflow-hidden');
 	},
 	getCurrentProduct(products, productId) {
 		var productMatch = _.find(products, function(product) {
 			return product.get('id') == productId;
 		});
 		return productMatch;
+	},
+	closeOrderReceipt: function() {
+		var _this = this;
+		var products = this.props.products;
+		var orders = new Orders();
+		var promise = orders.fetch();
+		renderLoader();
+		$.when(promise).done(function(data) {
+			hideLoader();
+			_this.restoreOverflow();
+			Backbone.history.navigate('orders', {trigger:true});
+			renderOrdersPage(orders, products);
+		});
+		$.when(promise).fail(function(error) {
+				hideLoader();
+				_this.restoreOverflow();
+	     	renderOverlayModal('Error', error.responseJSON.message, false);
+		});
 	}
 });
 

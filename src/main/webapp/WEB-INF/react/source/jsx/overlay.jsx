@@ -47,8 +47,9 @@ var Overlay = React.createClass({
   bindEnterKeyup: function() {
     var _this = this;
     $(document).keyup(function(e) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 27) {
         _this.onCloseModalClick();
+        _this.restoreOverflow();
       }
     });
   },
@@ -62,11 +63,12 @@ var Overlay = React.createClass({
 	},
 	onFailureButtonClick: function() {
 		hideOverlayModal();
-		restoreOverflow();
+		this.restoreOverflow();
     Backbone.history.navigate('login', {trigger:true});
 	},
 	onCloseModalClick: function() {
 		hideOverlayModal();
+		this.restoreOverflow();
 	},
 	onCloseButtonMouseEnter: function() {
 		this.setState({'closeButtonHover': 'mouseenter'});

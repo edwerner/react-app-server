@@ -9,6 +9,7 @@ import {fetchProducts, hideShopPage, renderShopPage} from '../jsx/shop.jsx';
 import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
 import {hideOrderPage} from '../jsx/order.jsx';
 import {hideProductDetails} from '../jsx/product-details.jsx';
+import {hideOrdersPage, routeToOrdersPage} from '../jsx/orders.jsx';
 import App from './globals';
 
 App.Router = Backbone.Router.extend({
@@ -30,6 +31,7 @@ App.Router = Backbone.Router.extend({
 		hideReviewPage();
 		hideOrderPage();
 		hideProductDetails();
+		hideOrdersPage();
 		renderMenu(null, 'active', null, null, null, null);
 	},
 	signin: function() {
@@ -41,6 +43,7 @@ App.Router = Backbone.Router.extend({
 		hideReviewPage();
 		hideOrderPage();
 		hideProductDetails();
+		hideOrdersPage();
 		renderMenu('active', null, null, null, null, null);
 	},
 	signup: function() {
@@ -52,6 +55,7 @@ App.Router = Backbone.Router.extend({
 		hideReviewPage();
 		hideOrderPage();
 		hideProductDetails();
+		hideOrdersPage();
 		renderMenu(null, null, 'active', null, null, null);
 	},
 	orders: function() {
@@ -63,6 +67,7 @@ App.Router = Backbone.Router.extend({
 		hideReviewPage();
 		hideOrderPage();
 		hideProductDetails();
+		routeToOrdersPage();
 		renderMenu(null, null, null, 'active', null, null);
 	},
 	order: function() {
@@ -73,6 +78,7 @@ App.Router = Backbone.Router.extend({
 		hideShopPage();
 		hideCart();
 		hideProductDetails();
+		hideOrdersPage();
 		renderMenu(null, null, null, null, null, null);
 	},
 	shop: function() {
@@ -83,6 +89,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		fetchProducts();
+		hideOrdersPage();
 		renderMenu(null, null, null, null, 'active', null);
 	},
 	review: function() {
@@ -94,6 +101,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		fetchReviewProducts();
+		hideOrdersPage();
 		renderMenu(null, null, null, null, null, 'active');
 	}
 });

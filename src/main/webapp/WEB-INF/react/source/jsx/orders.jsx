@@ -1,44 +1,66 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import sass from '../scss/shop.scss';
-import ProductCollection from '../javascripts/products';
+import Products from '../javascripts/products';
+import OrdersCollection from '../javascripts/orders';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderOverlayModal} from './overlay.jsx';
 var ProductTile = require('./product-tile.jsx');
-// var Cart = require('./cart.jsx');
+import OrderTile from './order-tile.jsx';
 
 var Orders = React.createClass({
 	render: function() {
-    if (!this.props.products) {
-        return null;
-    }
+		var orders = this.props.orders;
+		var products = this.props.products;
+	    if (!orders || !products) {
+	        return null;
+	    }
 		return (
-			<h1>Orders</h1>
+			<div id='orders__tile-container'>
+			    <h1>Orders</h1>
+			    {orders.models.map(function(order, index) {
+			        return <OrderTile order={order} products={products} key={index}/>;
+			    })}
+		    </div>
 		);
 	}
 });
 
-export function fetchProducts() {
-    Backbone.emulateHTTP = true;
-	var productCollection = new ProductCollection();
-	var promise = productCollection.fetch();
-	// productCollection.serialize();
+var ordersContainer = document.getElementById('orders__container');
+
+export function renderOrdersPage(orders, products) {
+	ReactDOM.render(<Orders showLink='' orders={orders} products={products}/>, ordersContainer);
+}
+
+export function hideOrdersPage() {
+	ReactDOM.render(<Orders showLink='hidden'/>, ordersContainer);
+}
+
+export function routeToOrdersPage() {
+	var products = new Products();
+	var promise = products.fetch();
 	renderLoader();
 	$.when(promise).done(function(data) {
 		hideLoader();
-		Backbone.history.navigate('shop', {trigger:true});
-		renderShopPage(productCollection);
+		fetchOrders(products.models);
 	});
 	$.when(promise).fail(function(error) {
 		hideLoader();
-    	renderOverlayModal('Error', error.message, false);
+     	renderOverlayModal('Error', error.responseJSON.message, false);
 	});
 }
 
-export function renderShopPage(products) {
-	ReactDOM.render(<Orders showLink='' products={products}/>, document.getElementById('orders__container'));
+export function fetchOrders(products) {
+	var orders = new OrdersCollection();
+	var promise = orders.fetch();
+	renderLoader();
+	$.when(promise).done(function(data) {
+		hideLoader();
+		Backbone.history.navigate('orders', {trigger:true});
+		renderOrdersPage(orders, products);
+	});
+	$.when(promise).fail(function(error) {
+		hideLoader();
+     	renderOverlayModal('Error', error.responseJSON.message, false);
+	});
 }
-
-export function hideShopPage() {
-	ReactDOM.render(<Orders showLink='hidden'/>, document.getElementById('orders__container'));
-}	

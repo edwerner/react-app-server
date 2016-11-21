@@ -102,16 +102,24 @@ public class OrdersController {
 	private ProductsService productsService;
 	
 	@RequestMapping(value = "orders", method = RequestMethod.GET)
-	public String index(Principal principal, HttpServletRequest request) {
-		// return principal != null ? "orders/orders" : "home/index";
-		return "home/index";
+	@ResponseBody
+	public String ordersGet(Principal principal) throws JsonProcessingException {
+		List<Order> ordersList = null;
+		String orders = "";
+		ObjectMapper mapper = new ObjectMapper();
+		if (principal != null) {
+			String accountId = principal.getName();
+			ordersList = ordersService.findOrdersByAccountId(accountId);
+			orders = mapper.writeValueAsString(ordersList);
+		}
+		return orders;
 	}
 	
 	@RequestMapping(value = "order", method = RequestMethod.GET)
 	@ResponseBody
 	public String submitOrderGet() throws JsonProcessingException {
 		String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
-		Order order = ordersService.findOrCreateOrder(accountId);
+		Order order = ordersService.createOrder(accountId);
 		Cart cart = cartService.findOrCreateCart();
 		ObjectMapper mapper = new ObjectMapper();
 		List<String> productIdList = cart.getCartItemList();

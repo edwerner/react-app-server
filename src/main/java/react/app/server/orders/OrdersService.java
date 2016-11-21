@@ -42,11 +42,14 @@ public class OrdersService {
 	}
 
 	@Transactional
-	public Order findOrCreateOrder(String accountId) {
-		Order order = ordersRepository.findByAccountId(accountId);
-		if (order == null) {
-			order = new Order(accountId);
-		}
+	public List<Order> findOrdersByAccountId(String accountId) {
+		return ordersRepository.findByAccountId(accountId);
+	}
+
+
+	@Transactional
+	public Order createOrder(String accountId) {
+		Order order = new Order(accountId);
 		return order;
 	}
 }
