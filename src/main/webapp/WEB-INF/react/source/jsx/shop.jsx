@@ -23,6 +23,45 @@ var Shop = React.createClass({
 		this.setState({cartItems: nextProps.cartItems});
 		this.setState({products: nextProps.products});
   },
+  componentDidMount: function() {
+  	this.bindWindowResize();
+  },
+  componentDidUpdate: function() {
+  	this.resizeContainerHeight();
+  },
+  bindWindowResize: function() {
+  	var _this = this;
+  	$(window).bind('resize', function() {
+  		_this.resizeContainerHeight();
+  	});
+  },
+  checkForOverflow: function(ratio) {
+  	var windowWidth = $(window).width();
+  	var remainder = null;
+  	if (ratio > windowWidth) {
+  		remainder = ratio - windowWidth;
+		}
+		return remainder;
+  },
+  resizeContainerHeight: function() {
+  	var _this = this;
+  	var counter = 1;
+  	var padding = 10;
+  	var containerHeight = $('.product__tile').first().height();
+		$('.product__tile').each(function(index) {
+			var tileWidth = $(this).width() + padding;
+			var tileHeight = ($(this).height() + padding) * 2;
+			var ratio = tileWidth * counter;
+			var overflow = _this.checkForOverflow(ratio);
+			if (overflow) {
+				containerHeight += tileHeight;
+				counter = 1;
+			} else {
+				counter += 1;
+			}
+		});
+		$('#product__tile-container').css('max-height', containerHeight + 'px');
+  },
   shouldComponentUpdate(nextProps, nextState) {
     return true;
   },
@@ -33,7 +72,7 @@ var Shop = React.createClass({
 	        return null;
 	    }
 		return (
-			<div className='flex flex-row flex-row-wrap'>
+			<div id='product__tile-container' className='flex flex-column flex-column-wrap flexbox-item-grow'>
 			    {products.map(function(product, index) {
 			        return <ProductTile products={products} cartItems={cartItems} product={product} key={index}/>;
 			    })}
@@ -72,10 +111,12 @@ export function fetchCart(products) {
   });
 }
 
+var shopContainer = document.getElementById('shop__container');
+
 export function renderShopPage(products, cartItems) {
-	ReactDOM.render(<Shop showLink='' products={products} cartItems={cartItems}/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Shop showLink='' products={products} cartItems={cartItems}/>, shopContainer);
 }
 
 export function hideShopPage() {
-	ReactDOM.render(<Shop showLink='hidden'/>, document.getElementById('shop__container'));
+	ReactDOM.render(<Shop showLink='hidden'/>, shopContainer);
 }

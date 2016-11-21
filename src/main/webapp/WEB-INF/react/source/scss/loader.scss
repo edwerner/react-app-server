@@ -1,15 +1,17 @@
+@import 'globals';
+@import 'flex';
+@import 'mixins';
+
 #loader__container {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     text-align: center;
-    background: #FFFFFF;
-    opacity: 0.75;
+    background: $white;
+    opacity: $three-quarters-opacity;
 }
 
 .loader__image {
 	width: 300px;
 	height: 300px;
-	margin: auto;
-	transform: translateY(30%);
 }

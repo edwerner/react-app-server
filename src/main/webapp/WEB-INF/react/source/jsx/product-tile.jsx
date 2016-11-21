@@ -1,25 +1,61 @@
 var React = require('react');
 var CartAddWidget = require('./cart-add-widget.jsx');
 var CartItem = require('../javascripts/cart-item');
+import {renderProductDetails} from './product-details.jsx';
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {
+      closeButtonHover: ''
+    }
+  },
 	render: function() {
+    var image = this.props.product.get('image');
+    var title = this.props.product.get('title');
+    var subtitle = this.props.product.get('subtitle');
+    var author = this.props.product.get('author');
+    // var isbn = this.props.product.get('isbn');
+    // var publishDate = this.props.product.get('publishDate');
+    // var language = this.props.product.get('language');
+    // var price = this.props.product.get('price');
+    // var description = this.props.product.get('description');
+    // var genre = this.props.product.get('genre');
+    // var pageCount = this.props.product.get('pageCount');
+    // var publisher = this.props.product.get('publisher');
 		return(			
-     	<div className='product__tile flex flex-space-between flex-column'>
-     		<img className='product__image' src={this.props.product.get('image')}/>
-      	<h4 className='product__title'><label className='product__label'>Title: </label>{this.props.product.get('title')}</h4>
-        <h4 className='product__subtitle'><label className='product__label'>Subtitle: </label>{this.props.product.get('subtitle')}</h4>
-        <h4 className='product__author'><label className='product__label'>Author: </label>{this.props.product.get('author')}</h4>
-        <div className='product__publisher'><label className='product__label'>Publisher: </label>{this.props.product.get('publisher')}</div>
-        <div className='product__publishdate'><label className='product__label'>Publish Date: </label>{this.props.product.get('publishDate')}</div>
-        <div className='product__pagecount'><label className='product__label'>Page Count: </label>{this.props.product.get('pageCount')}</div>
-      	<div className='product__description'><label className='product__label'>Description: </label>{this.decodeHTMLEntities(this.props.product.get('description'))}</div>
-      	<div className='product__price'><label className='product__label'>Price: </label>{this.formatPrice(this.props.product.get('price'))}</div>
-        <div className='product__isbn'><label className='product__label'>ISBN: </label>{this.props.product.get('isbn')}</div>
+     	<div className='product__tile'>
+        <div onClick={this.showProductDetails}
+        onMouseEnter={this.onProductImageMouseEnter}
+        onMouseLeave={this.onProductImageMouseLeave} className={image ? 'product__title' : 'hidden'}>
+          <div className={this.state.closeButtonHover ? 'product__image product__image-hover' : 'hidden'}>
+            <img className='product__image product__details-image' src='../../../../resources/images/view-product-details.jpg'/>
+          </div>
+          <div className={!this.state.closeButtonHover ? 'product__image' : 'hidden'}>
+            <img className='product__image' src={image}/>
+          </div>
+        </div>
+        <div className={title ? 'product__title' : 'hidden'}>
+          <h3>{title}</h3>
+        </div>
+        <div className={subtitle ? 'product__subtitle': 'hidden'}>
+          <label>{subtitle}</label> 
+        </div>
+        <div className={author ? 'product__author': 'hidden'}>
+          <label>{author}</label> 
+        </div>
       	<CartAddWidget products={this.state.products} cartItem={this.createCartItem(this.props.product.get('id'))} cartItems={this.state.cartItems}/>
       </div>
 		);
 	},
+  onProductImageMouseEnter: function() {
+    this.setState({'closeButtonHover': 'mouseenter'});
+  },
+  onProductImageMouseLeave: function() {
+    this.setState({'closeButtonHover': ''});
+  },
+  showProductDetails: function() {
+      renderProductDetails(this.props.product);
+  },
   componentWillReceiveProps: function(nextProps) {
     this.setState({cartItems: nextProps.cartItems});
     this.setState({products: nextProps.products});

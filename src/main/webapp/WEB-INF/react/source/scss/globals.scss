@@ -5,14 +5,25 @@ $info-text-size: 1em;
 $light-blue: rgb(29,117,188);
 $light-blue-hover: rgb(29,117,250);
 $white: rgb(255,255,255);
+$black: rgb(0, 0, 0);
 $error: rgb(204,0,0);
 $small-box-width: 50px;
 $small-box-height: 50px;
 $hover-opacity: 0.5;
-$border-radius: 2px;
+$small-border-radius: 2px;
+$large-border-radius: 4px;
+$half-opacity: 0.50;
+$three-quarters-opacity: 0.75;
+$full-opacity: 1;
+$full-percent: 100%;
+
 
 .hidden {
 	display: none;
+}
+
+.overflow-hidden {
+	overflow: hidden;
 }
 
 .error {
@@ -20,12 +31,12 @@ $border-radius: 2px;
 }
 
 .button-mouseenter {
-	opacity: 0.5;
+	opacity: $half-opacity;
 	cursor: pointer;
 }
 
 .button-mouseleave {
-	opacity: 1;
+	opacity: $full-opacity;
 }
 
 input {
@@ -37,18 +48,14 @@ input {
 }
 
 .width__100 {
-	width: 100%;
+	width: $full-percent;
 }
 
 .height__100 {
-	height: 100%;
+	height: $full-percent;
 }
 
 .close-button {
 	width: 40px;
 	height: 40px;
-}
-
-.border-radius {
-	border-radius: 3px 3px 3px 3px;
 }

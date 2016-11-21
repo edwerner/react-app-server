@@ -43,15 +43,15 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-    if (!this.state.cartItem || !this.state.products || !this.state.cartItems) {
-        return null;
-    }
+	    if (!this.state.cartItem || !this.state.products || !this.state.cartItems) {
+	        return null;
+	    }
 		return(
-			<div className='cart__add-widget'>
-				<div onClick={this.addToCart} className={this.state.buttonText == 'Add to Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden'}>
+			<div className='cart__add-widget-container'>
+				<div onClick={this.addToCart} className={this.state.buttonText == 'Add to Cart' ? 'cart__add-widget width__100 flex flex-center flex-vertical-center' : 'hidden'}>
 					<h4>{this.state.buttonText}</h4>
 				</div>
-				<div onClick={this.removeFromCart} className={this.state.buttonText == 'Remove from Cart' ? 'cart__add-widget width__100 flex flex-row flex-vertical-center' : 'hidden'}>
+				<div onClick={this.removeFromCart} className={this.state.buttonText == 'Remove from Cart' ? 'cart__add-widget width__100 flex flex-center flex-vertical-center' : 'hidden'}>
 					<h4>{this.state.buttonText}</h4>
 				</div>
 	      	</div>

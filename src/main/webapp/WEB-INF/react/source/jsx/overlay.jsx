@@ -10,9 +10,13 @@ var Overlay = React.createClass({
       closeButtonHover: ''
     }
   },
+  componentWillMount: function() {
+		$("body").addClass('overflow-hidden');
+		this.bindEnterKeyup();
+  },
 	render: function() {
 		return (
-			<div className='flex flex-vertical-center border-radius'>
+			<div className='flex flex-center flex-vertical-center height__100'>
 				<div className='overlay__content form__width'>
 					<div className='overlay__header flex flex-vertical-center flex-space-between'>
 						<div className='overlay__title flex-start'>
@@ -40,13 +44,26 @@ var Overlay = React.createClass({
 			</div>		
 		);
 	},
+  bindEnterKeyup: function() {
+    var _this = this;
+    $(document).keyup(function(e) {
+      if (e.keyCode === 13) {
+        _this.onCloseModalClick();
+      }
+    });
+  },
+	restoreOverflow: function() {
+		$("body").removeClass('overflow-hidden');
+	},
 	onSuccessButtonClick: function() {
 		hideOverlayModal();
+		this.restoreOverflow();
 		Backbone.history.navigate('shop', {trigger:true});
 	},
 	onFailureButtonClick: function() {
-    	Backbone.history.navigate('login', {trigger:true});
 		hideOverlayModal();
+		restoreOverflow();
+    Backbone.history.navigate('login', {trigger:true});
 	},
 	onCloseModalClick: function() {
 		hideOverlayModal();

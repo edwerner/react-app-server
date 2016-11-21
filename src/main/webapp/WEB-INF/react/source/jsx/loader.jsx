@@ -5,8 +5,10 @@ import loader from '../scss/loader.scss';
 var Loader = React.createClass({
 	render: function() {
 		return (
-			<div className={this.props.showLink ? 'hidden' : 'loader__image'}>
-				<img src='../../../resources/images/loader.gif'/>
+			<div className={this.props.showLink ? 'hidden' : 'loader__image width__100 height__100'}>
+				<div className='flex flex-center flex-vertical-center width__100 height__100'>
+					<img src='../../../resources/images/loader.gif'/>
+				</div>
 			</div>
 		);
 	}

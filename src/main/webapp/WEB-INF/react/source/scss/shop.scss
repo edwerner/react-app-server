@@ -3,8 +3,7 @@
 @import 'mixins';
 
 .product__tile {
-    width: 200px;
-    height: auto;
+    width: 150px;
     padding: 10px;
     margin: 10px;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.75);
@@ -20,22 +19,29 @@
 }
 
 .product__title {
-	font-size: $info-text-size;
-	font-weight: bold;
-	@include border-radius($border-radius);
+	font-size: $message-text-size;
+	@include border-radius($small-border-radius);
 }
 
 .product__tile:hover {
 	border-color: $light-blue;
 }
 
+.product__image-mouseenter {
+
+}
+
+.product__image-mouseleave {
+
+}
+
 .product__image {
-	width: 185px;
-    height: 185px;
+	width: 128px;
+    height: 202px;
 }
 
 .product__description {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
 }
 
 .product__price {
@@ -43,27 +49,51 @@
 }
 
 .product__author {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
 }
 
 .product__publishdate {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
 }
 
 .product__pagecount {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
 }
 
 .product__isbn {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
 }
 
 .product__publisher {
-	font-size: $info-text-size;
+	font-size: $message-text-size;
+}
+
+.product_language {
+	font-size: $message-text-size;
 }
 
 .product__label {
 	font-weight: bold;
+}
+
+.product__genre {
+	font-size: $message-text-size;
+}
+
+.product__image-hover {
+	opacity: $half-opacity;
+}
+
+#product__details__container {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: $white;
+	z-index: 10;
+}
+
+.product__details-image {
+	opacity: $three-quarters-opacity;
 }
 
 .cart__add-widget {
@@ -71,7 +101,7 @@
 	color: $white;
 	font-size: $large-text-size;
 	background: $light-blue;
-	@include border-radius($border-radius);
+	@include border-radius($large-border-radius);
 }
 
 .cart__add-widget__button {
@@ -92,8 +122,8 @@
 .cart__add-widget__plus {
 	width: $small-box-width;
 	height: $small-box-height;
-	border-bottom-right-radius: $border-radius;
-	border-top-right-radius: $border-radius;
+	border-bottom-right-radius: $small-border-radius;
+	border-top-right-radius: $small-border-radius;
 	@include noselect();
 }
 
@@ -101,11 +131,11 @@
 	width: $small-box-width;
 	height: $small-box-height;
 	width: $small-box-width;
-	border-top-left-radius: $border-radius;
-	border-bottom-left-radius: $border-radius;
+	border-top-left-radius: $small-border-radius;
+	border-bottom-left-radius: $small-border-radius;
 	@include noselect();
 }
 
 .shop__container {
-	flex-grow: 2;
+	flex: 1;
 }

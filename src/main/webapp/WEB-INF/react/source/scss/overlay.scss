@@ -3,8 +3,8 @@
 
 .overlay {
 	position: absolute;
-	background: #000000;
-	opacity: 0.50;
+	background: $black;
+	opacity: $half-opacity;
 	top: 0px;
 	left: 0px;
 }
@@ -12,12 +12,12 @@
 .overlay__content {
 	height: 250px;
 	background: $white;
-	opacity: 1;
+	opacity: $full-opacity;
 	z-index: 1;
 }
 
 #overlay__container {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
 }
