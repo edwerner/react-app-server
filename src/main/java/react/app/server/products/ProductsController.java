@@ -1,4 +1,4 @@
- package react.app.server.products;
+package react.app.server.products;
 
 import java.security.Principal;
 
@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
- 
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -75,12 +75,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import org.json.simple.parser.JSONParser;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.Transformer;
 import java.lang.Exception;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -102,32 +113,33 @@ public class ProductsController {
 	public void setProductList(List<Product> productList) {
 		this.productList = productList;
 	}
-	
+
 	@RequestMapping(value = "products", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Product> productsGet(Principal principal, HttpServletRequest request) throws IOException {
+	public List<Product> productsGet(Principal principal, HttpServletRequest request) throws IOException, XMLStreamException {
 		List<Product> productList = productsService.getProductList();
+		parseXML();
 		return productList;
 	}
 
 	@RequestMapping(value = "products/{query}", method = RequestMethod.GET)
 	@ResponseBody
-	public String productsGet(Principal principal, HttpServletRequest request, @PathVariable String query) throws IOException {
+	public String productsGet(Principal principal, HttpServletRequest request, @PathVariable String query)
+			throws IOException {
 
 		String url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
 		String genre = query.replace("+", " ");
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
- 		con.addRequestProperty("User-Agent", "Mozilla/4.76"); 
+		con.addRequestProperty("User-Agent", "Mozilla/4.76");
 		con.setRequestMethod("GET");
 
 		int responseCode = con.getResponseCode();
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
 
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
@@ -144,10 +156,10 @@ public class ProductsController {
 		try {
 			productsJsonObject = (JSONObject) new JSONParser().parse(productsString);
 			booksJsonArray = (JSONArray) productsJsonObject.get("items");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		JSONObject bookObject = null;
 		JSONObject bookInfo = null;
 		JSONObject saleInfo = null;
@@ -160,7 +172,7 @@ public class ProductsController {
 			saleInfo = (JSONObject) bookObject.get("saleInfo");
 			descriptionInfo = (JSONObject) bookObject.get("searchInfo");
 
-			String title ="";
+			String title = "";
 			String author = "";
 			String isbn = "";
 			String publishDate = "";
@@ -173,15 +185,15 @@ public class ProductsController {
 			String subtitle = "";
 
 			for (Iterator iterator = bookInfo.keySet().iterator(); iterator.hasNext();) {
-			    String key = (String) iterator.next();
-			    if (bookInfo.get(key) instanceof JSONObject) {
-			    	title = (String) bookInfo.get("title");
-			    	subtitle = (String) bookInfo.get("subtitle");
-			    	JSONArray authorJsonArray = (JSONArray) bookInfo.get("authors");
+				String key = (String) iterator.next();
+				if (bookInfo.get(key) instanceof JSONObject) {
+					title = (String) bookInfo.get("title");
+					subtitle = (String) bookInfo.get("subtitle");
+					JSONArray authorJsonArray = (JSONArray) bookInfo.get("authors");
 					String[] authors;
 					if (authorJsonArray != null) {
 						authors = jsonArrayToStringArray(authorJsonArray);
-						author = Arrays.toString(authors).replaceAll("\\[", "").replaceAll("\\]","");
+						author = Arrays.toString(authors).replaceAll("\\[", "").replaceAll("\\]", "");
 					}
 					JSONArray isbnJsonArray = (JSONArray) bookInfo.get("industryIdentifiers");
 					String[] isbns;
@@ -204,31 +216,20 @@ public class ProductsController {
 				}
 			}
 			for (Iterator saleInfoIterator = saleInfo.keySet().iterator(); saleInfoIterator.hasNext();) {
-			    String key = (String) saleInfoIterator.next();
-			    if (saleInfo.get(key) instanceof JSONObject) {
+				String key = (String) saleInfoIterator.next();
+				if (saleInfo.get(key) instanceof JSONObject) {
 					JSONObject listPriceJsonObject = (JSONObject) saleInfo.get("listPrice");
 					price = listPriceJsonObject.get("amount").toString();
-			    }
+				}
 			}
-		    Product product = new Product(
-	        	title,
-	        	subtitle,
-	        	author,
-	        	isbn,
-	        	publishDate,
-	        	language,
-	        	image,
-	        	price,
-	        	description,
-	        	genre,
-	        	pageCount,
-	        	publisher);
-	        productList.add(product);
+			Product product = new Product(title, subtitle, author, isbn, publishDate, language, image, price,
+					description, genre, pageCount, publisher);
+			productList.add(product);
 		}
 		setProductList(productList);
 		return "hello";
 	}
-	
+
 	@RequestMapping(value = "productsave", method = RequestMethod.GET)
 	@ResponseBody
 	public String productsSave() {
@@ -239,14 +240,120 @@ public class ProductsController {
 	}
 
 	public String[] jsonArrayToStringArray(JSONArray jsonArray) {
-	    int arraySize = jsonArray.size();
-	    String[] stringArray = new String[arraySize];
+		int arraySize = jsonArray.size();
+		String[] stringArray = new String[arraySize];
 
-	    for(int i=0; i<arraySize; i++) {
-	        stringArray[i] = (String) jsonArray.get(i);
-	    }
+		for (int i = 0; i < arraySize; i++) {
+			stringArray[i] = (String) jsonArray.get(i);
+		}
 
-	    return stringArray;
+		return stringArray;
+	}
+
+	public static String parseBooksXml(String term) throws IOException {
+
+		String title = "";
+		String author = "";
+		String isbn = "";
+		String publishDate = "";
+		String language = "";
+		String image = "";
+		String price = "";
+		String description = "";
+		String pageCount = "";
+		String publisher = "";
+		String subtitle = "";
+
+		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=" + term);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Content-Type", "application/xml");
+
+		// BufferedReader br = new BufferedReader(new
+		// InputStreamReader((connection.getInputStream())));
+		StringBuilder sb = new StringBuilder();
+		// String output;
+		// while ((output = br.readLine()) != null) {
+		// sb.append(output);
+		// }
+		// System.out.println(sb.toString());
+		return sb.toString();
+	}
+
+	private static List<Product> parseXML() throws IOException, XMLStreamException {
+
+		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=history");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Content-Type", "application/xml");
+
+		List<Product> bookList = new ArrayList<>();
+
+		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+	
+		XMLEventReader eventReader = xmlInputFactory.createXMLEventReader(br);
+ 
+		Product product = null;
+ 
+		while (eventReader.hasNext()) {
+			XMLEvent event = eventReader.nextEvent();
+ 
+			//reach the start of an item
+			if (event.isStartElement()) {
+ 
+				StartElement startElement = event.asStartElement();
+ 
+				if (startElement.getName().getLocalPart().equals("work")) {
+					StartElement searchElement = startElement.asStartElement();
+
+					System.out.println(" WORK *******************");
+					
+
+					Iterator<Attribute> attributes = startElement.getAttributes();
+					while (attributes.hasNext()) {
+						Attribute attribute = attributes.next();
+						System.out.println(attribute.getName() + " *******************");
+//						if (attribute.getName().toString().equals("id")) {
+//							System.out.println("id = " + attribute.getValue());
+//						}
+					}
+				}
+			}
+		}
+//		Product book = null;
+//		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+//		try {
+//
+//			BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+//			// StringBuilder sb = new StringBuilder();
+//			// String output;
+//			// while ((output = br.readLine()) != null) {
+//			// sb.append(output);
+//			// }
+//
+//			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(br);
+//			while (xmlEventReader.hasNext()) {
+//
+//				XMLEvent event = xmlEventReader.nextEvent();
+//				if (event.isStartElement()) {
+//
+//					StartElement element = (StartElement) event;
+//
+//					Iterator<Attribute> iterator = element.getAttributes();
+//					while (iterator.hasNext()) {
+//						Attribute attribute = iterator.next();
+//						System.out.println("****** " + attribute.get +  " ********");
+//					}
+//				}
+//			}
+//
+//		} catch (FileNotFoundException | XMLStreamException e) {
+//			e.printStackTrace();
+//		}
+			
+		return bookList;
 	}
 
 	public String fetchProductByIsbn(String isbn) throws IOException {
@@ -254,7 +361,7 @@ public class ProductsController {
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
- 		con.addRequestProperty("User-Agent", "Mozilla/4.76"); 
+		con.addRequestProperty("User-Agent", "Mozilla/4.76");
 
 		con.setRequestMethod("GET");
 
@@ -271,8 +378,7 @@ public class ProductsController {
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
 
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 

@@ -36,7 +36,7 @@ public class Product implements java.io.Serializable {
 	private String pageCount;
 	private String publisher;
 
-    protected Product() {
+    public Product() {
 
 	}
 	
