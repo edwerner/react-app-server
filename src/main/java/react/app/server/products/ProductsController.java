@@ -87,8 +87,10 @@ import org.json.simple.parser.JSONParser;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
@@ -116,7 +118,8 @@ public class ProductsController {
 
 	@RequestMapping(value = "products", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Product> productsGet(Principal principal, HttpServletRequest request) throws IOException, XMLStreamException {
+	public List<Product> productsGet(Principal principal, HttpServletRequest request)
+			throws IOException, XMLStreamException {
 		List<Product> productList = productsService.getProductList();
 		parseXML();
 		return productList;
@@ -250,7 +253,7 @@ public class ProductsController {
 		return stringArray;
 	}
 
-	public static String parseBooksXml(String term) throws IOException {
+	public String getBooksXml() throws IOException {
 
 		String title = "";
 		String author = "";
@@ -264,7 +267,7 @@ public class ProductsController {
 		String publisher = "";
 		String subtitle = "";
 
-		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=" + term);
+		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=history");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Content-Type", "application/xml");
@@ -280,6 +283,98 @@ public class ProductsController {
 		return sb.toString();
 	}
 
+	// private static List<Product> parseXML() throws IOException,
+	// XMLStreamException {
+	//
+	// URL url = new
+	// URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=history");
+	// HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	// connection.setRequestMethod("GET");
+	// connection.setRequestProperty("Content-Type", "application/xml");
+	//
+	// List<Product> bookList = new ArrayList<>();
+	//
+	// XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+	//
+	// BufferedReader br = new BufferedReader(new
+	// InputStreamReader((connection.getInputStream())));
+	//
+	// XMLEventReader eventReader = xmlInputFactory.createXMLEventReader(br);
+	//
+	// Product product = null;
+	//
+	// while (eventReader.hasNext()) {
+	// XMLEvent event = eventReader.nextEvent();
+	//
+	// //reach the start of an item
+	// if (event.isStartElement()) {
+	//
+	// StartElement startElement = event.asStartElement();
+	//
+	// if (startElement.getName().getLocalPart().equals("work")) {
+	//
+	//
+	// StartElement searchElement = startElement.asStartElement();
+	//
+	//// String id = searchElement.getName().getLocalPart();
+	//
+	// if (searchElement.getName().getLocalPart().equals("average_rating")) {
+	// System.out.println(" average_rating *******************");
+	// }
+	//
+	//// Attribute idAttr = startElement.getAttributeByName(new
+	// QName("average_rating"));
+	////
+	//// System.out.println(idAttr + " ID *******************");
+	//
+	//// Iterator<Attribute> attributes = startElement.getAttributes();
+	//// while (attributes.hasNext()) {
+	//// Attribute attribute = attributes.next();
+	//// System.out.println(attribute + " *******************");
+	////// if (attribute.getName().toString().equals("id")) {
+	////// System.out.println("id = " + attribute.getValue());
+	////// }
+	//// }
+	// }
+	// }
+	// }
+	//
+	//
+	//// Product book = null;
+	//// XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+	//// try {
+	////
+	//// BufferedReader br = new BufferedReader(new
+	// InputStreamReader((connection.getInputStream())));
+	//// // StringBuilder sb = new StringBuilder();
+	//// // String output;
+	//// // while ((output = br.readLine()) != null) {
+	//// // sb.append(output);
+	//// // }
+	////
+	//// XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(br);
+	//// while (xmlEventReader.hasNext()) {
+	////
+	//// XMLEvent event = xmlEventReader.nextEvent();
+	//// if (event.isStartElement()) {
+	////
+	//// StartElement element = (StartElement) event;
+	////
+	//// Iterator<Attribute> iterator = element.getAttributes();
+	//// while (iterator.hasNext()) {
+	//// Attribute attribute = iterator.next();
+	//// System.out.println("****** " + attribute.get + " ********");
+	//// }
+	//// }
+	//// }
+	////
+	//// } catch (FileNotFoundException | XMLStreamException e) {
+	//// e.printStackTrace();
+	//// }
+	//
+	// return bookList;
+	// }
+
 	private static List<Product> parseXML() throws IOException, XMLStreamException {
 
 		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=history");
@@ -289,70 +384,52 @@ public class ProductsController {
 
 		List<Product> bookList = new ArrayList<>();
 
-		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-	
-		BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
-	
-		XMLEventReader eventReader = xmlInputFactory.createXMLEventReader(br);
- 
-		Product product = null;
- 
-		while (eventReader.hasNext()) {
-			XMLEvent event = eventReader.nextEvent();
- 
-			//reach the start of an item
-			if (event.isStartElement()) {
- 
-				StartElement startElement = event.asStartElement();
- 
-				if (startElement.getName().getLocalPart().equals("work")) {
-					StartElement searchElement = startElement.asStartElement();
+		BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+		
+		
+		XMLInputFactory factory = XMLInputFactory.newInstance();
 
-					System.out.println(" WORK *******************");
-					
 
-					Iterator<Attribute> attributes = startElement.getAttributes();
-					while (attributes.hasNext()) {
-						Attribute attribute = attributes.next();
-						System.out.println(attribute.getName() + " *******************");
-//						if (attribute.getName().toString().equals("id")) {
-//							System.out.println("id = " + attribute.getValue());
-//						}
-					}
-				}
-			}
+		try {
+		    XMLEventReader eventReader = factory.createXMLEventReader(reader);
+		    
+		    while(eventReader.hasNext()){
+
+		        XMLEvent event = eventReader.nextEvent();
+
+		        if(event.getEventType() == XMLStreamConstants.START_ELEMENT) {
+		            StartElement startElement = event.asStartElement();
+		            System.out.println(startElement.getName().getLocalPart());
+		        } else if (event.getEventType() == XMLStreamConstants.CHARACTERS) {		            
+		            Characters characterElement = event.asCharacters();
+		            System.out.println("Character: " + characterElement.getData());
+		        }
+		        //handle more event types here...
+		    }
+		    
+		} catch (XMLStreamException e) {
+		    e.printStackTrace();
 		}
-//		Product book = null;
+
 //		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-//		try {
+//	    XMLEventReader eventReader = xmlInputFactory.createXMLEventReader(br);
+//	    XMLEvent event;
 //
-//			BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
-//			// StringBuilder sb = new StringBuilder();
-//			// String output;
-//			// while ((output = br.readLine()) != null) {
-//			// sb.append(output);
-//			// }
+//	    while (eventReader.hasNext()){
+//	        event = eventReader.nextEvent();
 //
-//			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(br);
-//			while (xmlEventReader.hasNext()) {
-//
-//				XMLEvent event = xmlEventReader.nextEvent();
-//				if (event.isStartElement()) {
-//
-//					StartElement element = (StartElement) event;
-//
-//					Iterator<Attribute> iterator = element.getAttributes();
-//					while (iterator.hasNext()) {
-//						Attribute attribute = iterator.next();
-//						System.out.println("****** " + attribute.get +  " ********");
-//					}
-//				}
-//			}
-//
-//		} catch (FileNotFoundException | XMLStreamException e) {
-//			e.printStackTrace();
-//		}
-			
+//	        if (event.isStartElement()) {
+//	            String elementName = event.asStartElement().getName().getLocalPart();
+//	            System.out.println("Element Name: " + elementName);
+//	            Iterator<Attribute> iterator = event.asStartElement().getAttributes();
+//	            while (iterator.hasNext()) {
+//	                Attribute attribute = iterator.next();
+//	                String value = attribute.getValue();
+//	                String name = attribute.getName().toString();
+//	                System.out.println("\t" + name + " " + value);
+//	            }
+//	        }
+//	    }
 		return bookList;
 	}
 
