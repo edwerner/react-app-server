@@ -52,6 +52,7 @@ export function routeToOrdersPage() {
 
 export function fetchOrders(products) {
 	var orders = new OrdersCollection();
+	orders.url = '/orders';
 	var promise = orders.fetch();
 	renderLoader();
 	$.when(promise).done(function(data) {

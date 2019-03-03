@@ -10,7 +10,6 @@ import ProductTile from './product-tile.jsx';
 import Cart from '../javascripts/cart';
 import CartItems from '../javascripts/cart-items';
 import {hideCart, renderCart} from './cart.jsx';
-import Callbacks from '../javascripts/globals';
 
 var Shop = React.createClass({
 	getInitialState: function() {

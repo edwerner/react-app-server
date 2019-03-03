@@ -1,4 +1,4 @@
-package react.app.server.orders;
+ package react.app.server.products;
 
 import java.security.Principal;
 

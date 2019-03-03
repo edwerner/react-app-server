@@ -56,15 +56,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/signup", "/signin").permitAll()
-                .antMatchers(HttpMethod.GET, "/", "/shop", "/products/*", "/productsave", "/cartitemcreate").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "/shop", "/products/*", "/productsave", "/cartitemcreate", "/admin").permitAll()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/orders", "/signup", "/signin").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
-                .key("remember-me-key")
-            .and()
-                .httpBasic().disable();
+                .key("remember-me-key");
     }
 
     @Bean(name = "authenticationManager")

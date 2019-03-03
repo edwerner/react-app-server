@@ -1,0 +1,41 @@
+@import 'globals';
+@import 'flex';
+
+.switch__toggle {
+    height: $medium-square;
+    width: $medium-square;
+    background-color: $grey;
+    border-radius: $medium-square;
+    -moz-border-radius: $medium-square;
+    -webkit-border-radius: $medium-square;
+    z-index: 1;
+}
+
+.switch__toggle__background {
+    height: $medium-square;
+    width: 120px;
+    position: absolute;
+    background-color: $white;
+    border-radius: $medium-square;
+    -moz-border-radius: $medium-square;
+    -webkit-border-radius: $medium-square;
+}
+
+.active__switch__toggle  {
+    background-color: $error;
+}
+
+.complete__switch__toggle {
+	background-color: $green;
+}
+
+.switch__container {
+	background-color: $grey;
+	width: 120px;
+	height: 60px;
+	margin-bottom: $margin-small;
+}
+
+.switch__margin {
+	margin-left: $medium-square;
+}

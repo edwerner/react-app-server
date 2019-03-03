@@ -10,7 +10,9 @@ import {fetchReviewProducts, hideReviewPage} from '../jsx/review.jsx';
 import {hideOrderPage} from '../jsx/order.jsx';
 import {hideProductDetails} from '../jsx/product-details.jsx';
 import {hideOrdersPage, routeToOrdersPage} from '../jsx/orders.jsx';
-import App from './globals';
+import {hideAdminPage, routeToAdminPage} from '../jsx/admin.jsx';
+
+var App = {};
 
 App.Router = Backbone.Router.extend({
 	routes: {
@@ -20,7 +22,8 @@ App.Router = Backbone.Router.extend({
 		'orders': 'orders',
 		'shop': 'shop',
 		'review':'review',
-		'order': 'order'
+		'order': 'order',
+		'admin': 'admin'
 	},
 	index: function() {
 		hideLoginForm();
@@ -32,6 +35,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		hideOrdersPage();
+		hideAdminPage();
 		renderMenu(null, 'active', null, null, null, null);
 	},
 	signin: function() {
@@ -44,6 +48,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		hideOrdersPage();
+		hideAdminPage();
 		renderMenu('active', null, null, null, null, null);
 	},
 	signup: function() {
@@ -56,6 +61,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		hideOrdersPage();
+		hideAdminPage();
 		renderMenu(null, null, 'active', null, null, null);
 	},
 	orders: function() {
@@ -68,6 +74,7 @@ App.Router = Backbone.Router.extend({
 		hideOrderPage();
 		hideProductDetails();
 		routeToOrdersPage();
+		hideAdminPage();
 		renderMenu(null, null, null, 'active', null, null);
 	},
 	order: function() {
@@ -79,6 +86,7 @@ App.Router = Backbone.Router.extend({
 		hideCart();
 		hideProductDetails();
 		hideOrdersPage();
+		hideAdminPage();
 		renderMenu(null, null, null, null, null, null);
 	},
 	shop: function() {
@@ -88,8 +96,9 @@ App.Router = Backbone.Router.extend({
 		hideReviewPage();
 		hideOrderPage();
 		hideProductDetails();
-		fetchProducts();
 		hideOrdersPage();
+		hideAdminPage();
+		fetchProducts();
 		renderMenu(null, null, null, null, 'active', null);
 	},
 	review: function() {
@@ -100,8 +109,21 @@ App.Router = Backbone.Router.extend({
 		hideCart();
 		hideOrderPage();
 		hideProductDetails();
-		fetchReviewProducts();
 		hideOrdersPage();
+		hideAdminPage();
+		fetchReviewProducts();
+		renderMenu(null, null, null, null, null, null);
+	},
+	admin: function() {
+		hideIndex();
+		hideLoginForm();
+		hideCreateUserForm();
+		hideShopPage();
+		hideCart();
+		hideOrderPage();
+		hideProductDetails();
+		hideOrdersPage();
+		routeToAdminPage();
 		renderMenu(null, null, null, null, null, 'active');
 	}
 });

@@ -104,8 +104,13 @@ export function fetchReviewCartItems(products) {
 	renderLoader();
     $.when(promise).done(function(data) {
       hideLoader();
-	  Backbone.history.navigate('review', {trigger:true});
-      renderReviewPage(products, cartItems);    });
+      if (cartItems.length) {
+		  Backbone.history.navigate('review', {trigger:true});
+	      renderReviewPage(products, cartItems);
+      } else {
+      	renderOverlayModal('Error', 'Nothing to review', false);
+      }
+  	});
     $.when(promise).fail(function(error) {
     	hideLoader();
     	console.log(error);

@@ -7,6 +7,8 @@ $light-blue-hover: rgb(29,117,250);
 $white: rgb(255,255,255);
 $black: rgb(0, 0, 0);
 $error: rgb(204,0,0);
+$green: green;
+$grey: #CCCCCC;
 $small-box-width: 50px;
 $small-box-height: 50px;
 $hover-opacity: 0.5;
@@ -16,7 +18,10 @@ $half-opacity: 0.50;
 $three-quarters-opacity: 0.75;
 $full-opacity: 1;
 $full-percent: 100%;
-
+$small-square: 25px;
+$medium-square: 50px;
+$large-square: 100px;
+$margin-small: 10px;
 
 .hidden {
 	display: none;

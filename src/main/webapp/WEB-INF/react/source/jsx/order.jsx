@@ -121,6 +121,7 @@ var Order = React.createClass({
 		var _this = this;
 		var products = this.props.products;
 		var orders = new Orders();
+		orders.url = '/orders';
 		var promise = orders.fetch();
 		renderLoader();
 		$.when(promise).done(function(data) {
