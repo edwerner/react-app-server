@@ -22,50 +22,13 @@ public class Product implements java.io.Serializable {
 
 	@Id
 	private String id;
+	private String year;
+	private String rating;
 	private String title;
-	private String subtitle;
 	private String author;
-	private String isbn;
-	private String publishDate;
-	private String language;
-	private String image;
-	private String price;
-	@Column(length = 3000)
-	private String description;
-	private String genre;
-	private String pageCount;
-	private String publisher;
+	private String imageUrl;
 
-    public Product() {
-
-	}
-	
-	public Product(
-		String title,
-		String subtitle,
-		String author, 
-		String isbn, 
-		String publishDate,
-		String language,
-		String image,
-		String price,
-		String description,
-		String genre,
-		String pageCount,
-		String publisher) {
-		this.title = title;
-		this.subtitle = subtitle;
-		this.author = author;
-		this.isbn = isbn;
-		this.publishDate = publishDate;
-		this.language = language;
-		this.image = image;
-		this.price = price;
-		this.description = description;
-		this.genre = genre;
-		this.pageCount = pageCount;
-		this.publisher = publisher;
-	}
+    public Product() {}
 
 	@PrePersist
 	private void ensureId(){
@@ -92,87 +55,31 @@ public class Product implements java.io.Serializable {
 		return author;
 	}
 
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
-
-	public String getIsbn() {
-		return isbn;
-	}
-
-	public void setPublishDate(String publishDate) {
-		this.publishDate = publishDate;
-	}
-
-	public String getPublishDate() {
-		return publishDate;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-	public String getGenre() {
-		return genre;
-	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-    public String getDescription() {
-		return description;
+	public String getYear() {
+		return year;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
-    public String getPageCount() {
-		return pageCount;
+	public String getRating() {
+		return rating;
 	}
 
-	public void setPageCount(String pageCount) {
-		this.pageCount = pageCount;
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 
-    public String getPublisher() {
-		return publisher;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-
-    public String getSubtitle() {
-		return subtitle;
-	}
-
-	public void setSubtitle(String subtitle) {
-		this.subtitle = subtitle;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }
