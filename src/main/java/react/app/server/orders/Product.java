@@ -27,6 +27,7 @@ public class Product implements java.io.Serializable {
 	private String title;
 	private String author;
 	private String imageUrl;
+	private String smallImageUrl;
 
     public Product() {}
 
@@ -81,5 +82,13 @@ public class Product implements java.io.Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getSmallImageUrl() {
+		return smallImageUrl;
+	}
+
+	public void setSmallImageUrl(String smallImageUrl) {
+		this.smallImageUrl = smallImageUrl;
 	}
 }

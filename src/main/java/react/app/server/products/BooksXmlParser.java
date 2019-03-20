@@ -33,6 +33,7 @@ public class BooksXmlParser {
     private static boolean title;
     private static boolean author;
     private static boolean imageUrl;
+    private static boolean smallImageUrl;
 
 	@Autowired
 	private ProductsService productsService;
@@ -43,7 +44,7 @@ public class BooksXmlParser {
 
 		if (term == "") {
 			term = "beethoven";
-		}
+		} 	
 
 		String encodedUrl = URLEncoder.encode(term, "UTF-8");
 		URL url = new URL("https://www.goodreads.com/search/index.xml?key=yoFHa4POPX1HEXFtf4ow&q=" + encodedUrl);
@@ -75,6 +76,8 @@ public class BooksXmlParser {
 						author = true;
 					} else if (xmlStreamReader.getLocalName().equals("image_url")) {
 						imageUrl = true;
+					} else if (xmlStreamReader.getLocalName().equals("small_image_url")) {
+						smallImageUrl = true;
 					}
 					break;
 				case XMLStreamConstants.CHARACTERS:
@@ -93,6 +96,9 @@ public class BooksXmlParser {
 					} else if (imageUrl) {
 						book.setImageUrl(xmlStreamReader.getText());
 						imageUrl = false;
+					} else if (smallImageUrl) {
+						book.setSmallImageUrl(xmlStreamReader.getText());
+						smallImageUrl = false;
 					}
 					break;
 				case XMLStreamConstants.END_ELEMENT:
@@ -104,7 +110,6 @@ public class BooksXmlParser {
 				if (!xmlStreamReader.hasNext()) {
 					for (Product b: bookList) {
 						productsService.save(b);
-						System.out.println(b.getTitle());
 					}
 					bookList.clear();
 					break;
