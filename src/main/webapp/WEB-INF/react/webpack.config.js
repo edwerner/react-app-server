@@ -12,32 +12,35 @@ var nodeExternals = require('webpack-node-externals');
 //   .development()
 
 module.exports = [{
-  entry: {
-    client: './source/javascripts/router'
-  },
+  entry: './source/javascripts/router.js',
   output: { 
     path: __dirname,
     filename: '../../resources/js/[name].js',
   },
+  node: {
+    fs: 'empty'
+  },
   target: 'web',
+  externals: [nodeExternals()],
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ["es2015", "react"],
-          plugins: ["add-module-exports"]
+          presets : ["@babel/preset-env"],
+          plugins: [
+            'react-hot-loader/babel',
+            'transform-object-rest-spread',
+            '@babel/plugin-proposal-class-properties'
+          ]
         }
       },
       { 
         test: /\.node$/,
         loader: "node-loader" 
-      },
-      { 
-        test: /\.json$/,
-        loader: "json-loader"
       },
       {
         test: /\.md$/,
@@ -68,6 +71,6 @@ module.exports = [{
     })
   ],
   resolve: {
-    extensions: ["", ".json", ".node", ".js"]
+    extensions: [".json", ".node", ".js"]
   }
 }];
