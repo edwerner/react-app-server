@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Bootstrap from 'bootstrap';
-import sass from '../scss/create.scss';
+import sassLoader from '../scss/create.scss';
 import User from '../javascripts/user';
 var Client = require('node-rest-client').Client;
 var BackboneSerialize = require('backbone-serialize');

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sassLoader from '../scss/order.scss';
 import loader from '../scss/loader.scss';
 
 var Loader = React.createClass({

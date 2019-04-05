@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import scss from '../scss/cart.scss';
+import scssLoader from '../scss/cart.scss';
 import {formatCartItems} from './cart.jsx';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {renderReviewPage} from './review.jsx';
 
-module.exports = React.createClass({
+var ReviewTile = React.createClass({
 	getInitialState: function() {
 		return {
 		  closeButtonHover: ''
@@ -53,3 +53,5 @@ module.exports = React.createClass({
 		this.setState({'closeButtonHover': ''});
 	}
 });
+
+ export default ReviewTile;

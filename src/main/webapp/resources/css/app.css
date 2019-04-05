@@ -600,17 +600,38 @@ input {
   /* Extra space in Cross Axis */
   background: rgba(255, 255, 255, 0.1); }
 
-#loader__container {
-  position: fixed;
+.order__container {
+  position: absolute;
   top: 0px;
-  left: 0px;
-  text-align: center;
-  background: white;
-  opacity: 0.75; }
+  left: 0px; }
 
-.loader__image {
-  width: 300px;
-  height: 300px; }
+.order__tile {
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75); }
+
+.order__tile-title {
+  font-size: 0.8em;
+  margin-right: 10px;
+  flex-grow: 2; }
+
+.expandable__order-tile {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  margin: 10px;
+  background: white;
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+  cursor: pointer; }
+
+.expanded__tile {
+  height: 100%; }
 .hidden {
   display: none; }
 
@@ -846,255 +867,234 @@ input {
   align-content: stretch;
   /* Extra space in Cross Axis */
   background: rgba(255, 255, 255, 0.1); }
-.hidden {
-  display: none; }
 
-.overflow-hidden {
-  overflow: hidden; }
-
-.error {
-  color: #cc0000; }
-
-.button-mouseenter {
-  opacity: 0.5;
-  cursor: pointer; }
-
-.button-mouseleave {
-  opacity: 1; }
-
-input {
-  margin-bottom: 10px; }
-
-.form__width {
-  min-width: 350px; }
-
-.width__100 {
-  width: 100%; }
-
-.height__100 {
-  height: 100%; }
-
-.close-button {
-  width: 40px;
-  height: 40px; }
-
-.flex {
-  display: -webkit-flex;
-  display: flex; }
-
-.flex-center {
-  -webkit-justify-content: center;
-  justify-content: center; }
-
-.flex-vertical-center {
-  -webkit-align-items: center;
-  align-items: center; }
-
-.flex-row {
-  -webkit-flex-direction: row;
-  flex-direction: row; }
-
-.flex-row-wrap {
-  flex-flow: row wrap; }
-
-.flex-column-wrap {
-  flex-flow: column wrap; }
-
-.flex-column {
-  -webkit-flex-direction: column;
-  flex-direction: column; }
-
-.flex-end {
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end; }
-
-.flex-start {
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start; }
-
-.flex-row-wrap {
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap; }
-
-.flex-space-between {
-  -webkit-justify-content: space-between;
-  justify-content: space-between; }
-
-.flex-space-around {
-  -webkit-justify-content: space-around;
-  justify-content: space-around; }
-
-.flex-vertical-stretch-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* align items in Main Axis */
-  align-items: stretch;
-  /* align items in Cross Axis */
-  align-content: stretch;
-  /* Extra space in Cross Axis */ }
-
-.flexbox-item-grow {
-  flex: 1;
-  /* same as flex: 1 1 auto; */ }
-
-.fill-area-content {
-  /* Needed for when the area gets squished too far and there is content that can't be displayed */
-  overflow: auto; }
-
-.flexbox-parent {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  /* align items in Main Axis */
-  align-items: stretch;
-  /* align items in Cross Axis */
-  align-content: stretch;
-  /* Extra space in Cross Axis */
-  background: rgba(255, 255, 255, 0.1); }
-.hidden {
-  display: none; }
-
-.overflow-hidden {
-  overflow: hidden; }
-
-.error {
-  color: #cc0000; }
-
-.button-mouseenter {
-  opacity: 0.5;
-  cursor: pointer; }
-
-.button-mouseleave {
-  opacity: 1; }
-
-input {
-  margin-bottom: 10px; }
-
-.form__width {
-  min-width: 350px; }
-
-.width__100 {
-  width: 100%; }
-
-.height__100 {
-  height: 100%; }
-
-.close-button {
-  width: 40px;
-  height: 40px; }
-
-.flex {
-  display: -webkit-flex;
-  display: flex; }
-
-.flex-center {
-  -webkit-justify-content: center;
-  justify-content: center; }
-
-.flex-vertical-center {
-  -webkit-align-items: center;
-  align-items: center; }
-
-.flex-row {
-  -webkit-flex-direction: row;
-  flex-direction: row; }
-
-.flex-row-wrap {
-  flex-flow: row wrap; }
-
-.flex-column-wrap {
-  flex-flow: column wrap; }
-
-.flex-column {
-  -webkit-flex-direction: column;
-  flex-direction: column; }
-
-.flex-end {
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end; }
-
-.flex-start {
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start; }
-
-.flex-row-wrap {
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap; }
-
-.flex-space-between {
-  -webkit-justify-content: space-between;
-  justify-content: space-between; }
-
-.flex-space-around {
-  -webkit-justify-content: space-around;
-  justify-content: space-around; }
-
-.flex-vertical-stretch-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* align items in Main Axis */
-  align-items: stretch;
-  /* align items in Cross Axis */
-  align-content: stretch;
-  /* Extra space in Cross Axis */ }
-
-.flexbox-item-grow {
-  flex: 1;
-  /* same as flex: 1 1 auto; */ }
-
-.fill-area-content {
-  /* Needed for when the area gets squished too far and there is content that can't be displayed */
-  overflow: auto; }
-
-.flexbox-parent {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  /* align items in Main Axis */
-  align-items: stretch;
-  /* align items in Cross Axis */
-  align-content: stretch;
-  /* Extra space in Cross Axis */
-  background: rgba(255, 255, 255, 0.1); }
-
-.order__container {
-  position: absolute;
+#loader__container {
+  position: fixed;
   top: 0px;
-  left: 0px; }
-
-.order__tile {
-  width: 100%;
-  padding: 10px;
-  margin: 10px;
-  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75); }
-
-.order__tile-title {
-  font-size: 0.8em;
-  margin-right: 10px;
-  flex-grow: 2; }
-
-.expandable__order-tile {
-  width: 100%;
-  height: 200px;
-  padding: 10px;
-  margin: 10px;
+  left: 0px;
+  text-align: center;
   background: white;
-  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-  overflow: hidden;
+  opacity: 0.75; }
+
+.loader__image {
+  width: 300px;
+  height: 300px; }
+.hidden {
+  display: none; }
+
+.overflow-hidden {
+  overflow: hidden; }
+
+.error {
+  color: #cc0000; }
+
+.button-mouseenter {
+  opacity: 0.5;
   cursor: pointer; }
 
-.expanded__tile {
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
   height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
+.flex-column-wrap {
+  flex-flow: column wrap; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.flex-vertical-stretch-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* align items in Main Axis */
+  align-items: stretch;
+  /* align items in Cross Axis */
+  align-content: stretch;
+  /* Extra space in Cross Axis */ }
+
+.flexbox-item-grow {
+  flex: 1;
+  /* same as flex: 1 1 auto; */ }
+
+.fill-area-content {
+  /* Needed for when the area gets squished too far and there is content that can't be displayed */
+  overflow: auto; }
+
+.flexbox-parent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* align items in Main Axis */
+  align-items: stretch;
+  /* align items in Cross Axis */
+  align-content: stretch;
+  /* Extra space in Cross Axis */
+  background: rgba(255, 255, 255, 0.1); }
+.hidden {
+  display: none; }
+
+.overflow-hidden {
+  overflow: hidden; }
+
+.error {
+  color: #cc0000; }
+
+.button-mouseenter {
+  opacity: 0.5;
+  cursor: pointer; }
+
+.button-mouseleave {
+  opacity: 1; }
+
+input {
+  margin-bottom: 10px; }
+
+.form__width {
+  min-width: 350px; }
+
+.width__100 {
+  width: 100%; }
+
+.height__100 {
+  height: 100%; }
+
+.close-button {
+  width: 40px;
+  height: 40px; }
+
+.flex {
+  display: -webkit-flex;
+  display: flex; }
+
+.flex-center {
+  -webkit-justify-content: center;
+  justify-content: center; }
+
+.flex-vertical-center {
+  -webkit-align-items: center;
+  align-items: center; }
+
+.flex-row {
+  -webkit-flex-direction: row;
+  flex-direction: row; }
+
+.flex-row-wrap {
+  flex-flow: row wrap; }
+
+.flex-column-wrap {
+  flex-flow: column wrap; }
+
+.flex-column {
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+
+.flex-end {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end; }
+
+.flex-start {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start; }
+
+.flex-row-wrap {
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+.flex-space-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
+.flex-space-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.flex-vertical-stretch-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* align items in Main Axis */
+  align-items: stretch;
+  /* align items in Cross Axis */
+  align-content: stretch;
+  /* Extra space in Cross Axis */ }
+
+.flexbox-item-grow {
+  flex: 1;
+  /* same as flex: 1 1 auto; */ }
+
+.fill-area-content {
+  /* Needed for when the area gets squished too far and there is content that can't be displayed */
+  overflow: auto; }
+
+.flexbox-parent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* align items in Main Axis */
+  align-items: stretch;
+  /* align items in Cross Axis */
+  align-content: stretch;
+  /* Extra space in Cross Axis */
+  background: rgba(255, 255, 255, 0.1); }
 .hidden {
   display: none; }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/overlay.scss';
+import sassLoader from '../scss/overlay.scss';
 import {fetchProducts} from './shop.jsx';
 import {hideLoader} from './loader.jsx';
 

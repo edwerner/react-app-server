@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/shop.scss';
+import sassLoader from '../scss/shop.scss';
 import Products from '../javascripts/products';
 import OrdersCollection from '../javascripts/orders';
 import {renderLoader, hideLoader} from './loader.jsx';

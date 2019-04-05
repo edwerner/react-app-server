@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/index.scss';
+import sassLoader from '../scss/index.scss';
 
 var Index = React.createClass({
 	render: function() {

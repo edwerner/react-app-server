@@ -1,15 +1,7 @@
-var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var nodeExternals = require('webpack-node-externals');
-// var Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin')
-// var webpack_isomorphic_tools_plugin = 
-//   // webpack-isomorphic-tools settings reside in a separate .js file  
-//   // (because they will be used in the web server code too). 
-//   new Webpack_isomorphic_tools_plugin(require('./webpack-isomorphic-tools-configuration'))
-//   // also enter development mode since it's a development webpack configuration 
-//   // (see below for explanation) 
-//   .development()
 
 module.exports = [{
   entry: './source/javascripts/router.js',
@@ -17,18 +9,17 @@ module.exports = [{
     path: __dirname,
     filename: '../../resources/js/[name].js',
   },
-  node: {
-    fs: 'empty'
-  },
   target: 'web',
-  externals: [nodeExternals()],
   mode: 'development',
+  node: {
+    module: 'empty'
+  },
   module: {
+  unknownContextCritical : false,
     rules: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
         query: {
           presets : ["@babel/preset-env"],
           plugins: [
@@ -50,8 +41,11 @@ module.exports = [{
         loader: 'raw-loader'
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
+        test: /\.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
       }
     ]
   },
@@ -66,11 +60,12 @@ module.exports = [{
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development")
       }
     }),
-    new ExtractTextPlugin('../../resources/css/app.css', {
-      allChunks: true
+      new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ],
   resolve: {
-    extensions: [".json", ".node", ".js"]
+    extensions: [".jsx", ".json", ".node", ".js", ".scss", ".css"]
   }
 }];

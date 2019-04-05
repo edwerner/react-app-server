@@ -2,11 +2,11 @@ var React = require('react');
 var CartAddWidget = require('./cart-add-widget.jsx');
 var CartItem = require('../javascripts/cart-item');
 import _ from 'underscore';
-import sass from '../scss/order.scss';
+import sassLoader from '../scss/order.scss';
 import Products from'../javascripts/products';
 import {renderProductDetails} from './product-details.jsx';
 
-module.exports = React.createClass({
+var OrderTile = React.createClass({
   getInitialState: function() {
     return {
       closeButtonHover: '',
@@ -175,3 +175,5 @@ module.exports = React.createClass({
     return formattedPrice;
   }
 });
+
+ export default OrderTile;

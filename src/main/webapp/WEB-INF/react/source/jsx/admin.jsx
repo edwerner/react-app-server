@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/admin.scss';
+import sassLoader from '../scss/admin.scss';
 import Products from '../javascripts/products';
 import OrdersCollection from '../javascripts/orders';
 import {renderLoader, hideLoader} from './loader.jsx';
@@ -8,7 +8,7 @@ import {renderOverlayModal} from './overlay.jsx';
 var ProductTile = require('./product-tile.jsx');
 import AdminTile from './admin-tile.jsx';
 
-var Admin = React.createClass({
+module.exports = React.createClass({
 	render: function() {
 		var orders = this.props.orders;
 		var products = this.props.products;

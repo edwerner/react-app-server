@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/shop.scss';
+import sassLoader from '../scss/shop.scss';
 import $ from 'jquery';
 import Product from '../javascripts/product';
 import Products from '../javascripts/products';

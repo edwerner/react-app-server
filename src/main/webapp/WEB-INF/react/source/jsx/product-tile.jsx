@@ -3,7 +3,7 @@ var CartAddWidget = require('./cart-add-widget.jsx');
 var CartItem = require('../javascripts/cart-item');
 import {renderProductDetails} from './product-details.jsx';
 
-module.exports = React.createClass({
+var ProductTile = React.createClass({
   getInitialState: function() {
     return {
       closeButtonHover: ''
@@ -104,3 +104,5 @@ module.exports = React.createClass({
     return formattedPrice;
   }
 });
+
+ export default ProductTile;

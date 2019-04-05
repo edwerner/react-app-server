@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import scss from '../scss/cart.scss';
+import scssLoader from '../scss/cart.scss';
 import CartTile from './cart-tile.jsx';
 import CartItem from '../javascripts/cart-item';
 import CartItems from '../javascripts/cart-items';

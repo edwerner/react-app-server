@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import sass from '../scss/order.scss';
+import sassLoader from '../scss/order.scss';
 import _ from 'underscore';
 import $ from 'jquery';
 import Orders from '../javascripts/orders';

@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import scss from '../scss/cart.scss';
+import scssLoader from '../scss/cart.scss';
 import {formatCartItems, renderCart} from './cart.jsx';
 import {renderLoader, hideLoader} from './loader.jsx';
 import {fetchCart, renderShopPage} from './shop.jsx';
 import {renderCartAddWidget} from './cart-add-widget.jsx';
 
-module.exports = React.createClass({
+ var CartTile = React.createClass({
 	getInitialState: function() {
 		return {
 		  closeButtonHover: ''
@@ -56,3 +56,5 @@ module.exports = React.createClass({
 		this.setState({'closeButtonHover': ''});
 	}
 });
+
+ export default CartTile;
